@@ -217,8 +217,8 @@ class _HomeView extends StatelessWidget {
   IconData _categoryIcon(String name) {
     return switch (name) {
       'tent' || 'campfire' => TablerIcons.tent,
-      'mosque' => TablerIcons.building_mosque,
-      'hand_wave' => TablerIcons.hand_stop,
+      'mosque' => TablerIcons.buildingMosque,
+      'hand_wave' => TablerIcons.handStop,
       'cubs' || 'cub' => TablerIcons.paw,
       'rovers' => TablerIcons.backpack,
       _ => TablerIcons.music,
@@ -246,7 +246,7 @@ class _SectionHeader extends StatelessWidget {
         ),
         IconButton(
           onPressed: onPressed,
-          icon: const Icon(TablerIcons.arrow_right),
+          icon: const Icon(TablerIcons.arrowRight),
         ),
       ],
     );
@@ -271,7 +271,7 @@ class _ErrorCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Icon(TablerIcons.alert_circle, size: 36),
+            const Icon(TablerIcons.alertCircle, size: 36),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 12),
