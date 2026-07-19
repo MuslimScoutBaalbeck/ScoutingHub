@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "categories": [
+    {
+      "id": "muslim-scout",
+      "slug": "muslim-scout",
+      "name": {"ar": "أناشيد الكشاف المسلم", "en": "Muslim Scout Anthems"},
+      "icon": "fleur_de_lis",
+      "stageIds": ["all"],
+      "collectionPath": "assets/data/chants/collections/muslim_scout.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D9%83%D8%B4%D8%A7%D9%81-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85?authuser=0",
+      "order": 10
+    },
+    {
+      "id": "welcome",
+      "slug": "welcome",
+      "name": {"ar": "أناشيد ترحيبية", "en": "Welcome Chants"},
+      "icon": "hand_wave",
+      "stageIds": ["all"],
+      "collectionPath": "assets/data/chants/collections/welcome.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8%D9%8A%D8%A9?authuser=0",
+      "order": 20
+    },
+    {
+      "id": "cubs",
+      "slug": "cubs",
+      "name": {"ar": "أناشيد الجراميز", "en": "Cub Scout Songs"},
+      "icon": "cub",
+      "stageIds": ["cubs"],
+      "collectionPath": "assets/data/chants/collections/cubs.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D8%AC%D8%B1%D8%A7%D9%85%D9%8A%D8%B2?authuser=0",
+      "order": 30
+    },
+    {
+      "id": "scouts",
+      "slug": "scouts",
+      "name": {"ar": "أناشيد الكشافة", "en": "Scout Songs"},
+      "icon": "scout",
+      "stageIds": ["scouts"],
+      "collectionPath": "assets/data/chants/collections/scouts.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D9%83%D8%B4%D8%A7%D9%81%D8%A9?authuser=0",
+      "order": 40
+    },
+    {
+      "id": "rovers",
+      "slug": "rovers",
+      "name": {"ar": "أناشيد الجوالة", "en": "Rover Scout Songs"},
+      "icon": "rovers",
+      "stageIds": ["rovers"],
+      "collectionPath": "assets/data/chants/collections/rovers.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D9%84%D8%A9?authuser=0",
+      "order": 50
+    },
+    {
+      "id": "islamic",
+      "slug": "islamic",
+      "name": {"ar": "أناشيد إسلامية", "en": "Islamic Songs"},
+      "icon": "mosque",
+      "stageIds": ["all"],
+      "collectionPath": "assets/data/chants/collections/islamic.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A5%D8%B3%D9%84%D8%A7%D9%85%D9%8A%D8%A9?authuser=0",
+      "order": 60
+    },
+    {
+      "id": "camps",
+      "slug": "camps",
+      "name": {"ar": "أناشيد المخيمات", "en": "Camp Songs"},
+      "icon": "tent",
+      "stageIds": ["all"],
+      "collectionPath": "assets/data/chants/collections/camps.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D9%85%D8%AE%D9%8A%D9%85%D8%A7%D8%AA?authuser=0",
+      "order": 70
+    },
+    {
+      "id": "arab-camps",
+      "slug": "arab-camps",
+      "name": {"ar": "أناشيد المخيمات الكشفية العربية", "en": "Arab Scout Jamboree Anthems"},
+      "icon": "campfire",
+      "stageIds": ["all"],
+      "collectionPath": "assets/data/chants/collections/arab_scout_camps.json",
+      "sourceUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D9%85%D8%AE%D9%8A%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%83%D8%B4%D9%81%D9%8A%D8%A9-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9?authuser=0",
+      "order": 80
+    }
+  ]
+}

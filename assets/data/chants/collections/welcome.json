@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "id": "welcome",
+  "title": {
+    "ar": "أناشيد ترحيبية",
+    "en": "Welcome Chants"
+  },
+  "source": {
+    "name": {
+      "ar": "بوصلة الكشاف",
+      "en": "Scouts Compass"
+    },
+    "pageUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8%D9%8A%D8%A9?authuser=0"
+  },
+  "migration": {
+    "status": "in_progress",
+    "reviewedAt": "2026-07-19"
+  },
+  "items": [
+    {
+      "id": "w-1",
+      "code": "W-1",
+      "type": "welcome_chant",
+      "title": {"ar": "أ أ أهلاً", "en": "Welcome Chant"},
+      "lyrics": {
+        "ar": "أ أ أهلاً.. وسهلاً\nبـ بـ بكم.. أهلاً وسهلاً بكم\nالكشاف المسلم يحييكم",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["welcome"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "UcVFCnb7FFQ",
+          "url": "https://youtu.be/UcVFCnb7FFQ"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    },
+    {
+      "id": "w-2",
+      "code": "W-2",
+      "type": "cheer",
+      "title": {"ar": "ط ط طيب", "en": "Well Done Cheer"},
+      "lyrics": {
+        "ar": "ط ط طيب طيب طيب، بدها زقفة بدها زقفة (3 زقفات)\nط ط طيب طيب طيب، بدها هيصة بدها هيصة هاهاها\nط ط طيب طيب طيب، بدها بوسة بدها بوسة (3 بوسات)",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["welcome", "applause"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "IXFDvRcGDQQ",
+          "url": "https://youtu.be/IXFDvRcGDQQ"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    },
+    {
+      "id": "w-3",
+      "code": "W-3",
+      "type": "welcome_chant",
+      "title": {"ar": "ثلاث زقفات", "en": "Three Claps"},
+      "lyrics": {
+        "ar": "من الأشبال (3 زقفات)\nمن الكشاف (3 زقفات)\nوالجوالة (3 زقفات)\nبحييكم يا إخوان",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["welcome", "applause"],
+      "media": {"audio": null, "youtube": null},
+      "availableActions": [],
+      "isDownloadable": false,
+      "status": "published"
+    },
+    {
+      "id": "w-4",
+      "code": "W-4",
+      "type": "cheer",
+      "title": {"ar": "على تك تك تك", "en": "Tak Tak Tak"},
+      "lyrics": {
+        "ar": "على تك تك تك (3 تصفيق)\nعلى رم رم رم (3 تصفيق)\nعلى تك + صفقة\nعلى رم + صفقة\nعلى تكرم تكرم تكرم",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["welcome", "applause"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "SWoRdn3mRxU",
+          "url": "https://www.youtube.com/watch?v=SWoRdn3mRxU"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    },
+    {
+      "id": "w-5",
+      "code": "W-5",
+      "type": "thanks_chant",
+      "title": {"ar": "على شك شك شك", "en": "Shukran Chant"},
+      "lyrics": {
+        "ar": "على شك شك شك (3 تصفيق)\nعلى رن رن رن (3 تصفيق)\nعلى شك + صفقة\nعلى رن + صفقة\nعلى شكراً شكراً شكراً",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["thanks", "applause"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "9bCZAfD4djs",
+          "url": "https://youtu.be/9bCZAfD4djs"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    },
+    {
+      "id": "w-6",
+      "code": "W-6",
+      "type": "thanks_chant",
+      "title": {"ar": "نشكركم", "en": "Thank You"},
+      "lyrics": {
+        "ar": "نشكر نشكر نشكركم\nهيدي صرخة تفرحكم\nهيدي مش إلكن أجار\nهيدي حتى تشجعكم",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["thanks"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "uSAxp6elddA",
+          "url": "https://youtu.be/uSAxp6elddA"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    }
+  ]
+}
