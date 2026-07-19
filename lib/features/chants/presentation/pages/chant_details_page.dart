@@ -57,7 +57,7 @@ class ChantDetailsPage extends StatelessWidget {
             if (chant.hasYoutube)
               FilledButton.icon(
                 onPressed: () => _openYoutube(context, strings),
-                icon: const Icon(TablerIcons.brand_youtube),
+                icon: const Icon(TablerIcons.brandYoutube),
                 label: Text(strings.youtube),
               ),
             const SizedBox(height: 28),
