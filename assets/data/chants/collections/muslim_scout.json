@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "id": "muslim-scout",
+  "title": {
+    "ar": "أناشيد الكشاف المسلم",
+    "en": "Muslim Scout Anthems"
+  },
+  "source": {
+    "name": {
+      "ar": "بوصلة الكشاف",
+      "en": "Scouts Compass"
+    },
+    "pageUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D9%83%D8%B4%D8%A7%D9%81-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85?authuser=0"
+  },
+  "migration": {
+    "status": "complete",
+    "reviewedAt": "2026-07-19"
+  },
+  "items": [
+    {
+      "id": "ms-1",
+      "code": "MS-1",
+      "type": "national_anthem",
+      "title": {
+        "ar": "النشيد الوطني اللبناني",
+        "en": "Lebanese National Anthem"
+      },
+      "lyrics": {
+        "ar": "كلنا للوطن للعلى للعلم\nملء عين الزمن سيفنا والقلم\nسهلنا والجبل منبت للرجال\nقولنا والعمل في سبيل الكمال\n\nكلنا للوطن للعلى للعلم\nكلنا للوطن\n\nشيخنا والفتى عند صوت الوطن\nأسد غاب متى ساورتنا الفتن\nشرقنا قلبه أبداً لبنان\nصانه ربه لمدى الأزمان\n\nكلنا للوطن للعلى للعلم\nكلنا للوطن\n\nبحره بره درة الشرقين\nرفده بره مالئ القطبين\nاسمه عزه منذ كان الجدود\nمجده أرزه رمزه للخلود\n\nكلنا للوطن للعلى للعلم\nكلنا للوطن",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["official", "national", "lebanon"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "PjXRmPI3J_Y",
+          "url": "https://www.youtube.com/watch?v=PjXRmPI3J_Y"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    },
+    {
+      "id": "ms-2",
+      "code": "MS-2",
+      "type": "official_anthem",
+      "title": {
+        "ar": "نشيد الكشاف المسلم",
+        "en": "Muslim Scout Anthem"
+      },
+      "lyrics": {
+        "ar": "كشاف كشاف، أنت يا مئناف\nكشاف كن وجه الوطن\nكن هالة الإيمان\nكن في مفاتيح الزمن\nلله والإنسان\n\nهل يا كشاف يا وجه الحمى\nفي مروءات التجلي مسلماً\nمن محياك التفاتات الأمل\nرافلات الخير تزهو بالعمل\nصوتك المدى، ضوءك الصدى\nأنت للهدى، أنت يا قيم\n\nقل إلينا وأعدوا يا شباب\nما استطعتم في التصدي للصعاب\nموكب الأحرار فينا أنتم\nالمبادئ والمرامي منكم\nباسمكم علا معقل العلى\nأنتم ولا غيركم قمم\n\nإنه الإسلام فينا هللا\nماضياً يمضي بنا مستقبلاً\nمن حناياه الليالي تشرق\nمغرب قيل المدى أو مشرق\nصوته بنا حافز لنا\nنحو عزنا نحن والعلم",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["official", "muslim-scout"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "RvRjuvh28dY",
+          "url": "https://www.youtube.com/watch?v=RvRjuvh28dY"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    },
+    {
+      "id": "ms-3",
+      "code": "MS-3",
+      "type": "chant",
+      "title": {
+        "ar": "نشاطنا سائر",
+        "en": "Our Activity Moves Forward"
+      },
+      "lyrics": {
+        "ar": "نشاطنا سائر للعلا طائر\nعاشت عاشت كشافة المسلم",
+        "en": null
+      },
+      "stageIds": ["all"],
+      "tags": ["muslim-scout", "short-chant"],
+      "media": {
+        "audio": null,
+        "youtube": {
+          "enabled": true,
+          "videoId": "dRyYPurNeEk",
+          "url": "https://www.youtube.com/watch?v=dRyYPurNeEk"
+        }
+      },
+      "availableActions": ["youtube"],
+      "isDownloadable": false,
+      "status": "published"
+    }
+  ]
+}
