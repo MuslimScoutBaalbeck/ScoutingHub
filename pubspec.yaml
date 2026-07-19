@@ -1,5 +1,5 @@
 name: scouting_hub
-description: "A new Flutter project."
+description: "A bilingual digital scouting library for chants, songs, lessons, and media."
 
 publish_to: 'none'
 
@@ -12,14 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
   # Localization.
-  # Keep Flutter delegates for Material/Cupertino/Widgets localization.
   flutter_localizations:
     sdk: flutter
-  # Slang uses intl for dates, numbers, plurals, and formatting.
   intl: ^0.20.2
-  # Optional but useful for showing localized locale names in settings.
   flutter_localized_locales: ^2.0.5
-  # Type-safe JSON localization generator/runtime.
   slang: ^4.14.0
   slang_flutter: ^4.14.0
 
@@ -43,8 +39,6 @@ dependencies:
   injectable: ^3.0.0
   get_it: ^9.2.1
 
-
-
   # Models, DTOs, and serialization annotations.
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0
@@ -53,16 +47,16 @@ dependencies:
   flutter_svg: ^2.3.0
   responsive_grid: ^2.4.4
 
-  # Utils
+  # Utils.
   rxdart: ^0.28.0
   url_launcher: ^6.3.2
   share_plus: ^13.2.1
 
-  # Ui System
+  # UI system.
   forui: ^0.24.0
   forui_assets: ^0.24.0
 
-  # Icons
+  # Icons.
   tabler_icons_plus: ^3.44.0
   cupertino_icons: ^1.0.8
 
@@ -70,15 +64,14 @@ dependencies:
   dio: ^5.9.2
   retrofit: ^4.9.2
 
-  # Audio
+  # Audio.
   just_audio: ^0.10.6
   audio_session: ^0.2.4
 
-  # Image
+  # Images.
   cached_network_image: ^3.4.1
 
 dev_dependencies:
-  # Flutter and test tooling.
   flutter_test:
     sdk: flutter
   bloc_test: ^10.0.0
@@ -103,8 +96,12 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   forui_cli: ^0.24.0
 
-
 flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/data/chants/
+    - assets/data/chants/collections/
 
   fonts:
     - family: IBM Plex Sans
@@ -112,5 +109,3 @@ flutter:
         - asset: assets/fonts/IBM_Plex_Sans/IBMPlexSans.ttf
         - asset: assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf
           style: italic
-  uses-material-design: true
-

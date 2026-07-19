@@ -1,4 +1,3 @@
-// lib/core/utils/file_constants.dart (Example)
-abstract class AppFileConstants {
-  static const String dbName = 'wareed-pos-app';
+abstract final class AppFileConstants {
+  static const String dbName = 'scouting-hub-app';
 }
