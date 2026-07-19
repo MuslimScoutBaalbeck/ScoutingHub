@@ -124,7 +124,7 @@ class _ChantTile extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         child: Icon(
-          chant.hasYoutube ? TablerIcons.brand_youtube : TablerIcons.music,
+          chant.hasYoutube ? TablerIcons.brandYoutube : TablerIcons.music,
         ),
       ),
       title: Text(
@@ -133,7 +133,7 @@ class _ChantTile extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(chant.code),
-      trailing: const Icon(TablerIcons.chevron_right),
+      trailing: const Icon(TablerIcons.chevronRight),
       onTap: onTap,
     );
   }
@@ -158,7 +158,7 @@ class _FailureView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(TablerIcons.alert_circle, size: 44),
+            const Icon(TablerIcons.alertCircle, size: 44),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 16),
