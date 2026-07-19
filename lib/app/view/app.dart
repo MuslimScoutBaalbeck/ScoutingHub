@@ -7,6 +7,7 @@ import 'package:forui/forui.dart';
 import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.dart';
+import 'package:scouting_hub/core/ui/theme/scouting_hub_theme.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
 class AppStart extends StatelessWidget {
@@ -16,14 +17,10 @@ class AppStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (lightTheme, darkTheme) =
-        const <TargetPlatform>{
-          .android,
-          .iOS,
-          .fuchsia,
-        }.contains(defaultTargetPlatform)
-        ? (FTheme.neutral.light.touch, FTheme.neutral.dark.touch)
-        : (FTheme.neutral.light.desktop, FTheme.neutral.dark.desktop);
+    final themes = ScoutingHubTheme.forPlatform(defaultTargetPlatform);
+    final lightTheme = themes.light;
+    final darkTheme = themes.dark;
+
     return BlocBuilder<ApplicationStartCubit, ApplicationStartState>(
       builder: (context, state) {
         final locale = TranslationProvider.of(context).flutterLocale;
@@ -42,43 +39,36 @@ class AppStart extends StatelessWidget {
           ],
           builder: (context, child) {
             final appChild = child ?? const SizedBox.shrink();
-
-            if (state.isLoadingLanguage) {
-              return FTheme(
-                data: Theme.brightnessOf(context) == .light
-                    ? lightTheme
-                    : darkTheme,
-                child: FToaster(
-                  child: FTooltipGroup(
-                    child: Scaffold(
-                      body: Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 280),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                context.t.language.wait,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              const SizedBox(height: 16),
-                              const LinearProgressIndicator(),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }
+            final activeTheme = Theme.brightnessOf(context) == Brightness.light
+                ? lightTheme
+                : darkTheme;
 
             return FTheme(
-              data: Theme.brightnessOf(context) == .light
-                  ? lightTheme
-                  : darkTheme,
-              child: FToaster(child: FTooltipGroup(child: appChild)),
+              data: activeTheme,
+              child: FToaster(
+                child: FTooltipGroup(
+                  child: state.isLoadingLanguage
+                      ? FScaffold(
+                          child: Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 280),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const FCircularProgress(),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    context.t.language.wait,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      : appChild,
+                ),
+              ),
             );
           },
           routerConfig: _appRouter.config(),
