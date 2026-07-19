@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scoutinghub.org/schemas/chant-collection.schema.json",
+  "title": "Scouting Hub Chant Collection",
+  "type": "object",
+  "required": ["schemaVersion", "id", "title", "source", "migration", "items"],
+  "properties": {
+    "schemaVersion": {"type": "integer", "const": 1},
+    "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "title": {"$ref": "#/$defs/localizedText"},
+    "source": {
+      "type": "object",
+      "required": ["name", "pageUrl"],
+      "properties": {
+        "name": {"$ref": "#/$defs/localizedText"},
+        "pageUrl": {"type": "string", "format": "uri"}
+      },
+      "additionalProperties": false
+    },
+    "migration": {
+      "type": "object",
+      "required": ["status", "reviewedAt"],
+      "properties": {
+        "status": {"enum": ["pending", "in_progress", "complete"]},
+        "reviewedAt": {"type": "string", "format": "date"}
+      },
+      "additionalProperties": false
+    },
+    "items": {"type": "array", "items": {"$ref": "#/$defs/item"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "required": ["ar", "en"],
+      "properties": {
+        "ar": {"type": ["string", "null"]},
+        "en": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "youtube": {
+      "type": ["object", "null"],
+      "required": ["enabled", "videoId", "url"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "videoId": {"type": ["string", "null"]},
+        "url": {"type": "string", "format": "uri"}
+      },
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "required": ["id", "code", "type", "title", "lyrics", "stageIds", "tags", "media", "availableActions", "isDownloadable", "status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "code": {"type": "string"},
+        "type": {"enum": ["national_anthem", "official_anthem", "song", "chant", "welcome_chant", "thanks_chant", "cheer"]},
+        "title": {"$ref": "#/$defs/localizedText"},
+        "lyrics": {"$ref": "#/$defs/localizedText"},
+        "stageIds": {
+          "type": "array",
+          "items": {"enum": ["all", "cubs", "scouts", "rovers"]},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "media": {
+          "type": "object",
+          "required": ["audio", "youtube"],
+          "properties": {
+            "audio": {"type": ["object", "null"]},
+            "youtube": {"$ref": "#/$defs/youtube"}
+          },
+          "additionalProperties": false
+        },
+        "availableActions": {
+          "type": "array",
+          "items": {"enum": ["youtube", "play_audio", "download_audio", "share"]},
+          "uniqueItems": true
+        },
+        "isDownloadable": {"type": "boolean"},
+        "status": {"enum": ["draft", "published", "archived"]}
+      },
+      "additionalProperties": false
+    }
+  }
+}
