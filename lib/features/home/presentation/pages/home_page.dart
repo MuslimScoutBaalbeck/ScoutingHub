@@ -160,17 +160,28 @@ class _HomeView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final category = state.categories[index];
 
-                      return FCard(
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(18),
-                          onTap: () async {
-                            await context
-                                .read<ChantCatalogCubit>()
-                                .selectCategory(category.id);
-                            if (context.mounted) {
-                              await _openLibrary(context);
-                            }
-                          },
+                      return FTappable(
+                        semanticsLabel: category.nameFor(languageCode),
+                        onPress: () async {
+                          await context
+                              .read<ChantCatalogCubit>()
+                              .selectCategory(category.id);
+                          if (context.mounted) {
+                            await _openLibrary(context);
+                          }
+                        },
+                        builder: (context, variants, child) {
+                          final isPressed = variants.contains(
+                            FTappableVariant.pressed,
+                          );
+
+                          return AnimatedOpacity(
+                            duration: const Duration(milliseconds: 100),
+                            opacity: isPressed ? .72 : 1,
+                            child: child,
+                          );
+                        },
+                        child: FCard(
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
