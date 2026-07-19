@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/features/chants/application/chant_catalog_cubit.dart';
 import 'package:scouting_hub/features/chants/application/chant_catalog_state.dart';
@@ -8,7 +9,6 @@ import 'package:scouting_hub/features/chants/data/repositories/local_chant_repos
 import 'package:scouting_hub/features/chants/presentation/chant_ui_strings.dart';
 import 'package:scouting_hub/features/chants/presentation/pages/chant_library_page.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
-import 'package:tabler_icons_plus/tabler_icons_plus.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -32,32 +32,32 @@ class _HomeView extends StatelessWidget {
     final strings = ChantUiStrings(languageCode);
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
+    return FScaffold(
+      childPad: false,
+      header: FHeader(
         title: Text(strings.appName),
-        actions: [
-          IconButton(
-            tooltip: languageCode == 'ar' ? 'English' : 'العربية',
-            onPressed: () => _changeLanguage(context, languageCode),
-            icon: const Icon(TablerIcons.language),
+        suffixes: [
+          FHeaderAction(
+            icon: const Icon(FLucideIcons.languages),
+            onPress: () => _changeLanguage(context, languageCode),
           ),
-          IconButton(
-            onPressed: () {
+          FHeaderAction(
+            icon: Icon(
+              Theme.brightnessOf(context) == Brightness.light
+                  ? FLucideIcons.moon
+                  : FLucideIcons.sun,
+            ),
+            onPress: () {
               context.read<ApplicationStartCubit>().updateThemeMode(
                     Theme.brightnessOf(context) == Brightness.light
                         ? ThemeMode.dark
                         : ThemeMode.light,
                   );
             },
-            icon: Icon(
-              Theme.brightnessOf(context) == Brightness.light
-                  ? TablerIcons.moon
-                  : TablerIcons.sun,
-            ),
           ),
         ],
       ),
-      body: BlocBuilder<ChantCatalogCubit, ChantCatalogState>(
+      child: BlocBuilder<ChantCatalogCubit, ChantCatalogState>(
         builder: (context, state) {
           return RefreshIndicator(
             onRefresh: context.read<ChantCatalogCubit>().load,
@@ -65,53 +65,70 @@ class _HomeView extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
               children: [
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF0B5139), Color(0xFF4B2E83)],
-                      begin: AlignmentDirectional.topStart,
-                      end: AlignmentDirectional.bottomEnd,
+                FCard(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF0B5139), Color(0xFF4B2E83)],
+                        begin: AlignmentDirectional.topStart,
+                        end: AlignmentDirectional.bottomEnd,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        TablerIcons.compass,
-                        color: Colors.white,
-                        size: 44,
-                      ),
-                      const SizedBox(height: 30),
-                      Text(
-                        strings.library,
-                        style: theme.textTheme.headlineMedium?.copyWith(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          FLucideIcons.compass,
                           color: Colors.white,
-                          fontWeight: FontWeight.w800,
+                          size: 44,
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        strings.explore,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withValues(alpha: .86),
-                          height: 1.5,
+                        const SizedBox(height: 30),
+                        Text(
+                          strings.library,
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      FilledButton.tonalIcon(
-                        onPressed: () => _openLibrary(context),
-                        icon: const Icon(TablerIcons.music),
-                        label: Text(strings.openLibrary),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        Text(
+                          strings.explore,
+                          style: theme.textTheme.bodyLarge?.copyWith(
+                            color: Colors.white.withValues(alpha: .86),
+                            height: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        FButton(
+                          variant: FButtonVariant.secondary,
+                          onPress: () => _openLibrary(context),
+                          prefix: const Icon(FLucideIcons.music),
+                          child: Text(strings.openLibrary),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 28),
-                _SectionHeader(
-                  title: strings.categories,
-                  onPressed: () => _openLibrary(context),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        strings.categories,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                    FButton.icon(
+                      variant: FButtonVariant.ghost,
+                      onPress: () => _openLibrary(context),
+                      child: const Icon(FLucideIcons.arrowRight),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 if (state.status == ChantCatalogStatus.loading &&
@@ -119,7 +136,7 @@ class _HomeView extends StatelessWidget {
                   const Center(
                     child: Padding(
                       padding: EdgeInsets.all(32),
-                      child: CircularProgressIndicator(),
+                      child: FCircularProgress(),
                     ),
                   )
                 else if (state.status == ChantCatalogStatus.failure &&
@@ -136,49 +153,45 @@ class _HomeView extends StatelessWidget {
                     itemCount: state.categories.length,
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 220,
-                      mainAxisExtent: 130,
+                      mainAxisExtent: 132,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                     ),
                     itemBuilder: (context, index) {
                       final category = state.categories[index];
-                      return InkWell(
-                        borderRadius: BorderRadius.circular(20),
-                        onTap: () async {
-                          await context
-                              .read<ChantCatalogCubit>()
-                              .selectCategory(category.id);
-                          if (context.mounted) {
-                            await _openLibrary(context);
-                          }
-                        },
-                        child: Ink(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.surfaceContainerLow,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: theme.colorScheme.outlineVariant,
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                _categoryIcon(category.icon),
-                                color: theme.colorScheme.primary,
-                                size: 30,
-                              ),
-                              const Spacer(),
-                              Text(
-                                category.nameFor(languageCode),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w700,
+
+                      return FCard(
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(18),
+                          onTap: () async {
+                            await context
+                                .read<ChantCatalogCubit>()
+                                .selectCategory(category.id);
+                            if (context.mounted) {
+                              await _openLibrary(context);
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  _categoryIcon(category.icon),
+                                  color: theme.colorScheme.primary,
+                                  size: 30,
                                 ),
-                              ),
-                            ],
+                                const Spacer(),
+                                Text(
+                                  category.nameFor(languageCode),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -216,40 +229,13 @@ class _HomeView extends StatelessWidget {
 
   IconData _categoryIcon(String name) {
     return switch (name) {
-      'tent' || 'campfire' => TablerIcons.tent,
-      'mosque' => TablerIcons.buildingMosque,
-      'hand_wave' => TablerIcons.handStop,
-      'cubs' || 'cub' => TablerIcons.paw,
-      'rovers' => TablerIcons.backpack,
-      _ => TablerIcons.music,
+      'tent' || 'campfire' => FLucideIcons.tentTree,
+      'mosque' => FLucideIcons.landmark,
+      'hand_wave' => FLucideIcons.hand,
+      'cubs' || 'cub' => FLucideIcons.pawPrint,
+      'rovers' => FLucideIcons.backpack,
+      _ => FLucideIcons.music,
     };
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, required this.onPressed});
-
-  final String title;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-          ),
-        ),
-        IconButton(
-          onPressed: onPressed,
-          icon: const Icon(TablerIcons.arrowRight),
-        ),
-      ],
-    );
   }
 }
 
@@ -266,16 +252,16 @@ class _ErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return FCard(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Icon(TablerIcons.alertCircle, size: 36),
+            const Icon(FLucideIcons.circleAlert, size: 36),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 12),
-            FilledButton(onPressed: onRetry, child: Text(retryLabel)),
+            FButton(onPress: onRetry, child: Text(retryLabel)),
           ],
         ),
       ),
