@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "2026.07.19",
+  "defaultLocale": "ar",
+  "supportedLocales": [
+    "ar",
+    "en"
+  ],
+  "categoriesPath": "assets/data/chants/categories.json",
+  "collections": [
+    {
+      "id": "muslim-scout",
+      "path": "assets/data/chants/collections/muslim_scout.json"
+    },
+    {
+      "id": "welcome",
+      "path": "assets/data/chants/collections/welcome.json"
+    },
+    {
+      "id": "cubs",
+      "path": "assets/data/chants/collections/cubs.json"
+    },
+    {
+      "id": "scouts",
+      "path": "assets/data/chants/collections/scouts.json"
+    },
+    {
+      "id": "rovers",
+      "path": "assets/data/chants/collections/rovers.json"
+    },
+    {
+      "id": "islamic",
+      "path": "assets/data/chants/collections/islamic.json"
+    },
+    {
+      "id": "camps",
+      "path": "assets/data/chants/collections/camps.json"
+    },
+    {
+      "id": "arab-camps",
+      "path": "assets/data/chants/collections/arab_scout_camps.json"
+    }
+  ],
+  "actions": {
+    "youtube": {
+      "type": "external_video",
+      "icon": "youtube",
+      "label": {
+        "ar": "استمع على يوتيوب",
+        "en": "Watch on YouTube"
+      }
+    }
+  }
+}
