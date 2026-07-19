@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
 import 'package:scouting_hub/features/chants/application/chant_catalog_cubit.dart';
 import 'package:scouting_hub/features/chants/application/chant_catalog_state.dart';
 import 'package:scouting_hub/features/chants/domain/entities/chant.dart';
 import 'package:scouting_hub/features/chants/presentation/chant_ui_strings.dart';
 import 'package:scouting_hub/features/chants/presentation/pages/chant_details_page.dart';
-import 'package:tabler_icons_plus/tabler_icons_plus.dart';
 
 class ChantLibraryPage extends StatelessWidget {
   const ChantLibraryPage({super.key});
@@ -15,12 +15,18 @@ class ChantLibraryPage extends StatelessWidget {
     final languageCode = Localizations.localeOf(context).languageCode;
     final strings = ChantUiStrings(languageCode);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(strings.library)),
-      body: BlocBuilder<ChantCatalogCubit, ChantCatalogState>(
+    return FScaffold(
+      childPad: false,
+      header: FHeader.nested(
+        title: Text(strings.library),
+        prefixes: [
+          FHeaderAction.back(onPress: () => Navigator.of(context).pop()),
+        ],
+      ),
+      child: BlocBuilder<ChantCatalogCubit, ChantCatalogState>(
         builder: (context, state) {
           if (state.status == ChantCatalogStatus.loading && state.chants.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: FCircularProgress());
           }
 
           if (state.status == ChantCatalogStatus.failure && state.chants.isEmpty) {
@@ -41,18 +47,27 @@ class ChantLibraryPage extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                    child: SearchBar(
-                      hintText: strings.searchHint,
-                      leading: const Icon(TablerIcons.search),
-                      onChanged: context.read<ChantCatalogCubit>().search,
+                    child: FTextField(
+                      control: .managed(
+                        onChange: (value) => context
+                            .read<ChantCatalogCubit>()
+                            .search(value.text),
+                      ),
+                      hint: strings.searchHint,
+                      prefixBuilder: (_, _, _) =>
+                          const Icon(FLucideIcons.search),
+                      clearable: (value) => value.text.isNotEmpty,
                     ),
                   ),
                 ),
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: 58,
+                    height: 54,
                     child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 6,
+                      ),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.categories.length + 1,
                       separatorBuilder: (_, __) => const SizedBox(width: 8),
@@ -62,13 +77,18 @@ class ChantLibraryPage extends StatelessWidget {
                         final id = category?.id;
                         final selected = state.selectedCategoryId == id;
 
-                        return ChoiceChip(
-                          selected: selected,
-                          label: Text(
+                        return FButton(
+                          variant: selected
+                              ? FButtonVariant.primary
+                              : FButtonVariant.outline,
+                          size: FButtonSize.sm,
+                          mainAxisSize: MainAxisSize.min,
+                          onPress: () => context
+                              .read<ChantCatalogCubit>()
+                              .selectCategory(id),
+                          child: Text(
                             isAll ? strings.all : category!.nameFor(languageCode),
                           ),
-                          onSelected: (_) =>
-                              context.read<ChantCatalogCubit>().selectCategory(id),
                         );
                       },
                     ),
@@ -80,61 +100,36 @@ class ChantLibraryPage extends StatelessWidget {
                     child: Center(child: Text(strings.empty)),
                   )
                 else
-                  SliverList.separated(
-                    itemCount: chants.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final chant = chants[index];
-                      return _ChantTile(
-                        chant: chant,
-                        languageCode: languageCode,
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute<void>(
-                            builder: (_) => ChantDetailsPage(chant: chant),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                    sliver: SliverList.separated(
+                      itemCount: chants.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      itemBuilder: (context, index) {
+                        final chant = chants[index];
+                        return FTile(
+                          prefix: Icon(
+                            chant.hasYoutube
+                                ? FLucideIcons.youtube
+                                : FLucideIcons.music,
                           ),
-                        ),
-                      );
-                    },
+                          title: Text(chant.titleFor(languageCode)),
+                          subtitle: Text(chant.code),
+                          suffix: const Icon(FLucideIcons.chevronRight),
+                          onPress: () => Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => ChantDetailsPage(chant: chant),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                const SliverToBoxAdapter(child: SizedBox(height: 32)),
               ],
             ),
           );
         },
       ),
-    );
-  }
-}
-
-class _ChantTile extends StatelessWidget {
-  const _ChantTile({
-    required this.chant,
-    required this.languageCode,
-    required this.onTap,
-  });
-
-  final Chant chant;
-  final String languageCode;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      leading: CircleAvatar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        child: Icon(
-          chant.hasYoutube ? TablerIcons.brandYoutube : TablerIcons.music,
-        ),
-      ),
-      title: Text(
-        chant.titleFor(languageCode),
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-      subtitle: Text(chant.code),
-      trailing: const Icon(TablerIcons.chevronRight),
-      onTap: onTap,
     );
   }
 }
@@ -155,15 +150,20 @@ class _FailureView extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(TablerIcons.alertCircle, size: 44),
-            const SizedBox(height: 12),
-            Text(message, textAlign: TextAlign.center),
-            const SizedBox(height: 16),
-            FilledButton(onPressed: onRetry, child: Text(retryLabel)),
-          ],
+        child: FCard(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(FLucideIcons.circleAlert, size: 44),
+                const SizedBox(height: 12),
+                Text(message, textAlign: TextAlign.center),
+                const SizedBox(height: 16),
+                FButton(onPress: onRetry, child: Text(retryLabel)),
+              ],
+            ),
+          ),
         ),
       ),
     );
