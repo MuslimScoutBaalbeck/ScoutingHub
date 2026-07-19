@@ -89,5 +89,5 @@ class _Translations$startup$ar extends Translations$startup$en {
   @override
   String get retry => 'إعادة المحاولة';
   @override
-  String get loading => 'جاري تجهيز وريد...';
+  String get loading => 'جاري تجهيز Scouting Hub...';
 }
