@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "rovers",
+  "title": {"ar": "أناشيد الجوالة", "en": "Rover Scout Songs"},
+  "source": {
+    "name": {"ar": "بوصلة الكشاف", "en": "Scouts Compass"},
+    "pageUrl": "https://sites.google.com/view/scoutscompass/%D8%A8%D9%86%D9%83-%D8%A7%D9%84%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF/%D8%A3%D9%86%D8%A7%D8%B4%D9%8A%D8%AF-%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D9%84%D8%A9?authuser=0"
+  },
+  "migration": {"status": "pending", "reviewedAt": "2026-07-19"},
+  "items": []
+}
