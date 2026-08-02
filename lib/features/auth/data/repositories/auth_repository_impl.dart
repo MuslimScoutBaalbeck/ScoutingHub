@@ -7,7 +7,7 @@ import 'package:scouting_hub/features/auth/domain/entities/auth_session.dart';
 import 'package:scouting_hub/features/auth/domain/failures/auth_failure.dart';
 import 'package:scouting_hub/features/auth/domain/repositories/auth_repository.dart';
 
-@Injectable(as:AuthRepository )
+@Injectable(as: AuthRepository)
 final class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl(this._remoteDataSource);
 
@@ -46,6 +46,38 @@ final class AuthRepositoryImpl implements AuthRepository {
       return Right(response.toDomain());
     } on FakeEmailAlreadyExistsException {
       return const Left(EmailAlreadyExistsFailure());
+    } on Exception catch (_) {
+      return const Left(UnexpectedAuthFailure());
+    }
+  }
+
+  @override
+  Future<Either<AuthFailure, Unit>> forgotPassword({
+    required String email,
+  }) async {
+    try {
+      await _remoteDataSource.forgotPassword(email: email);
+      return const Right(unit);
+    } on Exception catch (_) {
+      return const Left(UnexpectedAuthFailure());
+    }
+  }
+
+  @override
+  Future<Either<AuthFailure, Unit>> resetPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    try {
+      await _remoteDataSource.resetPassword(
+        email: email,
+        code: code,
+        password: password,
+      );
+      return const Right(unit);
+    } on FakeInvalidResetCodeException {
+      return const Left(InvalidResetCodeFailure());
     } on Exception catch (_) {
       return const Left(UnexpectedAuthFailure());
     }
