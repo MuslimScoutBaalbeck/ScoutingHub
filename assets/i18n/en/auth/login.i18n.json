@@ -1,6 +1,14 @@
 {
   "title": "Welcome to\nMuslim Scout APP",
   "subtitle": "Login to continue your adventure",
+  "adventure_prefix": "Start",
+  "adventure_words": {
+    "adventure": "your adventure",
+    "explore": "exploring",
+    "manage": "managing",
+    "lead": "leading",
+    "more": "and more"
+  },
   "email": "Email",
   "password": "Password",
   "forgot_password": "Forgot password?",
