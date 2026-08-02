@@ -44,23 +44,24 @@ class _LoginPageState extends State<LoginPage> {
     final strings = context.t.auth.login;
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final languageCode = LocaleSettings.currentLocale.languageCode.toUpperCase();
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: context.router.canPop(),
         actions: [
-          IconButton(
-            tooltip: strings.switch_language,
+          TextButton.icon(
             onPressed: _switchLanguage,
-            icon: const Icon(Icons.language_rounded),
+            icon: const Icon(Icons.language_rounded, size: 20),
+            label: Text(languageCode),
           ),
           IconButton(
             tooltip: strings.switch_theme,
             onPressed: _switchTheme,
             icon: Icon(
               theme.brightness == Brightness.dark
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode_rounded,
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
             ),
           ),
           const SizedBox(width: 8),
@@ -88,33 +89,35 @@ class _LoginPageState extends State<LoginPage> {
                 constraints: const BoxConstraints(maxWidth: 480),
                 child: AutofillGroup(
                   child: ListView(
-                    padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
                     shrinkWrap: true,
                     children: [
                       Align(
                         child: SvgPicture.asset(
                           'assets/branding/muslim_scout_logo.svg',
-                          width: 112,
-                          height: 145,
+                          width: 104,
+                          height: 135,
                           colorFilter: ColorFilter.mode(
                             colors.primary,
                             BlendMode.srcIn,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 20),
                       Text(
                         strings.title,
                         textAlign: TextAlign.center,
                         style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
+                          height: 1.25,
                         ),
                       ),
+                      const SizedBox(height: 8),
                       Text(
-                        strings.title,
+                        strings.subtitle,
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: colors.onSurfaceVariant,
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -126,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                         prefixIcon: const Icon(Icons.email_outlined),
                         enabled: !isLoading,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 14),
                       AuthTextField(
                         controller: _passwordController,
                         label: strings.password,
@@ -140,14 +143,14 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: isLoading
                               ? null
                               : () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
                           icon: Icon(
                             _obscurePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
                           ),
                         ),
                         enabled: !isLoading,
@@ -159,24 +162,24 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: isLoading
                               ? null
                               : () => context.router.push(
-                            const ForgotPasswordRoute(),
-                          ),
+                                    const ForgotPasswordRoute(),
+                                  ),
                           child: Text(strings.forgot_password),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       FilledButton(
                         onPressed: isLoading ? null : _submit,
                         child: isLoading
                             ? const SizedBox.square(
-                          dimension: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        )
+                                dimension: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
                             : Text(strings.submit),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 14),
                       Wrap(
                         alignment: WrapAlignment.center,
                         crossAxisAlignment: WrapCrossAlignment.center,
@@ -186,9 +189,45 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: isLoading
                                 ? null
                                 : () => context.router.push(
-                              const RegisterRoute(),
-                            ),
+                                      const RegisterRoute(),
+                                    ),
                             child: Text(strings.register),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Expanded(child: Divider()),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              strings.or,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: colors.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                          const Expanded(child: Divider()),
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: _showComingSoon,
+                              icon: const _GoogleIcon(),
+                              label: Text(strings.google),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: _showComingSoon,
+                              icon: const Icon(Icons.apple_rounded),
+                              label: Text(strings.apple),
+                            ),
                           ),
                         ],
                       ),
@@ -228,10 +267,34 @@ class _LoginPageState extends State<LoginPage> {
     context.read<ApplicationStartCubit>().updateThemeMode(nextMode);
   }
 
+  void _showComingSoon() {
+    final messenger = ScaffoldMessenger.of(context);
+
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text(context.t.auth.login.coming_soon)),
+      );
+  }
+
   Future<void> _submit() {
     return context.read<AuthCubit>().login(
       email: _emailController.text,
       password: _passwordController.text,
+    );
+  }
+}
+
+class _GoogleIcon extends StatelessWidget {
+  const _GoogleIcon();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'G',
+      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+        fontWeight: FontWeight.w700,
+      ),
     );
   }
 }
