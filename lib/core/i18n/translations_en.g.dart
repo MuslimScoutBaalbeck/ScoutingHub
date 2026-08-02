@@ -70,16 +70,17 @@ class Translations$app$en {
   /// ar: 'الكشاف المسلم'
   String get name => 'Muslim Scout APP';
 
-  /// en: 'Your digital scouting library'
+  /// en: 'Manage your scout group and everything you need for your adventure'
   ///
-  /// ar: 'مكتبتك الكشفية الرقمية'
-  String get tagline => 'Your digital scouting library';
+  /// ar: 'إدارة فوجك وكل ما تحتاجه في مغامرتك الكشفية'
+  String get tagline =>
+      'Manage your scout group and everything you need for your adventure';
 
-  /// en: 'Explore scout chants, songs, lessons, rhythms, videos, books, and more — all in one place.'
+  /// en: 'A complete app for managing scout groups, members, activities, tasks, chants, and everything you need throughout your scouting journey.'
   ///
-  /// ar: 'استكشف الصرخات والأناشيد والدروس والدقات والفيديوهات والكتب الكشفية وغيرها، كل ذلك في مكان واحد.'
+  /// ar: 'تطبيق متكامل لإدارة الأفواج والأعضاء والأنشطة والمهام والأناشيد، وكل ما تحتاجه طوال رحلتك الكشفية.'
   String get description =>
-      'Explore scout chants, songs, lessons, rhythms, videos, books, and more — all in one place.';
+      'A complete app for managing scout groups, members, activities, tasks, chants, and everything you need throughout your scouting journey.';
 }
 
 // Path: auth

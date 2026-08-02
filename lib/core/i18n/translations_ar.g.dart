@@ -74,10 +74,10 @@ class _Translations$app$ar extends Translations$app$en {
   @override
   String get name => 'الكشاف المسلم';
   @override
-  String get tagline => 'مكتبتك الكشفية الرقمية';
+  String get tagline => 'إدارة فوجك وكل ما تحتاجه في مغامرتك الكشفية';
   @override
   String get description =>
-      'استكشف الصرخات والأناشيد والدروس والدقات والفيديوهات والكتب الكشفية وغيرها، كل ذلك في مكان واحد.';
+      'تطبيق متكامل لإدارة الأفواج والأعضاء والأنشطة والمهام والأناشيد، وكل ما تحتاجه طوال رحلتك الكشفية.';
 }
 
 // Path: auth

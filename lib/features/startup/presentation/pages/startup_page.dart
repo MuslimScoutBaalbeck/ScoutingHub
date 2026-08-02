@@ -63,19 +63,17 @@ class _StartupPageState extends State<StartupPage> {
         await _navigateToDestination(destination);
       },
       child: Scaffold(
-        body: SafeArea(
-          child: BlocBuilder<ApplicationStartCubit, ApplicationStartState>(
-            builder: (context, state) {
-              if (state.pageStatus == PageStatus.failure) {
-                return StartupFailure(
-                  error: state.errorMessage,
-                  onRetry: () => context.read<ApplicationStartCubit>().start(),
-                );
-              }
+        body: BlocBuilder<ApplicationStartCubit, ApplicationStartState>(
+          builder: (context, state) {
+            if (state.pageStatus == PageStatus.failure) {
+              return StartupFailure(
+                error: state.errorMessage,
+                onRetry: () => context.read<ApplicationStartCubit>().start(),
+              );
+            }
 
-              return const StartupLoading();
-            },
-          ),
+            return const StartupLoading();
+          },
         ),
       ),
     );
