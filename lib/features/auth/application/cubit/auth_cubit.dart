@@ -13,8 +13,8 @@ final class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
     required LoginUseCase loginUseCase,
     required RegisterUseCase registerUseCase,
-    required RestoreSession restoreSessionUseCase,
-    required Logout logoutUseCase,
+    required RestoreSessionUseCase restoreSessionUseCase,
+    required LogoutUseCase logoutUseCase,
     required ForgotPasswordUseCase forgotPasswordUseCase,
     required ResetPasswordUseCase resetPasswordUseCase,
   }) : _loginUseCase = loginUseCase,
@@ -27,8 +27,8 @@ final class AuthCubit extends Cubit<AuthState> {
 
   final LoginUseCase _loginUseCase;
   final RegisterUseCase _registerUseCase;
-  final RestoreSession _restoreSessionUseCase;
-  final Logout _logoutUseCase;
+  final RestoreSessionUseCase _restoreSessionUseCase;
+  final LogoutUseCase _logoutUseCase;
   final ForgotPasswordUseCase _forgotPasswordUseCase;
   final ResetPasswordUseCase _resetPasswordUseCase;
 
