@@ -20,9 +20,11 @@ import '../../features/auth/data/datasources/fake_auth_remote_data_source.dart'
 import '../../features/auth/data/repositories/auth_repository_impl.dart'
     as _i153;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
+import '../../features/auth/domain/usecases/forgot_password.dart' as _i901;
 import '../../features/auth/domain/usecases/login.dart' as _i428;
 import '../../features/auth/domain/usecases/logout.dart' as _i597;
 import '../../features/auth/domain/usecases/register.dart' as _i480;
+import '../../features/auth/domain/usecases/reset_password.dart' as _i902;
 import '../../features/auth/domain/usecases/restore_session.dart' as _i456;
 import '../../features/startup/application/application_start/application_start_cubit.dart'
     as _i123;
@@ -48,10 +50,16 @@ _i174.GetIt $initGetIt(
   gh.factory<_i787.AuthRepository>(
     () => _i153.AuthRepositoryImpl(gh<_i107.AuthRemoteDataSource>()),
   );
+  gh.singleton<_i901.ForgotPassword>(
+    () => _i901.ForgotPassword(gh<_i787.AuthRepository>()),
+  );
   gh.singleton<_i428.Login>(() => _i428.Login(gh<_i787.AuthRepository>()));
   gh.singleton<_i597.Logout>(() => _i597.Logout(gh<_i787.AuthRepository>()));
   gh.singleton<_i480.Register>(
     () => _i480.Register(gh<_i787.AuthRepository>()),
+  );
+  gh.singleton<_i902.ResetPassword>(
+    () => _i902.ResetPassword(gh<_i787.AuthRepository>()),
   );
   gh.singleton<_i456.RestoreSession>(
     () => _i456.RestoreSession(gh<_i787.AuthRepository>()),
@@ -62,6 +70,8 @@ _i174.GetIt $initGetIt(
       register: gh<_i480.Register>(),
       restoreSession: gh<_i456.RestoreSession>(),
       logout: gh<_i597.Logout>(),
+      forgotPassword: gh<_i901.ForgotPassword>(),
+      resetPassword: gh<_i902.ResetPassword>(),
     ),
   );
   return getIt;
