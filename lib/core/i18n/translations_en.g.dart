@@ -65,10 +65,10 @@ class Translations$app$en {
 
   // Translations
 
-  /// en: 'Scouting Hub'
+  /// en: 'Muslim Scout APP'
   ///
-  /// ar: 'Scouting Hub'
-  String get name => 'Scouting Hub';
+  /// ar: 'الكشاف المسلم'
+  String get name => 'Muslim Scout APP';
 
   /// en: 'Your digital scouting library'
   ///

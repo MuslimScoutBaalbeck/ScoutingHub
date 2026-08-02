@@ -72,7 +72,7 @@ class _Translations$app$ar extends Translations$app$en {
 
   // Translations
   @override
-  String get name => 'Scouting Hub';
+  String get name => 'الكشاف المسلم';
   @override
   String get tagline => 'مكتبتك الكشفية الرقمية';
   @override

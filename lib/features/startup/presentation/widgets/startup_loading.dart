@@ -30,7 +30,6 @@ class _StartupLoadingState extends State<StartupLoading>
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _controller.forward();
     });
-
   }
 
   @override
