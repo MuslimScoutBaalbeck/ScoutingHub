@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
+import 'package:scouting_hub/core/ui/atoms/app_back_button.dart';
+import 'package:scouting_hub/core/ui/atoms/app_square_action.dart';
 import 'package:scouting_hub/core/ui/widgets/app_decorative_background.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
@@ -34,6 +36,7 @@ class AuthTemplatePage extends StatelessWidget {
     final colors = theme.colorScheme;
     final strings = context.t.auth.login;
     final languageCode = LocaleSettings.currentLocale.languageCode.toUpperCase();
+    final canPop = context.router.canPop();
     final contentTopPadding =
         MediaQuery.paddingOf(context).top + kToolbarHeight + 8;
 
@@ -42,30 +45,24 @@ class AuthTemplatePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        automaticallyImplyLeading: context.router.canPop(),
+        automaticallyImplyLeading: false,
+        leadingWidth: canPop ? 58 : null,
+        leading: canPop ? const AppBackButton() : null,
         actions: showAppBarActions
             ? [
-                _AuthAppBarAction(
+                AppSquareAction(
                   tooltip: strings.switch_language,
                   onPressed: () => _switchLanguage(context),
-                  child: Text(
-                    languageCode,
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  child: Text(languageCode),
                 ),
                 const SizedBox(width: 8),
-                _AuthAppBarAction(
+                AppSquareAction(
                   tooltip: strings.switch_theme,
                   onPressed: () => _switchTheme(context),
                   child: Icon(
                     theme.brightness == Brightness.dark
                         ? Icons.light_mode_outlined
                         : Icons.dark_mode_outlined,
-                    size: 21,
-                    color: colors.primary,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -138,62 +135,15 @@ class AuthTemplatePage extends StatelessWidget {
     final nextLocale = LocaleSettings.currentLocale == AppLocale.en
         ? AppLocale.ar
         : AppLocale.en;
-
     await LocaleSettings.setLocale(nextLocale);
-
-    if (!context.mounted) {
-      return;
-    }
-
-    context.read<ApplicationStartCubit>().updateLocale(
-      nextLocale.languageCode,
-    );
+    if (!context.mounted) return;
+    context.read<ApplicationStartCubit>().updateLocale(nextLocale.languageCode);
   }
 
   void _switchTheme(BuildContext context) {
     final nextMode = Theme.of(context).brightness == Brightness.dark
         ? ThemeMode.light
         : ThemeMode.dark;
-
     context.read<ApplicationStartCubit>().updateThemeMode(nextMode);
-  }
-}
-
-class _AuthAppBarAction extends StatelessWidget {
-  const _AuthAppBarAction({
-    required this.tooltip,
-    required this.onPressed,
-    required this.child,
-  });
-
-  final String tooltip;
-  final VoidCallback onPressed;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-
-    return Tooltip(
-      message: tooltip,
-      child: Material(
-        color: colors.surfaceContainerLow,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(
-            color: colors.primary.withValues(alpha: .55),
-            width: 1.5,
-          ),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onPressed,
-          child: SizedBox.square(
-            dimension: 42,
-            child: Center(child: child),
-          ),
-        ),
-      ),
-    );
   }
 }
