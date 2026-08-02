@@ -38,7 +38,7 @@ class _StartupLoadingState extends State<StartupLoading>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    final translations = context.t.startup;
+    final translations = context.t;
 
     return ColoredBox(
       color: colors.surface,
@@ -54,7 +54,7 @@ class _StartupLoadingState extends State<StartupLoading>
                   const Spacer(flex: 3),
                   Semantics(
                     image: true,
-                    label: translations.organization,
+                    label: translations.app.name,
                     child: SvgPicture.asset(
                       'assets/branding/muslim_scout_logo.svg',
                       width: 150,
@@ -64,12 +64,20 @@ class _StartupLoadingState extends State<StartupLoading>
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    translations.organization,
+                    translations.app.name,
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    style: theme.textTheme.headlineSmall?.copyWith(
                       color: colors.primary,
-                      fontWeight: FontWeight.w800,
-                      height: 1.25,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    translations.app.tagline,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: colors.onSurfaceVariant,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const Spacer(flex: 2),
@@ -78,22 +86,13 @@ class _StartupLoadingState extends State<StartupLoading>
                     child: Column(
                       children: [
                         Text(
-                          translations.loading,
+                          translations.startup.loading,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          translations.please_wait,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: colors.onSurfaceVariant,
-                            height: 1.4,
-                          ),
-                        ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 20),
                         AnimatedBuilder(
                           animation: _progress,
                           builder: (context, child) {
