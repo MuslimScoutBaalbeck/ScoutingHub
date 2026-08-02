@@ -22,6 +22,17 @@ final class AuthAuthenticated extends AuthState {
   final AuthSession session;
 }
 
+final class AuthActionSuccess extends AuthState {
+  const AuthActionSuccess(this.action);
+
+  final AuthAction action;
+}
+
+enum AuthAction {
+  forgotPassword,
+  resetPassword,
+}
+
 final class AuthError extends AuthState {
   const AuthError(this.message);
 
