@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
+import 'package:scouting_hub/core/ui/widgets/app_decorative_background.dart';
 
 class StartupLoading extends StatefulWidget {
   const StartupLoading({super.key});
@@ -27,6 +28,7 @@ class _StartupLoadingState extends State<StartupLoading>
       parent: _controller,
       curve: Curves.easeInOutCubic,
     );
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _controller.forward();
     });
@@ -49,10 +51,13 @@ class _StartupLoadingState extends State<StartupLoading>
       child: Stack(
         fit: StackFit.expand,
         children: [
-          const _StartupBackground(),
+          const AppDecorativeBackground(),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32,
+                vertical: 24,
+              ),
               child: Column(
                 children: [
                   const Spacer(flex: 3),
@@ -125,57 +130,6 @@ class _StartupLoadingState extends State<StartupLoading>
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _StartupBackground extends StatelessWidget {
-  const _StartupBackground();
-
-  @override
-  Widget build(BuildContext context) {
-    final primary = Theme.of(context).colorScheme.primary;
-
-    return IgnorePointer(
-      child: Stack(
-        children: [
-          PositionedDirectional(
-            top: -110,
-            end: -90,
-            child: _GlowCircle(
-              size: 260,
-              color: primary.withValues(alpha: .07),
-            ),
-          ),
-          PositionedDirectional(
-            bottom: -130,
-            start: -100,
-            child: _GlowCircle(
-              size: 300,
-              color: primary.withValues(alpha: .05),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _GlowCircle extends StatelessWidget {
-  const _GlowCircle({required this.size, required this.color});
-
-  final double size;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
       ),
     );
   }
