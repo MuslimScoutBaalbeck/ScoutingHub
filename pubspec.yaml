@@ -29,6 +29,7 @@ dependencies:
 
   # Offline-first persistence.
   drift: 2.34.0
+  drift_dev: 2.34.0
   drift_flutter: ^0.3.0
   sqlite3: ^3.3.1
   path_provider: ^2.1.5
@@ -49,12 +50,9 @@ dependencies:
 
   # Utils.
   rxdart: ^0.28.0
+  fpdart: ^1.2.0
   url_launcher: ^6.3.2
   share_plus: ^13.2.1
-
-  # UI system.
-  forui: ^0.24.0
-  forui_assets: ^0.24.0
 
   # Icons.
   tabler_icons_plus: ^3.44.0
@@ -83,7 +81,7 @@ dev_dependencies:
 
   # Code generation.
   build_runner: ^2.15.0
-  drift_dev: 2.34.0
+
   retrofit_generator: ^10.2.6
   json_serializable: ^6.14.0
   injectable_generator: ^3.0.2
@@ -94,7 +92,7 @@ dev_dependencies:
   bloc_tools: ^0.1.0-dev.24
 
   flutter_lints: ^6.0.0
-  forui_cli: ^0.24.0
+
 
 flutter:
   uses-material-design: true

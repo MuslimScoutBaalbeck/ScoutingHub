@@ -346,7 +346,7 @@ packages:
     source: hosted
     version: "2.34.0"
   drift_dev:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: drift_dev
       sha256: "9cfff1576b49725da0d32c040651a41ae195e8c4af8d8da301593e41d7abc2f7"
@@ -469,30 +469,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  forui:
+  fpdart:
     dependency: "direct main"
     description:
-      name: forui
-      sha256: "6081cd95782b736239112edf00fbf3b9238fa953f422541046c8d2bf639d5ba0"
+      name: fpdart
+      sha256: f8e9d0989ba293946673e382c59ac513e30cb6746a9452df195f29e3357a73d4
       url: "https://pub.dev"
     source: hosted
-    version: "0.24.0"
-  forui_assets:
-    dependency: "direct main"
-    description:
-      name: forui_assets
-      sha256: "95f11ad6f0d560a91971388f13ebf7beb77a631f9bb6ba5ab7b3454ac3acda96"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.24.0"
-  forui_cli:
-    dependency: "direct dev"
-    description:
-      name: forui_cli
-      sha256: "0bbe11ad1a79ef6776a9a59bd79ea549afc28642d7f003c1e0dbd8a31c3268d8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.24.0"
+    version: "1.2.0"
   freezed:
     dependency: "direct dev"
     description:
@@ -1298,14 +1282,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
-  sugar:
-    dependency: transitive
-    description:
-      name: sugar
-      sha256: a0a97f1d3552a3ef4cbec7c6e62c7b52c151cd5c11e984e8311700a918f73dc5
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
   synchronized:
     dependency: transitive
     description:
@@ -1562,14 +1538,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.3"
-  yaml_edit:
-    dependency: transitive
-    description:
-      name: yaml_edit
-      sha256: "07c9e63ba42519745182b88ca12264a7ba2484d8239958778dfe4d44fe760488"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.4"
 sdks:
   dart: ">=3.12.2 <4.0.0"
   flutter: ">=3.44.0"

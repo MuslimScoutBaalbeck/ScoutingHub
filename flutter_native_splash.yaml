@@ -1,0 +1,20 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  color: "#F8FAFC"
+  color_dark: "#0A0C18"
+  image: assets/branding/splash/wareed-splash-light.png
+  image_dark: assets/branding/splash/wareed-splash-dark.png
+  android_gravity: center
+  ios_content_mode: center
+  fullscreen: true
+
+  android_12:
+    color: "#F8FAFC"
+    color_dark: "#0A0C18"
+    image: assets/branding/splash/wareed-android12-light.png
+    image_dark: assets/branding/splash/wareed-android12-dark.png
+    icon_background_color: "#F8FAFC"
+    icon_background_color_dark: "#0A0C18"
