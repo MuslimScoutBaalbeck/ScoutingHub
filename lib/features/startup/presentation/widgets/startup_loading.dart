@@ -15,17 +15,22 @@ class _StartupLoadingState extends State<StartupLoading>
   late final Animation<double> _progress;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1700),
     );
+
     _progress = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOutCubic,
     );
-    await _controller.forward();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _controller.forward();
+    });
+
   }
 
   @override
