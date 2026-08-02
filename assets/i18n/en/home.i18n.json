@@ -1,0 +1,60 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "tasks": "Tasks",
+    "calendar": "Calendar",
+    "more": "More"
+  },
+  "dashboard": {
+    "welcome_back": "Welcome back",
+    "user_name": "Demo Scout",
+    "notifications": "Notifications",
+    "upcoming_title": "Upcoming event",
+    "upcoming_name": "Weekly troop meeting",
+    "upcoming_details": "Tomorrow at 5:00 PM · Scout hall",
+    "quick_access": "Quick access",
+    "events": "Events",
+    "tasks": "Tasks",
+    "teams": "Teams",
+    "members": "Members",
+    "chants": "Chants",
+    "games": "Games"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "subtitle": "Track assignments and subtasks",
+    "prepare_meeting": "Prepare the weekly meeting",
+    "prepare_meeting_1": "Confirm attendance",
+    "prepare_meeting_2": "Prepare the activity plan",
+    "camp_inventory": "Review camp inventory",
+    "camp_inventory_1": "Count tents",
+    "camp_inventory_2": "Check first-aid supplies",
+    "done": "Completed",
+    "pending": "Pending"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "subtitle": "Events for this month",
+    "meeting": "Troop meeting",
+    "training": "Leadership training",
+    "camp": "Weekend camp"
+  },
+  "more": {
+    "title": "More",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme mode",
+    "support": "Support",
+    "help": "Help center",
+    "meeting_minutes": "Meeting minutes",
+    "incoming_outgoing": "Incoming and outgoing mail",
+    "inventory": "Inventory management",
+    "activities": "Activity management",
+    "camps": "Camp management",
+    "logout": "Log out"
+  },
+  "common": {
+    "coming_soon": "Coming soon"
+  }
+}
