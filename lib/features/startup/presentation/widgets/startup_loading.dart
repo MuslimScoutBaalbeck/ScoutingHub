@@ -1,41 +1,174 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 
-class StartupLoading extends StatelessWidget {
+class StartupLoading extends StatefulWidget {
   const StartupLoading({super.key});
+
+  @override
+  State<StartupLoading> createState() => _StartupLoadingState();
+}
+
+class _StartupLoadingState extends State<StartupLoading>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _progress;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1700),
+    );
+    _progress = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOutCubic,
+    );
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final translations = context.t.startup;
 
-    final t = context.t.startup;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 320),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox.square(
-                dimension: 34,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.8,
-                  color: theme.colorScheme.primary,
-                ),
+    return ColoredBox(
+      color: colors.surface,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          const _StartupBackground(),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+              child: Column(
+                children: [
+                  const Spacer(flex: 3),
+                  Semantics(
+                    image: true,
+                    label: translations.organization,
+                    child: SvgPicture.asset(
+                      'assets/branding/muslim_scout_logo.svg',
+                      width: 150,
+                      height: 194,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    translations.organization,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.w800,
+                      height: 1.25,
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 360),
+                    child: Column(
+                      children: [
+                        Text(
+                          translations.loading,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          translations.please_wait,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: colors.onSurfaceVariant,
+                            height: 1.4,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        AnimatedBuilder(
+                          animation: _progress,
+                          builder: (context, child) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(999),
+                              child: LinearProgressIndicator(
+                                minHeight: 7,
+                                value: _progress.value * .94,
+                                backgroundColor:
+                                    colors.primary.withValues(alpha: .12),
+                                color: colors.primary,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                ],
               ),
-              const SizedBox(height: 10),
-              Text(
-                t.loading,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StartupBackground extends StatelessWidget {
+  const _StartupBackground();
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
+
+    return IgnorePointer(
+      child: Stack(
+        children: [
+          PositionedDirectional(
+            top: -110,
+            end: -90,
+            child: _GlowCircle(
+              size: 260,
+              color: primary.withValues(alpha: .07),
+            ),
+          ),
+          PositionedDirectional(
+            bottom: -130,
+            start: -100,
+            child: _GlowCircle(
+              size: 300,
+              color: primary.withValues(alpha: .05),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GlowCircle extends StatelessWidget {
+  const _GlowCircle({required this.size, required this.color});
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
       ),
     );
   }
