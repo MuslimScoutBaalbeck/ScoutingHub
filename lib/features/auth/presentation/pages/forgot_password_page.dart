@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.gr.dart';
-import 'package:scouting_hub/features/auth/application/cubit/auth_cubit.dart';
-import 'package:scouting_hub/features/auth/application/cubit/auth_state.dart';
+import 'package:scouting_hub/features/auth/application/forgot_password/forgot_password_cubit.dart';
+import 'package:scouting_hub/features/auth/presentation/extensions/auth_error_key_x.dart';
 import 'package:scouting_hub/features/auth/presentation/widgets/auth_text_field.dart';
 
 @RoutePage()
@@ -18,7 +18,7 @@ class ForgotPasswordPage extends StatefulWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<AuthCubit>(),
+      create: (_) => getIt<ForgotPasswordCubit>(),
       child: this,
     );
   }
@@ -39,15 +39,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     return Scaffold(
       appBar: AppBar(title: Text(strings.title)),
-      body: BlocConsumer<AuthCubit, AuthState>(
+      body: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
+        listenWhen: (previous, current) =>
+            previous.error != current.error ||
+            previous.isSuccess != current.isSuccess,
         listener: (context, state) async {
-          if (state case AuthError(:final message)) {
+          final error = state.error;
+          if (error != null) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(content: Text(message)));
+              ..showSnackBar(SnackBar(content: Text(error.translate(context))));
           }
 
-          if (state case AuthActionSuccess(action: AuthAction.forgotPassword)) {
+          if (state.isSuccess) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(content: Text(strings.success)));
@@ -57,8 +61,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           }
         },
         builder: (context, state) {
-          final isLoading = state is AuthLoading;
-
           return Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 480),
@@ -76,12 +78,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     label: strings.email,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.done,
+                    enabled: !state.isLoading,
                     onSubmitted: (_) => _submit(),
                   ),
                   const SizedBox(height: 24),
                   FilledButton(
-                    onPressed: isLoading ? null : _submit,
-                    child: isLoading
+                    onPressed: state.isLoading ? null : _submit,
+                    child: state.isLoading
                         ? const SizedBox.square(
                             dimension: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
@@ -89,7 +92,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         : Text(strings.submit),
                   ),
                   TextButton(
-                    onPressed: isLoading
+                    onPressed: state.isLoading
                         ? null
                         : () => context.router.maybePop(),
                     child: Text(strings.back_to_login),
@@ -104,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   Future<void> _submit() {
-    return context.read<AuthCubit>().forgotPassword(
+    return context.read<ForgotPasswordCubit>().submit(
       email: _emailController.text,
     );
   }
