@@ -1,6 +1,14 @@
 {
   "title": "مرحباً بك في\nمنصة الكشاف المسلم",
   "subtitle": "سجّل الدخول لمتابعة مغامرتك",
+  "adventure_prefix": "ابدأ",
+  "adventure_words": {
+    "adventure": "مغامرتك",
+    "explore": "الاستكشاف",
+    "manage": "الإدارة",
+    "lead": "القيادة",
+    "more": "والمزيد"
+  },
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
   "forgot_password": "نسيت كلمة المرور؟",
