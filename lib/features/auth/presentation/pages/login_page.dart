@@ -276,10 +276,10 @@ class _AppBarSquareAction extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: Material(
-        color: colors.surfaceContainerLow,
+
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: colors.outlineVariant),
+          side: BorderSide(color: colors.primary.withAlpha(150),width: 2),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
