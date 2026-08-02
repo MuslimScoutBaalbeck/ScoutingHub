@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
+import 'package:scouting_hub/core/ui/widgets/atoms/app_gap.dart';
 import 'package:scouting_hub/core/ui/widgets/atoms/app_text.dart';
 
 class AppPageHeader extends StatelessWidget {
