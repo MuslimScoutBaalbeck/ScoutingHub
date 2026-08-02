@@ -21,8 +21,8 @@ class _StartupPageState extends State<StartupPage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ApplicationStartCubit>().start();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<ApplicationStartCubit>().start();
     });
   }
 

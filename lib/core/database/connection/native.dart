@@ -36,7 +36,7 @@ Future<void> validateDatabaseSchema(GeneratedDatabase database) async {
 }
 
 Future<void> _deleteIfExists(File file) async {
-  if (! file.existsSync()) {
+  if (!file.existsSync()) {
     return;
   }
 

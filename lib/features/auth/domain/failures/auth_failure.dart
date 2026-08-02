@@ -6,17 +6,17 @@ sealed class AuthFailure {
 
 final class InvalidCredentialsFailure extends AuthFailure {
   const InvalidCredentialsFailure()
-      : super('The provided credentials are incorrect.');
+    : super('The provided credentials are incorrect.');
 }
 
 final class EmailAlreadyExistsFailure extends AuthFailure {
   const EmailAlreadyExistsFailure()
-      : super('An account already exists for this email address.');
+    : super('An account already exists for this email address.');
 }
 
 final class InvalidResetCodeFailure extends AuthFailure {
   const InvalidResetCodeFailure()
-      : super('The password reset code is invalid.');
+    : super('The password reset code is invalid.');
 }
 
 final class ValidationFailure extends AuthFailure {
@@ -28,5 +28,7 @@ final class UnauthenticatedFailure extends AuthFailure {
 }
 
 final class UnexpectedAuthFailure extends AuthFailure {
-  const UnexpectedAuthFailure([super.message = 'An unexpected error occurred.']);
+  const UnexpectedAuthFailure([
+    super.message = 'An unexpected error occurred.',
+  ]);
 }

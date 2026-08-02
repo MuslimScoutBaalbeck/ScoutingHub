@@ -26,9 +26,11 @@ import 'package:scouting_hub/features/home/presentation/pages/home_page.dart'
 import 'package:scouting_hub/features/startup/presentation/pages/startup_page.dart'
     as _i6;
 
+/// generated route for
+/// [_i1.ForgotPasswordPage]
 class ForgotPasswordRoute extends _i8.PageRouteInfo<void> {
   const ForgotPasswordRoute({List<_i8.PageRouteInfo>? children})
-      : super(ForgotPasswordRoute.name, initialChildren: children);
+    : super(ForgotPasswordRoute.name, initialChildren: children);
 
   static const String name = 'ForgotPasswordRoute';
 
@@ -40,9 +42,11 @@ class ForgotPasswordRoute extends _i8.PageRouteInfo<void> {
   );
 }
 
+/// generated route for
+/// [_i2.HomePage]
 class HomeRoute extends _i8.PageRouteInfo<void> {
   const HomeRoute({List<_i8.PageRouteInfo>? children})
-      : super(HomeRoute.name, initialChildren: children);
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -54,9 +58,11 @@ class HomeRoute extends _i8.PageRouteInfo<void> {
   );
 }
 
+/// generated route for
+/// [_i3.LoginPage]
 class LoginRoute extends _i8.PageRouteInfo<void> {
   const LoginRoute({List<_i8.PageRouteInfo>? children})
-      : super(LoginRoute.name, initialChildren: children);
+    : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
@@ -68,9 +74,11 @@ class LoginRoute extends _i8.PageRouteInfo<void> {
   );
 }
 
+/// generated route for
+/// [_i4.RegisterPage]
 class RegisterRoute extends _i8.PageRouteInfo<void> {
   const RegisterRoute({List<_i8.PageRouteInfo>? children})
-      : super(RegisterRoute.name, initialChildren: children);
+    : super(RegisterRoute.name, initialChildren: children);
 
   static const String name = 'RegisterRoute';
 
@@ -82,16 +90,18 @@ class RegisterRoute extends _i8.PageRouteInfo<void> {
   );
 }
 
+/// generated route for
+/// [_i5.ResetPasswordPage]
 class ResetPasswordRoute extends _i8.PageRouteInfo<ResetPasswordRouteArgs> {
   ResetPasswordRoute({
     required String email,
     _i9.Key? key,
     List<_i8.PageRouteInfo>? children,
   }) : super(
-          ResetPasswordRoute.name,
-          args: ResetPasswordRouteArgs(email: email, key: key),
-          initialChildren: children,
-        );
+         ResetPasswordRoute.name,
+         args: ResetPasswordRouteArgs(email: email, key: key),
+         initialChildren: children,
+       );
 
   static const String name = 'ResetPasswordRoute';
 
@@ -110,17 +120,30 @@ class ResetPasswordRouteArgs {
   const ResetPasswordRouteArgs({required this.email, this.key});
 
   final String email;
+
   final _i9.Key? key;
 
   @override
   String toString() {
     return 'ResetPasswordRouteArgs{email: $email, key: $key}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ResetPasswordRouteArgs) return false;
+    return email == other.email && key == other.key;
+  }
+
+  @override
+  int get hashCode => email.hashCode ^ key.hashCode;
 }
 
+/// generated route for
+/// [_i6.StartupPage]
 class StartupRoute extends _i8.PageRouteInfo<void> {
   const StartupRoute({List<_i8.PageRouteInfo>? children})
-      : super(StartupRoute.name, initialChildren: children);
+    : super(StartupRoute.name, initialChildren: children);
 
   static const String name = 'StartupRoute';
 
@@ -132,9 +155,11 @@ class StartupRoute extends _i8.PageRouteInfo<void> {
   );
 }
 
+/// generated route for
+/// [_i7.WelcomePage]
 class WelcomeRoute extends _i8.PageRouteInfo<void> {
   const WelcomeRoute({List<_i8.PageRouteInfo>? children})
-      : super(WelcomeRoute.name, initialChildren: children);
+    : super(WelcomeRoute.name, initialChildren: children);
 
   static const String name = 'WelcomeRoute';
 

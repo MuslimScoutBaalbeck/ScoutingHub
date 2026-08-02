@@ -40,7 +40,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       appBar: AppBar(title: Text(strings.title)),
       body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state case AuthError(:final message)) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -51,7 +51,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(content: Text(strings.success)));
-            context.router.push(
+            await context.router.push(
               ResetPasswordRoute(email: _emailController.text.trim()),
             );
           }
@@ -89,7 +89,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         : Text(strings.submit),
                   ),
                   TextButton(
-                    onPressed: isLoading ? null : () => context.router.maybePop(),
+                    onPressed: isLoading
+                        ? null
+                        : () => context.router.maybePop(),
                     child: Text(strings.back_to_login),
                   ),
                 ],
@@ -103,7 +105,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   Future<void> _submit() {
     return context.read<AuthCubit>().forgotPassword(
-          email: _emailController.text,
-        );
+      email: _emailController.text,
+    );
   }
 }

@@ -6,8 +6,11 @@ import 'package:scouting_hub/features/auth/data/datasources/auth_remote_data_sou
 import 'package:scouting_hub/features/auth/data/dtos/auth_response_dto.dart';
 
 final class FakeInvalidCredentialsException implements Exception {}
+
 final class FakeEmailAlreadyExistsException implements Exception {}
+
 final class FakeUnauthenticatedException implements Exception {}
+
 final class FakeInvalidResetCodeException implements Exception {}
 
 @LazySingleton(as: AuthRemoteDataSource)

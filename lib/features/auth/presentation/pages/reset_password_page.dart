@@ -54,7 +54,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     return Scaffold(
       appBar: AppBar(title: Text(strings.title)),
       body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state case AuthError(:final message)) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -65,7 +65,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(content: Text(strings.success)));
-            context.router.replaceAll([const LoginRoute()]);
+            await context.router.replaceAll([const LoginRoute()]);
           }
         },
         builder: (context, state) {
@@ -141,9 +141,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     }
 
     await context.read<AuthCubit>().resetPassword(
-          email: _emailController.text,
-          code: _codeController.text,
-          password: _passwordController.text,
-        );
+      email: _emailController.text,
+      code: _codeController.text,
+      password: _passwordController.text,
+    );
   }
 }

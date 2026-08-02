@@ -28,8 +28,8 @@ class AuthTextField extends StatelessWidget {
       autofillHints: obscureText
           ? const [AutofillHints.password]
           : keyboardType == TextInputType.emailAddress
-              ? const [AutofillHints.email]
-              : null,
+          ? const [AutofillHints.email]
+          : null,
       onSubmitted: onSubmitted,
       decoration: InputDecoration(
         labelText: label,

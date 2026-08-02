@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(title: Text(strings.submit)),
       body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state case AuthError(:final message)) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
           }
 
           if (state is AuthAuthenticated) {
-            context.router.replaceAll([const HomeRoute()]);
+            await context.router.replaceAll([const HomeRoute()]);
           }
         },
         builder: (context, state) {
@@ -66,7 +66,8 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Text(
                       strings.title,
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -98,8 +99,8 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: isLoading
                             ? null
                             : () => context.router.push(
-                                  const ForgotPasswordRoute(),
-                                ),
+                                const ForgotPasswordRoute(),
+                              ),
                         child: Text(strings.forgot_password),
                       ),
                     ),
@@ -121,8 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: isLoading
                               ? null
                               : () => context.router.push(
-                                    const RegisterRoute(),
-                                  ),
+                                  const RegisterRoute(),
+                                ),
                           child: Text(strings.register),
                         ),
                       ],
@@ -139,8 +140,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _submit() {
     return context.read<AuthCubit>().login(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 }

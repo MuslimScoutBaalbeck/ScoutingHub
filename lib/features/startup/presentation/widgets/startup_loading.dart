@@ -15,7 +15,7 @@ class _StartupLoadingState extends State<StartupLoading>
   late final Animation<double> _progress;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -25,7 +25,7 @@ class _StartupLoadingState extends State<StartupLoading>
       parent: _controller,
       curve: Curves.easeInOutCubic,
     );
-    _controller.forward();
+    await _controller.forward();
   }
 
   @override
@@ -59,7 +59,6 @@ class _StartupLoadingState extends State<StartupLoading>
                       'assets/branding/muslim_scout_logo.svg',
                       width: 150,
                       height: 194,
-                      fit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -101,8 +100,9 @@ class _StartupLoadingState extends State<StartupLoading>
                               child: LinearProgressIndicator(
                                 minHeight: 7,
                                 value: _progress.value * .94,
-                                backgroundColor:
-                                    colors.primary.withValues(alpha: .12),
+                                backgroundColor: colors.primary.withValues(
+                                  alpha: .12,
+                                ),
                                 color: colors.primary,
                               ),
                             );

@@ -46,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(title: Text(strings.submit)),
       body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state case AuthError(:final message)) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -54,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
           }
 
           if (state is AuthAuthenticated) {
-            context.router.replaceAll([const HomeRoute()]);
+            await context.router.replaceAll([const HomeRoute()]);
           }
         },
         builder: (context, state) {
@@ -70,8 +70,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   Text(
                     strings.title,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(strings.subtitle),
@@ -150,9 +150,9 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     await context.read<AuthCubit>().register(
-          name: _nameController.text,
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+      name: _nameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 }

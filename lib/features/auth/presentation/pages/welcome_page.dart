@@ -28,8 +28,8 @@ class WelcomePage extends StatelessWidget {
                     strings.title,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Text(
@@ -49,7 +49,8 @@ class WelcomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   TextButton(
-                    onPressed: () => context.router.replaceAll([const HomeRoute()]),
+                    onPressed: () =>
+                        context.router.replaceAll([const HomeRoute()]),
                     child: Text(strings.continue_as_guest),
                   ),
                 ],

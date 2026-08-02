@@ -11,19 +11,13 @@ import 'package:scouting_hub/features/auth/domain/usecases/restore_session.dart'
 @injectable
 final class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
-    required Login login,
-    required Register register,
-    required RestoreSession restoreSession,
-    required Logout logout,
-    required ForgotPassword forgotPassword,
-    required ResetPassword resetPassword,
-  })  : _login = login,
-        _register = register,
-        _restoreSession = restoreSession,
-        _logout = logout,
-        _forgotPassword = forgotPassword,
-        _resetPassword = resetPassword,
-        super(const AuthInitial());
+    required this._login,
+    required this._register,
+    required this._restoreSession,
+    required this._logout,
+    required this._forgotPassword,
+    required this._resetPassword,
+  }) : super(const AuthInitial());
 
   final Login _login;
   final Register _register;
