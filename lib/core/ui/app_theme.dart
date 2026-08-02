@@ -8,22 +8,22 @@ abstract final class AppTheme {
   static const Color darkSurface = Color(0xFF15151D);
 
   static ThemeData get light {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: brandPurple,
-      brightness: Brightness.light,
-      surface: lightBackground,
-    ).copyWith(
-      primary: brandPurple,
-      onPrimary: Colors.white,
-      surface: lightBackground,
-      onSurface: const Color(0xFF1B1820),
-      surfaceContainerLowest: lightBackground,
-      surfaceContainerLow: const Color(0xFFF8F7FA),
-      surfaceContainer: const Color(0xFFF3F1F6),
-      surfaceContainerHigh: const Color(0xFFEDE9F1),
-      outline: const Color(0xFFD7D1DC),
-      outlineVariant: const Color(0xFFE8E3EC),
-    );
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: brandPurple,
+          surface: lightBackground,
+        ).copyWith(
+          primary: brandPurple,
+          onPrimary: Colors.white,
+          surface: lightBackground,
+          onSurface: const Color(0xFF1B1820),
+          surfaceContainerLowest: lightBackground,
+          surfaceContainerLow: const Color(0xFFF8F7FA),
+          surfaceContainer: const Color(0xFFF3F1F6),
+          surfaceContainerHigh: const Color(0xFFEDE9F1),
+          outline: const Color(0xFFD7D1DC),
+          outlineVariant: const Color(0xFFE8E3EC),
+        );
 
     return _buildTheme(
       colorScheme: colorScheme,
@@ -33,22 +33,23 @@ abstract final class AppTheme {
   }
 
   static ThemeData get dark {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: brandPurple,
-      brightness: Brightness.dark,
-      surface: darkBackground,
-    ).copyWith(
-      primary: brandPurpleDark,
-      onPrimary: Colors.white,
-      surface: darkBackground,
-      onSurface: const Color(0xFFF3EFF7),
-      surfaceContainerLowest: darkBackground,
-      surfaceContainerLow: const Color(0xFF121219),
-      surfaceContainer: darkSurface,
-      surfaceContainerHigh: const Color(0xFF1E1E29),
-      outline: const Color(0xFF4B4652),
-      outlineVariant: const Color(0xFF302C36),
-    );
+    final colorScheme =
+        ColorScheme.fromSeed(
+          seedColor: brandPurple,
+          brightness: Brightness.dark,
+          surface: darkBackground,
+        ).copyWith(
+          primary: brandPurpleDark,
+          onPrimary: Colors.white,
+          surface: darkBackground,
+          onSurface: const Color(0xFFF3EFF7),
+          surfaceContainerLowest: darkBackground,
+          surfaceContainerLow: const Color(0xFF121219),
+          surfaceContainer: darkSurface,
+          surfaceContainerHigh: const Color(0xFF1E1E29),
+          outline: const Color(0xFF4B4652),
+          outlineVariant: const Color(0xFF302C36),
+        );
 
     return _buildTheme(
       colorScheme: colorScheme,
@@ -90,7 +91,10 @@ abstract final class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: inputFillColor,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: borderRadius,
           borderSide: BorderSide(color: colorScheme.outline),

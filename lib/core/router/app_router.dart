@@ -12,11 +12,15 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(page: StartupRoute.page, path: '/', initial: true),
-    AutoRoute(page: HomeRoute.page, path: '/dashboard'),
-    AutoRoute(page: WelcomeRoute.page, path: '/welcome'),
+
+
+    /** Authentication **/
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
     AutoRoute(page: ForgotPasswordRoute.page, path: '/forgot-password'),
     AutoRoute(page: ResetPasswordRoute.page, path: '/reset-password'),
+
+    /** Home **/
+    AutoRoute(page: HomeRoute.page, path: '/dashboard'),
   ];
 }

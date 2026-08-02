@@ -63,6 +63,10 @@ class _StartupLoadingState extends State<StartupLoading>
                       'assets/branding/muslim_scout_logo.svg',
                       width: 150,
                       height: 194,
+                      colorFilter: ColorFilter.mode(
+                        colors.primary,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
