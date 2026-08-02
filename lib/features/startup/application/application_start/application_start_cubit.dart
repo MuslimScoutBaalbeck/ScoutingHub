@@ -6,7 +6,6 @@ import 'package:scouting_hub/core/utils/enums/launch_destination.dart';
 import 'package:scouting_hub/core/utils/enums/page_status.dart';
 
 part 'application_start_state.dart';
-
 part 'application_start_cubit.freezed.dart';
 
 @singleton
@@ -29,7 +28,7 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
     emit(state.copyWith(themeMode: themeMode));
   }
 
-  void start() {
+  Future<void> start() async {
     emit(
       state.copyWith(
         pageStatus: PageStatus.loading,
@@ -39,6 +38,10 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
     );
 
     try {
+      // Keep the Flutter setup screen visible while startup services initialize.
+      // Replace this minimum delay gradually with real initialization tasks.
+      await Future<void>.delayed(const Duration(milliseconds: 1750));
+
       const destination = AppLaunchDestination.login;
 
       emit(
@@ -83,7 +86,6 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
       }
     }
 
-    // Compatibility with older versions that may have stored an index.
     if (value is int && value >= 0 && value < ThemeMode.values.length) {
       return ThemeMode.values[value];
     }
