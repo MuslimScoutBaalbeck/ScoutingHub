@@ -14,6 +14,11 @@ final class EmailAlreadyExistsFailure extends AuthFailure {
       : super('An account already exists for this email address.');
 }
 
+final class InvalidResetCodeFailure extends AuthFailure {
+  const InvalidResetCodeFailure()
+      : super('The password reset code is invalid.');
+}
+
 final class ValidationFailure extends AuthFailure {
   const ValidationFailure(super.message);
 }
