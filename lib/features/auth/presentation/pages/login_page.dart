@@ -6,8 +6,8 @@ import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.gr.dart';
 import 'package:scouting_hub/core/ui/widgets/app_decorative_background.dart';
-import 'package:scouting_hub/features/auth/application/cubit/auth_cubit.dart';
-import 'package:scouting_hub/features/auth/application/cubit/auth_state.dart';
+import 'package:scouting_hub/features/auth/application/login/login_cubit.dart';
+import 'package:scouting_hub/features/auth/presentation/extensions/auth_error_key_x.dart';
 import 'package:scouting_hub/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
@@ -20,17 +20,13 @@ class LoginPage extends StatefulWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<AuthCubit>(),
-      child: this,
-    );
+    return BlocProvider(create: (_) => getIt<LoginCubit>(), child: this);
   }
 }
 
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController(text: 'demo@example.com');
   final _passwordController = TextEditingController(text: 'password');
-
   bool _obscurePassword = true;
 
   @override
@@ -89,21 +85,23 @@ class _LoginPageState extends State<LoginPage> {
             topOpacity: .05,
             bottomOpacity: .035,
           ),
-          BlocConsumer<AuthCubit, AuthState>(
+          BlocConsumer<LoginCubit, LoginState>(
+            listenWhen: (previous, current) =>
+                previous.error != current.error ||
+                previous.session != current.session,
             listener: (context, state) async {
-              if (state case AuthError(:final message)) {
+              final error = state.error;
+              if (error != null) {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(content: Text(message)));
+                  ..showSnackBar(SnackBar(content: Text(error.translate(context))));
               }
 
-              if (state is AuthAuthenticated) {
+              if (state.session != null) {
                 await context.router.replaceAll([const HomeRoute()]);
               }
             },
             builder: (context, state) {
-              final isLoading = state is AuthLoading;
-
               return SafeArea(
                 top: false,
                 child: Center(
@@ -155,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             prefixIcon: const Icon(Icons.email_outlined),
-                            enabled: !isLoading,
+                            enabled: !state.isLoading,
                           ),
                           const SizedBox(height: 14),
                           AuthTextField(
@@ -163,33 +161,29 @@ class _LoginPageState extends State<LoginPage> {
                             label: strings.password,
                             obscureText: _obscurePassword,
                             textInputAction: TextInputAction.done,
-                            prefixIcon: const Icon(
-                              Icons.lock_outline_rounded,
-                            ),
+                            prefixIcon: const Icon(Icons.lock_outline_rounded),
                             suffixIcon: IconButton(
                               tooltip: _obscurePassword
                                   ? strings.show_password
                                   : strings.hide_password,
-                              onPressed: isLoading
+                              onPressed: state.isLoading
                                   ? null
-                                  : () {
-                                      setState(() {
-                                        _obscurePassword = !_obscurePassword;
-                                      });
-                                    },
+                                  : () => setState(
+                                      () => _obscurePassword = !_obscurePassword,
+                                    ),
                               icon: Icon(
                                 _obscurePassword
                                     ? Icons.visibility_off_outlined
                                     : Icons.visibility_outlined,
                               ),
                             ),
-                            enabled: !isLoading,
+                            enabled: !state.isLoading,
                             onSubmitted: (_) => _submit(),
                           ),
                           Align(
                             alignment: AlignmentDirectional.centerEnd,
                             child: TextButton(
-                              onPressed: isLoading
+                              onPressed: state.isLoading
                                   ? null
                                   : () => context.router.push(
                                       const ForgotPasswordRoute(),
@@ -199,13 +193,11 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 4),
                           FilledButton(
-                            onPressed: isLoading ? null : _submit,
-                            child: isLoading
+                            onPressed: state.isLoading ? null : _submit,
+                            child: state.isLoading
                                 ? const SizedBox.square(
                                     dimension: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
+                                    child: CircularProgressIndicator(strokeWidth: 2),
                                   )
                                 : Text(strings.submit),
                           ),
@@ -216,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               Text(strings.no_account),
                               TextButton(
-                                onPressed: isLoading
+                                onPressed: state.isLoading
                                     ? null
                                     : () => context.router.push(
                                         const RegisterRoute(),
@@ -225,7 +217,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
                         ],
                       ),
                     ),
@@ -243,29 +234,20 @@ class _LoginPageState extends State<LoginPage> {
     final nextLocale = LocaleSettings.currentLocale == AppLocale.en
         ? AppLocale.ar
         : AppLocale.en;
-
     await LocaleSettings.setLocale(nextLocale);
-
-    if (!mounted) {
-      return;
-    }
-
-    context.read<ApplicationStartCubit>().updateLocale(
-      nextLocale.languageCode,
-    );
+    if (!mounted) return;
+    context.read<ApplicationStartCubit>().updateLocale(nextLocale.languageCode);
   }
 
   void _switchTheme() {
-    final currentBrightness = Theme.of(context).brightness;
-    final nextMode = currentBrightness == Brightness.dark
+    final nextMode = Theme.of(context).brightness == Brightness.dark
         ? ThemeMode.light
         : ThemeMode.dark;
-
     context.read<ApplicationStartCubit>().updateThemeMode(nextMode);
   }
 
   Future<void> _submit() {
-    return context.read<AuthCubit>().login(
+    return context.read<LoginCubit>().submit(
       email: _emailController.text,
       password: _passwordController.text,
     );
@@ -286,7 +268,6 @@ class _AppBarSquareAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-
     return Tooltip(
       message: tooltip,
       child: Material(
@@ -301,10 +282,7 @@ class _AppBarSquareAction extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onPressed,
-          child: SizedBox.square(
-            dimension: 42,
-            child: Center(child: child),
-          ),
+          child: SizedBox.square(dimension: 42, child: Center(child: child)),
         ),
       ),
     );
