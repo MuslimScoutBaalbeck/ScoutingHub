@@ -9,6 +9,9 @@ class AuthTextField extends StatelessWidget {
     this.obscureText = false,
     this.textInputAction,
     this.onSubmitted,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.enabled = true,
   });
 
   final TextEditingController controller;
@@ -17,11 +20,15 @@ class AuthTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      enabled: enabled,
       keyboardType: keyboardType,
       obscureText: obscureText,
       textInputAction: textInputAction,
@@ -33,6 +40,8 @@ class AuthTextField extends StatelessWidget {
       onSubmitted: onSubmitted,
       decoration: InputDecoration(
         labelText: label,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         border: const OutlineInputBorder(),
       ),
     );
