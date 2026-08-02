@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.gr.dart';
+import 'package:scouting_hub/core/ui/widgets/app_decorative_background.dart';
 import 'package:scouting_hub/features/auth/application/cubit/auth_cubit.dart';
 import 'package:scouting_hub/features/auth/application/cubit/auth_state.dart';
 import 'package:scouting_hub/features/auth/presentation/widgets/auth_text_field.dart';
@@ -44,8 +46,8 @@ class _LoginPageState extends State<LoginPage> {
     final strings = context.t.auth.login;
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    final languageCode = LocaleSettings.currentLocale.languageCode
-        .toUpperCase();
+    final localeCode = LocaleSettings.currentLocale.languageCode;
+    final languageCode = localeCode.toUpperCase();
 
     return Scaffold(
       appBar: AppBar(
@@ -92,125 +94,167 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context, state) {
           final isLoading = state is AuthLoading;
 
-          return SafeArea(
-            top: false,
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: AutofillGroup(
-                  child: ListView(
-                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
-                    shrinkWrap: true,
-                    children: [
-                      Align(
-                        child: SvgPicture.asset(
-                          'assets/branding/muslim_scout_logo.svg',
-                          width: 150,
-                          height: 150,
-                          colorFilter: ColorFilter.mode(
-                            colors.primary,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        strings.title,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          height: 1.25,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        strings.subtitle,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: colors.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      AuthTextField(
-                        controller: _emailController,
-                        label: strings.email,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        prefixIcon: const Icon(Icons.email_outlined),
-                        enabled: !isLoading,
-                      ),
-                      const SizedBox(height: 14),
-                      AuthTextField(
-                        controller: _passwordController,
-                        label: strings.password,
-                        obscureText: _obscurePassword,
-                        textInputAction: TextInputAction.done,
-                        prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        suffixIcon: IconButton(
-                          tooltip: _obscurePassword
-                              ? strings.show_password
-                              : strings.hide_password,
-                          onPressed: isLoading
-                              ? null
-                              : () {
-                                  setState(() {
-                                    _obscurePassword = !_obscurePassword;
-                                  });
-                                },
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                          ),
-                        ),
-                        enabled: !isLoading,
-                        onSubmitted: (_) => _submit(),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: TextButton(
-                          onPressed: isLoading
-                              ? null
-                              : () => context.router.push(
-                                  const ForgotPasswordRoute(),
-                                ),
-                          child: Text(strings.forgot_password),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      FilledButton(
-                        onPressed: isLoading ? null : _submit,
-                        child: isLoading
-                            ? const SizedBox.square(
-                                dimension: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : Text(strings.submit),
-                      ),
-                      const SizedBox(height: 14),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              const AppDecorativeBackground(
+                topOpacity: .05,
+                bottomOpacity: .035,
+              ),
+              SafeArea(
+                top: false,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 480),
+                    child: AutofillGroup(
+                      child: ListView(
+                        padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
+                        shrinkWrap: true,
                         children: [
-                          Text(strings.no_account),
-                          TextButton(
-                            onPressed: isLoading
-                                ? null
-                                : () => context.router.push(
-                                    const RegisterRoute(),
-                                  ),
-                            child: Text(strings.register),
+                          Align(
+                            child: SvgPicture.asset(
+                              'assets/branding/muslim_scout_logo.svg',
+                              width: 150,
+                              height: 150,
+                              colorFilter: ColorFilter.mode(
+                                colors.primary,
+                                BlendMode.srcIn,
+                              ),
+                            ),
                           ),
+                          const SizedBox(height: 20),
+                          Semantics(
+                            header: true,
+                            label: strings.title,
+                            child: ExcludeSemantics(
+                              child: AnimatedTextKit(
+                                key: ValueKey('login-title-$localeCode'),
+                                isRepeatingAnimation: false,
+                                totalRepeatCount: 1,
+                                displayFullTextOnTap: true,
+                                animatedTexts: [
+                                  TyperAnimatedText(
+                                    strings.title,
+                                    textAlign: TextAlign.center,
+                                    speed: const Duration(milliseconds: 42),
+                                    textStyle: theme.textTheme.headlineSmall
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          height: 1.25,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Semantics(
+                            label: strings.subtitle,
+                            child: ExcludeSemantics(
+                              child: AnimatedTextKit(
+                                key: ValueKey('login-subtitle-$localeCode'),
+                                isRepeatingAnimation: false,
+                                totalRepeatCount: 1,
+                                displayFullTextOnTap: true,
+                                animatedTexts: [
+                                  FadeAnimatedText(
+                                    strings.subtitle,
+                                    textAlign: TextAlign.center,
+                                    duration: const Duration(milliseconds: 900),
+                                    textStyle: theme.textTheme.bodyMedium
+                                        ?.copyWith(
+                                          color: colors.onSurfaceVariant,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          AuthTextField(
+                            controller: _emailController,
+                            label: strings.email,
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                            prefixIcon: const Icon(Icons.email_outlined),
+                            enabled: !isLoading,
+                          ),
+                          const SizedBox(height: 14),
+                          AuthTextField(
+                            controller: _passwordController,
+                            label: strings.password,
+                            obscureText: _obscurePassword,
+                            textInputAction: TextInputAction.done,
+                            prefixIcon: const Icon(
+                              Icons.lock_outline_rounded,
+                            ),
+                            suffixIcon: IconButton(
+                              tooltip: _obscurePassword
+                                  ? strings.show_password
+                                  : strings.hide_password,
+                              onPressed: isLoading
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        _obscurePassword = !_obscurePassword;
+                                      });
+                                    },
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                              ),
+                            ),
+                            enabled: !isLoading,
+                            onSubmitted: (_) => _submit(),
+                          ),
+                          Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: TextButton(
+                              onPressed: isLoading
+                                  ? null
+                                  : () => context.router.push(
+                                      const ForgotPasswordRoute(),
+                                    ),
+                              child: Text(strings.forgot_password),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          FilledButton(
+                            onPressed: isLoading ? null : _submit,
+                            child: isLoading
+                                ? const SizedBox.square(
+                                    dimension: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(strings.submit),
+                          ),
+                          const SizedBox(height: 14),
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text(strings.no_account),
+                              TextButton(
+                                onPressed: isLoading
+                                    ? null
+                                    : () => context.router.push(
+                                        const RegisterRoute(),
+                                      ),
+                                child: Text(strings.register),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
                         ],
                       ),
-                      const SizedBox(height: 8),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           );
         },
       ),
@@ -242,14 +286,6 @@ class _LoginPageState extends State<LoginPage> {
     context.read<ApplicationStartCubit>().updateThemeMode(nextMode);
   }
 
-  /*void _showComingSoon() {
-    final messenger = ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(content: Text(context.t.auth.login.coming_soon)),
-      );
-  }*/
-
   Future<void> _submit() {
     return context.read<AuthCubit>().login(
       email: _emailController.text,
@@ -276,10 +312,13 @@ class _AppBarSquareAction extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: Material(
-
+        color: colors.surfaceContainerLow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: colors.primary.withAlpha(150),width: 2),
+          side: BorderSide(
+            color: colors.primary.withValues(alpha: .55),
+            width: 1.5,
+          ),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
