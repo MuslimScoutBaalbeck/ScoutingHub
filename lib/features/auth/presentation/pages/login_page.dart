@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                           Expanded(
                             child: OutlinedButton.icon(
                               onPressed: _showComingSoon,
-                              icon: const _GoogleIcon(),
+                              icon: const Text('G'),
                               label: Text(strings.google),
                             ),
                           ),
@@ -270,8 +270,6 @@ class _LoginPageState extends State<LoginPage> {
 
   /*void _showComingSoon() {
     final messenger = ScaffoldMessenger.of(context)
-
-
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(content: Text(context.t.auth.login.coming_soon)),
@@ -282,20 +280,6 @@ class _LoginPageState extends State<LoginPage> {
     return context.read<AuthCubit>().login(
       email: _emailController.text,
       password: _passwordController.text,
-    );
-  }
-}
-
-class _GoogleIcon extends StatelessWidget {
-  const _GoogleIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      'G',
-      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-        fontWeight: FontWeight.w700,
-      ),
     );
   }
 }
