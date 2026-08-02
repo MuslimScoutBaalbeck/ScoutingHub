@@ -15,7 +15,7 @@ class _StartupLoadingState extends State<StartupLoading>
   late final Animation<double> _progress;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -25,7 +25,7 @@ class _StartupLoadingState extends State<StartupLoading>
       parent: _controller,
       curve: Curves.easeInOutCubic,
     );
-    await _controller.forward();
+    _controller.forward();
   }
 
   @override
