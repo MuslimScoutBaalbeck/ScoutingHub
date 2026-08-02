@@ -1,12 +1,16 @@
 {
-  "title": "Welcome back",
-  "subtitle": "Sign in to continue to Scouting Hub.",
+  "title": "Welcome to Muslim Scout APP",
+  "subtitle": "Sign in to continue your scouting journey.",
   "email": "Email address",
   "password": "Password",
   "forgot_password": "Forgot password?",
   "submit": "Sign in",
   "no_account": "Don't have an account?",
   "register": "Create account",
+  "switch_language": "Switch language",
+  "switch_theme": "Switch theme",
+  "show_password": "Show password",
+  "hide_password": "Hide password",
   "demo_credentials": "Demo: demo@example.com / password",
   "invalid_credentials": "The email or password is incorrect.",
   "required_fields": "Email and password are required."
