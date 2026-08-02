@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                               strings.adventure_words.more,
                             ],
                           ),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 24),
                           AuthTextField(
                             controller: _emailController,
                             label: strings.email,
@@ -298,6 +298,7 @@ class _AdventureAnimatedText extends StatelessWidget {
     final animatedTextStyle = textStyle?.copyWith(
       color: colors.primary,
       fontWeight: FontWeight.w700,
+      height: 1.25,
     );
 
     return Semantics(
@@ -305,9 +306,8 @@ class _AdventureAnimatedText extends StatelessWidget {
       child: ExcludeSemantics(
         child: SizedBox(
           height: 38,
+          width: 180,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
             children: [
               Text(prefix, style: textStyle),
               const SizedBox(width: 8),
@@ -324,7 +324,6 @@ class _AdventureAnimatedText extends StatelessWidget {
                         RotateAnimatedText(
                           word,
                           duration: const Duration(milliseconds: 1400),
-                          textAlign: TextAlign.start,
                           textStyle: animatedTextStyle,
                         ),
                     ],

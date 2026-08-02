@@ -183,6 +183,11 @@ class _Translations$auth$login$ar extends Translations$auth$login$en {
   @override
   String get subtitle => 'سجّل الدخول لمتابعة مغامرتك';
   @override
+  String get adventure_prefix => 'ابدأ';
+  @override
+  late final _Translations$auth$login$adventure_words$ar adventure_words =
+      _Translations$auth$login$adventure_words$ar._(_root);
+  @override
   String get email => 'البريد الإلكتروني';
   @override
   String get password => 'كلمة المرور';
@@ -309,4 +314,26 @@ class _Translations$auth$welcome$ar extends Translations$auth$welcome$en {
   String get register => 'إنشاء حساب';
   @override
   String get continue_as_guest => 'الاستكشاف كزائر';
+}
+
+// Path: auth.login.adventure_words
+class _Translations$auth$login$adventure_words$ar
+    extends Translations$auth$login$adventure_words$en {
+  _Translations$auth$login$adventure_words$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
+
+  final TranslationsAr _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get adventure => 'مغامرتك';
+  @override
+  String get explore => 'الاستكشاف';
+  @override
+  String get manage => 'الإدارة';
+  @override
+  String get lead => 'القيادة';
+  @override
+  String get more => 'والمزيد';
 }

@@ -221,6 +221,14 @@ class Translations$auth$login$en {
   /// ar: 'سجّل الدخول لمتابعة مغامرتك'
   String get subtitle => 'Login to continue your adventure';
 
+  /// en: 'Start'
+  ///
+  /// ar: 'ابدأ'
+  String get adventure_prefix => 'Start';
+
+  late final Translations$auth$login$adventure_words$en adventure_words =
+      Translations$auth$login$adventure_words$en.internal(_root);
+
   /// en: 'Email'
   ///
   /// ar: 'البريد الإلكتروني'
@@ -470,4 +478,38 @@ class Translations$auth$welcome$en {
   ///
   /// ar: 'الاستكشاف كزائر'
   String get continue_as_guest => 'Explore as guest';
+}
+
+// Path: auth.login.adventure_words
+class Translations$auth$login$adventure_words$en {
+  Translations$auth$login$adventure_words$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'your adventure'
+  ///
+  /// ar: 'مغامرتك'
+  String get adventure => 'your adventure';
+
+  /// en: 'exploring'
+  ///
+  /// ar: 'الاستكشاف'
+  String get explore => 'exploring';
+
+  /// en: 'managing'
+  ///
+  /// ar: 'الإدارة'
+  String get manage => 'managing';
+
+  /// en: 'leading'
+  ///
+  /// ar: 'القيادة'
+  String get lead => 'leading';
+
+  /// en: 'and more'
+  ///
+  /// ar: 'والمزيد'
+  String get more => 'and more';
 }
