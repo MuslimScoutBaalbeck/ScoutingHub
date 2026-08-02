@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract final class AppTheme {
+  static const String fontFamily = 'IBM Plex Sans Arabic';
+
   static const Color brandPurple = Color(0xFF652390);
   static const Color brandPurpleDark = Color(0xFF8F5CC2);
   static const Color lightBackground = Color(0xFFFFFFFF);
@@ -28,7 +30,7 @@ abstract final class AppTheme {
     return _buildTheme(
       colorScheme: colorScheme,
       scaffoldBackgroundColor: lightBackground,
-      inputFillColor: const Color(0xFFF8F7FA),
+      inputFillColor: lightBackground,
     );
   }
 
@@ -54,7 +56,7 @@ abstract final class AppTheme {
     return _buildTheme(
       colorScheme: colorScheme,
       scaffoldBackgroundColor: darkBackground,
-      inputFillColor: darkSurface,
+      inputFillColor: darkBackground,
     );
   }
 
@@ -63,14 +65,25 @@ abstract final class AppTheme {
     required Color scaffoldBackgroundColor,
     required Color inputFillColor,
   }) {
-    final borderRadius = BorderRadius.circular(16);
+    final borderRadius = BorderRadius.circular(14);
+    final textTheme = ThemeData(
+      brightness: colorScheme.brightness,
+      fontFamily: fontFamily,
+    ).textTheme.apply(
+      fontFamily: fontFamily,
+      bodyColor: colorScheme.onSurface,
+      displayColor: colorScheme.onSurface,
+    );
 
     return ThemeData(
       useMaterial3: true,
+      brightness: colorScheme.brightness,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       canvasColor: scaffoldBackgroundColor,
-      fontFamily: 'IBM Plex Sans',
+      fontFamily: fontFamily,
+      textTheme: textTheme,
+      primaryTextTheme: textTheme,
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -78,7 +91,11 @@ abstract final class AppTheme {
         backgroundColor: scaffoldBackgroundColor,
         foregroundColor: colorScheme.onSurface,
         surfaceTintColor: Colors.transparent,
+        titleTextStyle: textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
       ),
+      iconTheme: IconThemeData(color: colorScheme.onSurface),
       cardTheme: CardThemeData(
         elevation: 0,
         color: colorScheme.surfaceContainerLow,
@@ -92,9 +109,13 @@ abstract final class AppTheme {
         filled: true,
         fillColor: inputFillColor,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 18,
+          horizontal: 16,
           vertical: 16,
         ),
+        labelStyle: TextStyle(color: colorScheme.onSurfaceVariant),
+        hintStyle: TextStyle(color: colorScheme.onSurfaceVariant),
+        prefixIconColor: colorScheme.onSurfaceVariant,
+        suffixIconColor: colorScheme.onSurfaceVariant,
         border: OutlineInputBorder(
           borderRadius: borderRadius,
           borderSide: BorderSide(color: colorScheme.outline),
@@ -107,27 +128,47 @@ abstract final class AppTheme {
           borderRadius: borderRadius,
           borderSide: BorderSide(color: colorScheme.primary, width: 1.8),
         ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: borderRadius,
+          borderSide: BorderSide(
+            color: colorScheme.outlineVariant.withValues(alpha: .5),
+          ),
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
+          disabledBackgroundColor: colorScheme.primary.withValues(alpha: .45),
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
-          textStyle: const TextStyle(fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(
+            fontFamily: fontFamily,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
-          foregroundColor: colorScheme.primary,
-          side: BorderSide(color: colorScheme.outline),
+          foregroundColor: colorScheme.onSurface,
+          side: BorderSide(color: colorScheme.outlineVariant),
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
-          textStyle: const TextStyle(fontWeight: FontWeight.w700),
+          textStyle: const TextStyle(
+            fontFamily: fontFamily,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(foregroundColor: colorScheme.primary),
+        style: TextButton.styleFrom(
+          foregroundColor: colorScheme.primary,
+          textStyle: const TextStyle(
+            fontFamily: fontFamily,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
         color: colorScheme.primary,
@@ -141,7 +182,10 @@ abstract final class AppTheme {
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
         backgroundColor: colorScheme.inverseSurface,
-        contentTextStyle: TextStyle(color: colorScheme.onInverseSurface),
+        contentTextStyle: TextStyle(
+          color: colorScheme.onInverseSurface,
+          fontFamily: fontFamily,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
     );
