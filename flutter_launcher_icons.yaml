@@ -1,26 +1,25 @@
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/branding/launcher/production/wareed_launcher_icon.png
+  image_path: assets/branding/generated/muslim_scout_launcher.png
   min_sdk_android: 21
 
   remove_alpha_ios: true
-  background_color_ios: "#0A0C18"
+  background_color_ios: "#FFFFFF"
 
-  adaptive_icon_background: "#0A0C18"
-  adaptive_icon_foreground: assets/branding/launcher/base/wareed_launcher_foreground.png
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: assets/branding/generated/muslim_scout_launcher.png
   adaptive_icon_foreground_inset: 18
-  adaptive_icon_monochrome: assets/branding/launcher/base/wareed_launcher_monochrome.png
 
   web:
     generate: true
-    image_path: assets/branding/launcher/production/wareed_launcher_playstore.png
-    background_color: "#0A0C18"
-    theme_color: "#7C3AED"
+    image_path: assets/branding/generated/muslim_scout_launcher.png
+    background_color: "#FFFFFF"
+    theme_color: "#652390"
 
   windows:
     generate: true
-    image_path: assets/branding/launcher/production/wareed_launcher_icon.png
+    image_path: assets/branding/generated/muslim_scout_launcher.png
     icon_size: 48
 
   macos:
