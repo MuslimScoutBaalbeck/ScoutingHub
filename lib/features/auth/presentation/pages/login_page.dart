@@ -48,9 +48,14 @@ class _LoginPageState extends State<LoginPage> {
     final colors = theme.colorScheme;
     final localeCode = LocaleSettings.currentLocale.languageCode;
     final languageCode = localeCode.toUpperCase();
+    final contentTopPadding =
+        MediaQuery.paddingOf(context).top + kToolbarHeight + 8;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: context.router.canPop(),
         actions: [
           _AppBarSquareAction(
@@ -79,36 +84,41 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(width: 16),
         ],
       ),
-      body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) async {
-          if (state case AuthError(:final message)) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(content: Text(message)));
-          }
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const AppDecorativeBackground(
+            topOpacity: .05,
+            bottomOpacity: .035,
+          ),
+          BlocConsumer<AuthCubit, AuthState>(
+            listener: (context, state) async {
+              if (state case AuthError(:final message)) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(SnackBar(content: Text(message)));
+              }
 
-          if (state is AuthAuthenticated) {
-            await context.router.replaceAll([const HomeRoute()]);
-          }
-        },
-        builder: (context, state) {
-          final isLoading = state is AuthLoading;
+              if (state is AuthAuthenticated) {
+                await context.router.replaceAll([const HomeRoute()]);
+              }
+            },
+            builder: (context, state) {
+              final isLoading = state is AuthLoading;
 
-          return Stack(
-            fit: StackFit.expand,
-            children: [
-              const AppDecorativeBackground(
-                topOpacity: .05,
-                bottomOpacity: .035,
-              ),
-              SafeArea(
+              return SafeArea(
                 top: false,
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 480),
                     child: AutofillGroup(
                       child: ListView(
-                        padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
+                        padding: EdgeInsets.fromLTRB(
+                          24,
+                          contentTopPadding,
+                          24,
+                          32,
+                        ),
                         shrinkWrap: true,
                         children: [
                           Align(
@@ -123,52 +133,25 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          Semantics(
-                            header: true,
-                            label: strings.title,
-                            child: ExcludeSemantics(
-                              child: AnimatedTextKit(
-                                key: ValueKey('login-title-$localeCode'),
-                                isRepeatingAnimation: false,
-                                totalRepeatCount: 1,
-                                displayFullTextOnTap: true,
-                                animatedTexts: [
-                                  TyperAnimatedText(
-                                    strings.title,
-                                    textAlign: TextAlign.center,
-                                    speed: const Duration(milliseconds: 42),
-                                    textStyle: theme.textTheme.headlineSmall
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          height: 1.25,
-                                        ),
-                                  ),
-                                ],
-                              ),
+                          Text(
+                            strings.title,
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              height: 1.25,
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Semantics(
-                            label: strings.subtitle,
-                            child: ExcludeSemantics(
-                              child: AnimatedTextKit(
-                                key: ValueKey('login-subtitle-$localeCode'),
-                                isRepeatingAnimation: false,
-                                totalRepeatCount: 1,
-                                displayFullTextOnTap: true,
-                                animatedTexts: [
-                                  FadeAnimatedText(
-                                    strings.subtitle,
-                                    textAlign: TextAlign.center,
-                                    duration: const Duration(milliseconds: 900),
-                                    textStyle: theme.textTheme.bodyMedium
-                                        ?.copyWith(
-                                          color: colors.onSurfaceVariant,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          const SizedBox(height: 10),
+                          _AdventureAnimatedText(
+                            key: ValueKey('adventure-$localeCode'),
+                            prefix: strings.adventure_prefix,
+                            words: [
+                              strings.adventure_words.adventure,
+                              strings.adventure_words.explore,
+                              strings.adventure_words.manage,
+                              strings.adventure_words.lead,
+                              strings.adventure_words.more,
+                            ],
                           ),
                           const SizedBox(height: 32),
                           AuthTextField(
@@ -253,10 +236,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -290,6 +273,68 @@ class _LoginPageState extends State<LoginPage> {
     return context.read<AuthCubit>().login(
       email: _emailController.text,
       password: _passwordController.text,
+    );
+  }
+}
+
+class _AdventureAnimatedText extends StatelessWidget {
+  const _AdventureAnimatedText({
+    required this.prefix,
+    required this.words,
+    super.key,
+  });
+
+  final String prefix;
+  final List<String> words;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final textStyle = theme.textTheme.titleMedium?.copyWith(
+      fontWeight: FontWeight.w600,
+      color: colors.onSurfaceVariant,
+    );
+    final animatedTextStyle = textStyle?.copyWith(
+      color: colors.primary,
+      fontWeight: FontWeight.w700,
+    );
+
+    return Semantics(
+      label: '$prefix ${words.join(', ')}',
+      child: ExcludeSemantics(
+        child: SizedBox(
+          height: 38,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(prefix, style: textStyle),
+              const SizedBox(width: 8),
+              Flexible(
+                child: DefaultTextStyle(
+                  style: animatedTextStyle ?? const TextStyle(),
+                  textAlign: TextAlign.start,
+                  child: AnimatedTextKit(
+                    repeatForever: true,
+                    pause: const Duration(milliseconds: 650),
+                    displayFullTextOnTap: true,
+                    animatedTexts: [
+                      for (final word in words)
+                        RotateAnimatedText(
+                          word,
+                          duration: const Duration(milliseconds: 1400),
+                          textAlign: TextAlign.start,
+                          textStyle: animatedTextStyle,
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
