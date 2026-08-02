@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
-import 'package:scouting_hub/core/ui/atoms/app_back_button.dart';
-import 'package:scouting_hub/core/ui/atoms/app_square_action.dart';
+import 'package:scouting_hub/core/theme/tokens/tokens.dart';
+import 'package:scouting_hub/core/ui/widgets/atoms/app_back_button.dart';
+import 'package:scouting_hub/core/ui/widgets/atoms/app_gap.dart';
+import 'package:scouting_hub/core/ui/widgets/atoms/app_square_action.dart';
+import 'package:scouting_hub/core/ui/widgets/atoms/app_text.dart';
 import 'package:scouting_hub/core/ui/widgets/app_decorative_background.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
@@ -14,10 +17,10 @@ class AuthTemplatePage extends StatelessWidget {
     required this.subtitle,
     required this.child,
     super.key,
-    this.logoWidth = 150,
-    this.logoHeight = 150,
-    this.maxWidth = 480,
-    this.contentSpacing = 32,
+    this.logoWidth = AppSize.logoLg,
+    this.logoHeight = AppSize.logoLg,
+    this.maxWidth = AppSize.contentMaxWidth,
+    this.contentSpacing = AppSpacing.xl,
     this.showAppBarActions = true,
   });
 
@@ -38,7 +41,7 @@ class AuthTemplatePage extends StatelessWidget {
     final languageCode = LocaleSettings.currentLocale.languageCode.toUpperCase();
     final canPop = context.router.canPop();
     final contentTopPadding =
-        MediaQuery.paddingOf(context).top + kToolbarHeight + 8;
+        MediaQuery.paddingOf(context).top + kToolbarHeight + AppSpacing.xs;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -53,9 +56,13 @@ class AuthTemplatePage extends StatelessWidget {
                 AppSquareAction(
                   tooltip: strings.switch_language,
                   onPressed: () => _switchLanguage(context),
-                  child: Text(languageCode),
+                  child: AppText.caption(
+                    languageCode,
+                    color: colors.primary,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                const SizedBox(width: 8),
+                AppGap.horizontalXs,
                 AppSquareAction(
                   tooltip: strings.switch_theme,
                   onPressed: () => _switchTheme(context),
@@ -63,9 +70,11 @@ class AuthTemplatePage extends StatelessWidget {
                     theme.brightness == Brightness.dark
                         ? Icons.light_mode_outlined
                         : Icons.dark_mode_outlined,
+                    size: AppSize.iconSm,
+                    color: colors.primary,
                   ),
                 ),
-                const SizedBox(width: 16),
+                AppGap.horizontalMd,
               ]
             : null,
       ),
@@ -83,10 +92,10 @@ class AuthTemplatePage extends StatelessWidget {
                 constraints: BoxConstraints(maxWidth: maxWidth),
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(
-                    24,
+                    AppSpacing.lg,
                     contentTopPadding,
-                    24,
-                    32,
+                    AppSpacing.lg,
+                    AppSpacing.xl,
                   ),
                   shrinkWrap: true,
                   children: [
@@ -101,23 +110,18 @@ class AuthTemplatePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Text(
+                    AppGap.verticalLg,
+                    AppText.heading(
                       title,
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        height: 1.25,
-                      ),
+                      fontWeight: FontWeight.w700,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
+                    AppGap.verticalXs,
+                    AppText.body(
                       subtitle,
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: colors.onSurfaceVariant,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      color: colors.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
                     ),
                     SizedBox(height: contentSpacing),
                     child,
