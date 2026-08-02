@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,8 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     final strings = context.t.auth.login;
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    final localeCode = LocaleSettings.currentLocale.languageCode;
-    final languageCode = localeCode.toUpperCase();
+    final languageCode = LocaleSettings.currentLocale.languageCode.toUpperCase();
     final contentTopPadding =
         MediaQuery.paddingOf(context).top + kToolbarHeight + 8;
 
@@ -142,16 +140,13 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          _AdventureAnimatedText(
-                            key: ValueKey('adventure-$localeCode'),
-                            prefix: strings.adventure_prefix,
-                            words: [
-                              strings.adventure_words.adventure,
-                              strings.adventure_words.explore,
-                              strings.adventure_words.manage,
-                              strings.adventure_words.lead,
-                              strings.adventure_words.more,
-                            ],
+                          Text(
+                            strings.subtitle,
+                            textAlign: TextAlign.center,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: colors.onSurfaceVariant,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                           const SizedBox(height: 32),
                           AuthTextField(
@@ -273,68 +268,6 @@ class _LoginPageState extends State<LoginPage> {
     return context.read<AuthCubit>().login(
       email: _emailController.text,
       password: _passwordController.text,
-    );
-  }
-}
-
-class _AdventureAnimatedText extends StatelessWidget {
-  const _AdventureAnimatedText({
-    required this.prefix,
-    required this.words,
-    super.key,
-  });
-
-  final String prefix;
-  final List<String> words;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.colorScheme;
-    final textStyle = theme.textTheme.titleMedium?.copyWith(
-      fontWeight: FontWeight.w600,
-      color: colors.onSurfaceVariant,
-    );
-    final animatedTextStyle = textStyle?.copyWith(
-      color: colors.primary,
-      fontWeight: FontWeight.w700,
-    );
-
-    return Semantics(
-      label: '$prefix ${words.join(', ')}',
-      child: ExcludeSemantics(
-        child: SizedBox(
-          height: 38,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(prefix, style: textStyle),
-              const SizedBox(width: 8),
-              Flexible(
-                child: DefaultTextStyle(
-                  style: animatedTextStyle ?? const TextStyle(),
-                  textAlign: TextAlign.start,
-                  child: AnimatedTextKit(
-                    repeatForever: true,
-                    pause: const Duration(milliseconds: 650),
-                    displayFullTextOnTap: true,
-                    animatedTexts: [
-                      for (final word in words)
-                        RotateAnimatedText(
-                          word,
-                          duration: const Duration(milliseconds: 1400),
-                          textAlign: TextAlign.start,
-                          textStyle: animatedTextStyle,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
