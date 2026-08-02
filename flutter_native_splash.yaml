@@ -4,12 +4,17 @@ flutter_native_splash:
   web: false
 
   color: "#FFFFFF"
+  color_dark: "#0D0D12"
   image: assets/branding/muslim_scout_logo.png
+  image_dark: assets/branding/muslim_scout_logo.png
   android_gravity: center
   ios_content_mode: center
   fullscreen: true
 
   android_12:
     color: "#FFFFFF"
+    color_dark: "#0D0D12"
     image: assets/branding/muslim_scout_logo.png
+    image_dark: assets/branding/muslim_scout_logo.png
     icon_background_color: "#FFFFFF"
+    icon_background_color_dark: "#0D0D12"

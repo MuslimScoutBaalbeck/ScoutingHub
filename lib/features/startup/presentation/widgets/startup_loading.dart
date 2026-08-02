@@ -27,9 +27,8 @@ class _StartupLoadingState extends State<StartupLoading>
       parent: _controller,
       curve: Curves.easeInOutCubic,
     );
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _controller.forward();
-    });
+
+    _controller.forward();
   }
 
   @override
@@ -45,7 +44,7 @@ class _StartupLoadingState extends State<StartupLoading>
     final translations = context.t;
 
     return ColoredBox(
-      color: colors.surface,
+      color: theme.scaffoldBackgroundColor,
       child: Stack(
         fit: StackFit.expand,
         children: [
