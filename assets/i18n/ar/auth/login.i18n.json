@@ -1,3 +1,13 @@
 {
-
+  "title": "مرحباً بعودتك",
+  "subtitle": "سجّل الدخول للمتابعة إلى منصة الكشاف.",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "forgot_password": "نسيت كلمة المرور؟",
+  "submit": "تسجيل الدخول",
+  "no_account": "ليس لديك حساب؟",
+  "register": "إنشاء حساب",
+  "demo_credentials": "للتجربة: demo@example.com / password",
+  "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+  "required_fields": "البريد الإلكتروني وكلمة المرور مطلوبان."
 }
