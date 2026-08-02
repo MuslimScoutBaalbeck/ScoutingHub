@@ -1,0 +1,12 @@
+{
+  "email_required": "Email is required.",
+  "email_password_required": "Email and password are required.",
+  "registration_fields_invalid": "Enter a name and valid email, and use a password with at least 8 characters.",
+  "password_mismatch": "The password confirmation does not match.",
+  "reset_fields_invalid": "Complete all fields correctly and use a password with at least 8 characters.",
+  "invalid_credentials": "The email or password is incorrect.",
+  "email_already_exists": "An account already exists for this email address.",
+  "invalid_reset_code": "The password reset code is invalid.",
+  "unauthenticated": "No authenticated session exists.",
+  "unexpected": "An unexpected error occurred. Please try again."
+}
