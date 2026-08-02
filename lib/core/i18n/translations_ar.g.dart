@@ -179,9 +179,9 @@ class _Translations$auth$login$ar extends Translations$auth$login$en {
 
   // Translations
   @override
-  String get title => 'مرحباً بعودتك';
+  String get title => 'مرحباً بك في منصة الكشاف المسلم';
   @override
-  String get subtitle => 'سجّل الدخول للمتابعة إلى منصة الكشاف.';
+  String get subtitle => 'سجّل الدخول لمتابعة رحلتك الكشفية.';
   @override
   String get email => 'البريد الإلكتروني';
   @override
@@ -194,6 +194,14 @@ class _Translations$auth$login$ar extends Translations$auth$login$en {
   String get no_account => 'ليس لديك حساب؟';
   @override
   String get register => 'إنشاء حساب';
+  @override
+  String get switch_language => 'تبديل اللغة';
+  @override
+  String get switch_theme => 'تبديل المظهر';
+  @override
+  String get show_password => 'إظهار كلمة المرور';
+  @override
+  String get hide_password => 'إخفاء كلمة المرور';
   @override
   String get demo_credentials => 'للتجربة: demo@example.com / password';
   @override
@@ -283,14 +291,14 @@ class _Translations$auth$welcome$ar extends Translations$auth$welcome$en {
 
   // Translations
   @override
-  String get title => 'أهلاً بك في منصة الكشاف';
+  String get title => 'أهلاً بك في تطبيق الكشاف المسلم';
   @override
   String get subtitle =>
-      'مكتبتك الكشفية والأنشطة والأناشيد والموارد التعليمية في مكان واحد.';
+      'اكتشف الأناشيد والأنشطة والموارد التعليمية والأدوات الكشفية في مكان واحد.';
   @override
   String get login => 'تسجيل الدخول';
   @override
   String get register => 'إنشاء حساب';
   @override
-  String get continue_as_guest => 'المتابعة كزائر';
+  String get continue_as_guest => 'الاستكشاف كزائر';
 }

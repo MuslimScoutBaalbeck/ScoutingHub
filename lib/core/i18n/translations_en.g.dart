@@ -210,15 +210,15 @@ class Translations$auth$login$en {
 
   // Translations
 
-  /// en: 'Welcome back'
+  /// en: 'Welcome to Muslim Scout APP'
   ///
-  /// ar: 'مرحباً بعودتك'
-  String get title => 'Welcome back';
+  /// ar: 'مرحباً بك في منصة الكشاف المسلم'
+  String get title => 'Welcome to Muslim Scout APP';
 
-  /// en: 'Sign in to continue to Scouting Hub.'
+  /// en: 'Sign in to continue your scouting journey.'
   ///
-  /// ar: 'سجّل الدخول للمتابعة إلى منصة الكشاف.'
-  String get subtitle => 'Sign in to continue to Scouting Hub.';
+  /// ar: 'سجّل الدخول لمتابعة رحلتك الكشفية.'
+  String get subtitle => 'Sign in to continue your scouting journey.';
 
   /// en: 'Email address'
   ///
@@ -249,6 +249,26 @@ class Translations$auth$login$en {
   ///
   /// ar: 'إنشاء حساب'
   String get register => 'Create account';
+
+  /// en: 'Switch language'
+  ///
+  /// ar: 'تبديل اللغة'
+  String get switch_language => 'Switch language';
+
+  /// en: 'Switch theme'
+  ///
+  /// ar: 'تبديل المظهر'
+  String get switch_theme => 'Switch theme';
+
+  /// en: 'Show password'
+  ///
+  /// ar: 'إظهار كلمة المرور'
+  String get show_password => 'Show password';
+
+  /// en: 'Hide password'
+  ///
+  /// ar: 'إخفاء كلمة المرور'
+  String get hide_password => 'Hide password';
 
   /// en: 'Demo: demo@example.com / password'
   ///
@@ -404,16 +424,16 @@ class Translations$auth$welcome$en {
 
   // Translations
 
-  /// en: 'Welcome to Scouting Hub'
+  /// en: 'Welcome to Muslim Scout APP'
   ///
-  /// ar: 'أهلاً بك في منصة الكشاف'
-  String get title => 'Welcome to Scouting Hub';
+  /// ar: 'أهلاً بك في تطبيق الكشاف المسلم'
+  String get title => 'Welcome to Muslim Scout APP';
 
-  /// en: 'Your scouting library, activities, chants, and learning resources in one place.'
+  /// en: 'Discover scout chants, activities, learning resources, and community tools in one place.'
   ///
-  /// ar: 'مكتبتك الكشفية والأنشطة والأناشيد والموارد التعليمية في مكان واحد.'
+  /// ar: 'اكتشف الأناشيد والأنشطة والموارد التعليمية والأدوات الكشفية في مكان واحد.'
   String get subtitle =>
-      'Your scouting library, activities, chants, and learning resources in one place.';
+      'Discover scout chants, activities, learning resources, and community tools in one place.';
 
   /// en: 'Sign in'
   ///
@@ -425,8 +445,8 @@ class Translations$auth$welcome$en {
   /// ar: 'إنشاء حساب'
   String get register => 'Create account';
 
-  /// en: 'Continue as guest'
+  /// en: 'Explore as guest'
   ///
-  /// ar: 'المتابعة كزائر'
-  String get continue_as_guest => 'Continue as guest';
+  /// ar: 'الاستكشاف كزائر'
+  String get continue_as_guest => 'Explore as guest';
 }

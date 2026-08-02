@@ -27,8 +27,10 @@ class _StartupLoadingState extends State<StartupLoading>
       parent: _controller,
       curve: Curves.easeInOutCubic,
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _controller.forward();
+    });
 
-    _controller.forward();
   }
 
   @override

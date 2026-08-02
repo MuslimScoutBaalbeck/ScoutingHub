@@ -102,10 +102,14 @@ flutter:
     - assets/data/auth/
     - assets/data/chants/
     - assets/data/chants/collections/
-
   fonts:
-    - family: IBM Plex Sans
+    - family: IBM Plex Sans Arabic
       fonts:
-        - asset: assets/fonts/IBM_Plex_Sans/IBMPlexSans.ttf
-        - asset: assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf
-          style: italic
+        - asset: assets/fonts/IBM_Plex_Sans_Arabic/IBMPlexSansArabic-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBM_Plex_Sans_Arabic/IBMPlexSansArabic-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBM_Plex_Sans_Arabic/IBMPlexSansArabic-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/IBM_Plex_Sans_Arabic/IBMPlexSansArabic-Bold.ttf
+          weight: 700

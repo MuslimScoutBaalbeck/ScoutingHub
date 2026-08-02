@@ -110,6 +110,13 @@ class _LoginPageState extends State<LoginPage> {
                           fontWeight: FontWeight.w800,
                         ),
                       ),
+                      Text(
+                        strings.title,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
                       const SizedBox(height: 32),
                       AuthTextField(
                         controller: _emailController,
@@ -133,10 +140,10 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: isLoading
                               ? null
                               : () {
-                                  setState(() {
-                                    _obscurePassword = !_obscurePassword;
-                                  });
-                                },
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
                           icon: Icon(
                             _obscurePassword
                                 ? Icons.visibility_outlined
@@ -152,8 +159,8 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: isLoading
                               ? null
                               : () => context.router.push(
-                                  const ForgotPasswordRoute(),
-                                ),
+                            const ForgotPasswordRoute(),
+                          ),
                           child: Text(strings.forgot_password),
                         ),
                       ),
@@ -162,11 +169,11 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: isLoading ? null : _submit,
                         child: isLoading
                             ? const SizedBox.square(
-                                dimension: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
+                          dimension: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
                             : Text(strings.submit),
                       ),
                       const SizedBox(height: 20),
@@ -179,8 +186,8 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: isLoading
                                 ? null
                                 : () => context.router.push(
-                                    const RegisterRoute(),
-                                  ),
+                              const RegisterRoute(),
+                            ),
                             child: Text(strings.register),
                           ),
                         ],

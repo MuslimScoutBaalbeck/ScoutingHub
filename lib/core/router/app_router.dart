@@ -13,7 +13,6 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(page: StartupRoute.page, path: '/', initial: true),
 
-
     /** Authentication **/
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
