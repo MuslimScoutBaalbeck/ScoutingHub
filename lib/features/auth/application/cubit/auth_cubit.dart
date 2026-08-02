@@ -11,24 +11,30 @@ import 'package:scouting_hub/features/auth/domain/usecases/restore_session.dart'
 @injectable
 final class AuthCubit extends Cubit<AuthState> {
   AuthCubit({
-    required this._login,
-    required this._register,
-    required this._restoreSession,
-    required this._logout,
-    required this._forgotPassword,
-    required this._resetPassword,
-  }) : super(const AuthInitial());
+    required LoginUseCase loginUseCase,
+    required RegisterUseCase registerUseCase,
+    required RestoreSession restoreSessionUseCase,
+    required Logout logoutUseCase,
+    required ForgotPasswordUseCase forgotPasswordUseCase,
+    required ResetPasswordUseCase resetPasswordUseCase,
+  }) : _loginUseCase = loginUseCase,
+       _registerUseCase = registerUseCase,
+       _restoreSessionUseCase = restoreSessionUseCase,
+       _logoutUseCase = logoutUseCase,
+       _forgotPasswordUseCase = forgotPasswordUseCase,
+       _resetPasswordUseCase = resetPasswordUseCase,
+       super(const AuthInitial());
 
-  final Login _login;
-  final Register _register;
-  final RestoreSession _restoreSession;
-  final Logout _logout;
-  final ForgotPassword _forgotPassword;
-  final ResetPassword _resetPassword;
+  final LoginUseCase _loginUseCase;
+  final RegisterUseCase _registerUseCase;
+  final RestoreSession _restoreSessionUseCase;
+  final Logout _logoutUseCase;
+  final ForgotPasswordUseCase _forgotPasswordUseCase;
+  final ResetPasswordUseCase _resetPasswordUseCase;
 
   Future<void> restore() async {
     emit(const AuthLoading());
-    final result = await _restoreSession();
+    final result = await _restoreSessionUseCase();
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (session) => emit(
@@ -39,43 +45,18 @@ final class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
-    if (email.trim().isEmpty || password.isEmpty) {
-      emit(const AuthError('Email and password are required.'));
-      return;
-    }
-
+  Future<void> login({required String email, required String password}) async {
     emit(const AuthLoading());
-    final result = await _login(email: email, password: password);
+    final result = await _loginUseCase(email: email, password: password);
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (session) => emit(AuthAuthenticated(session)),
     );
   }
 
-  Future<void> register({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
-    if (name.trim().isEmpty || email.trim().isEmpty || password.length < 8) {
-      emit(
-        const AuthError(
-          'Name and email are required, and password must contain at least 8 characters.',
-        ),
-      );
-      return;
-    }
-
+  Future<void> register({required String name, required String email, required String password}) async {
     emit(const AuthLoading());
-    final result = await _register(
-      name: name,
-      email: email,
-      password: password,
-    );
+    final result = await _registerUseCase(name: name, email: email, password: password);
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (session) => emit(AuthAuthenticated(session)),
@@ -83,35 +64,17 @@ final class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> forgotPassword({required String email}) async {
-    if (email.trim().isEmpty) {
-      emit(const AuthError('Email is required.'));
-      return;
-    }
-
     emit(const AuthLoading());
-    final result = await _forgotPassword(email: email);
+    final result = await _forgotPasswordUseCase(email: email);
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const AuthActionSuccess(AuthAction.forgotPassword)),
     );
   }
 
-  Future<void> resetPassword({
-    required String email,
-    required String code,
-    required String password,
-  }) async {
-    if (email.trim().isEmpty || code.trim().isEmpty || password.length < 8) {
-      emit(const AuthError('Complete all fields correctly.'));
-      return;
-    }
-
+  Future<void> resetPassword({required String email, required String code, required String password}) async {
     emit(const AuthLoading());
-    final result = await _resetPassword(
-      email: email,
-      code: code,
-      password: password,
-    );
+    final result = await _resetPasswordUseCase(email: email, code: code, password: password);
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const AuthActionSuccess(AuthAction.resetPassword)),
@@ -120,16 +83,10 @@ final class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     emit(const AuthLoading());
-    final result = await _logout();
+    final result = await _logoutUseCase();
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const AuthUnauthenticated()),
     );
-  }
-
-  void clearError() {
-    if (state is AuthError || state is AuthActionSuccess) {
-      emit(const AuthUnauthenticated());
-    }
   }
 }
