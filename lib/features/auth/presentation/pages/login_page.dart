@@ -50,23 +50,31 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: context.router.canPop(),
-        leading: IconButton(
-          tooltip: strings.switch_theme,
-          onPressed: _switchTheme,
-          icon: Icon(
-            theme.brightness == Brightness.dark
-                ? Icons.light_mode_outlined
-                : Icons.dark_mode_outlined,
-          ),
-        ),
         actions: [
-          TextButton.icon(
+          _AppBarSquareAction(
+            tooltip: strings.switch_language,
             onPressed: _switchLanguage,
-            icon: const Icon(Icons.language_rounded, size: 20),
-            label: Text(languageCode),
+            child: Text(
+              languageCode,
+              style: theme.textTheme.labelLarge?.copyWith(
+                color: colors.primary,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
-
           const SizedBox(width: 8),
+          _AppBarSquareAction(
+            tooltip: strings.switch_theme,
+            onPressed: _switchTheme,
+            child: Icon(
+              theme.brightness == Brightness.dark
+                  ? Icons.light_mode_outlined
+                  : Icons.dark_mode_outlined,
+              size: 21,
+              color: colors.primary,
+            ),
+          ),
+          const SizedBox(width: 16),
         ],
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
@@ -96,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Align(
                         child: SvgPicture.asset(
-                          'assets/branding/muslim_scout_icon.svg',
+                          'assets/branding/muslim_scout_logo.svg',
                           width: 150,
                           height: 150,
                           colorFilter: ColorFilter.mode(
@@ -197,6 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
+                      const SizedBox(height: 8),
                     ],
                   ),
                 ),
@@ -233,10 +242,54 @@ class _LoginPageState extends State<LoginPage> {
     context.read<ApplicationStartCubit>().updateThemeMode(nextMode);
   }
 
+  /*void _showComingSoon() {
+    final messenger = ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text(context.t.auth.login.coming_soon)),
+      );
+  }*/
+
   Future<void> _submit() {
     return context.read<AuthCubit>().login(
       email: _emailController.text,
       password: _passwordController.text,
+    );
+  }
+}
+
+class _AppBarSquareAction extends StatelessWidget {
+  const _AppBarSquareAction({
+    required this.tooltip,
+    required this.onPressed,
+    required this.child,
+  });
+
+  final String tooltip;
+  final VoidCallback onPressed;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: colors.surfaceContainerLow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: colors.outlineVariant),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onPressed,
+          child: SizedBox.square(
+            dimension: 42,
+            child: Center(child: child),
+          ),
+        ),
+      ),
     );
   }
 }
