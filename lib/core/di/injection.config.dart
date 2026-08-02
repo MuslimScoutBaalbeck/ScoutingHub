@@ -30,7 +30,6 @@ import '../database/database.dart' as _i660;
 import '../router/app_router.dart' as _i81;
 import 'app_module.dart' as _i460;
 
-// initializes the registration of main-scope dependencies inside of GetIt
 _i174.GetIt $initGetIt(
   _i174.GetIt getIt, {
   String? environment,
@@ -43,8 +42,8 @@ _i174.GetIt $initGetIt(
   gh.singleton<_i123.ApplicationStartCubit>(
     () => _i123.ApplicationStartCubit(),
   );
-  gh.factory<_i107.AuthRemoteDataSource>(
-    () => _i305.FakeAuthRemoteDataSource(delay: gh<Duration>()),
+  gh.lazySingleton<_i107.AuthRemoteDataSource>(
+    () => _i305.FakeAuthRemoteDataSource(),
   );
   gh.factory<_i787.AuthRepository>(
     () => _i153.AuthRepositoryImpl(gh<_i107.AuthRemoteDataSource>()),
