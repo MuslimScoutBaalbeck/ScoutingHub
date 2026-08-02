@@ -5,8 +5,8 @@ import 'package:scouting_hub/features/auth/domain/failures/auth_failure.dart';
 import 'package:scouting_hub/features/auth/domain/repositories/auth_repository.dart';
 
 @singleton
-final class Login {
-  const Login(this._repository);
+final class LoginUseCase {
+  const LoginUseCase(this._repository);
 
   final AuthRepository _repository;
 
