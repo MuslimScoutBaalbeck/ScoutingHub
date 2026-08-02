@@ -30,7 +30,6 @@ class _StartupLoadingState extends State<StartupLoading>
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _controller.forward();
     });
-
   }
 
   @override
@@ -68,15 +67,6 @@ class _StartupLoadingState extends State<StartupLoading>
                         colors.primary,
                         BlendMode.srcIn,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    translations.app.name,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      color: colors.primary,
-                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   const SizedBox(height: 8),

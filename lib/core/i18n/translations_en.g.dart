@@ -213,17 +213,17 @@ class Translations$auth$login$en {
   /// en: 'Welcome to Muslim Scout APP'
   ///
   /// ar: 'مرحباً بك في منصة الكشاف المسلم'
-  String get title => 'Welcome to Muslim Scout APP';
+  String get title => 'Welcome to\nMuslim Scout APP';
 
-  /// en: 'Sign in to continue your scouting journey.'
+  /// en: 'Login to continue your adventure'
   ///
-  /// ar: 'سجّل الدخول لمتابعة رحلتك الكشفية.'
-  String get subtitle => 'Sign in to continue your scouting journey.';
+  /// ar: 'سجّل الدخول لمتابعة مغامرتك'
+  String get subtitle => 'Login to continue your adventure';
 
-  /// en: 'Email address'
+  /// en: 'Email'
   ///
   /// ar: 'البريد الإلكتروني'
-  String get email => 'Email address';
+  String get email => 'Email';
 
   /// en: 'Password'
   ///
@@ -245,10 +245,30 @@ class Translations$auth$login$en {
   /// ar: 'ليس لديك حساب؟'
   String get no_account => 'Don\'t have an account?';
 
-  /// en: 'Create account'
+  /// en: 'Sign up'
   ///
   /// ar: 'إنشاء حساب'
-  String get register => 'Create account';
+  String get register => 'Sign up';
+
+  /// en: 'Or'
+  ///
+  /// ar: 'أو'
+  String get or => 'Or';
+
+  /// en: 'Google'
+  ///
+  /// ar: 'Google'
+  String get google => 'Google';
+
+  /// en: 'Apple'
+  ///
+  /// ar: 'Apple'
+  String get apple => 'Apple';
+
+  /// en: 'Coming soon'
+  ///
+  /// ar: 'قريباً'
+  String get coming_soon => 'Coming soon';
 
   /// en: 'Switch language'
   ///

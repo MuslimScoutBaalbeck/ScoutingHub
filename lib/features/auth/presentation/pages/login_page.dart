@@ -44,7 +44,8 @@ class _LoginPageState extends State<LoginPage> {
     final strings = context.t.auth.login;
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    final languageCode = LocaleSettings.currentLocale.languageCode.toUpperCase();
+    final languageCode = LocaleSettings.currentLocale.languageCode
+        .toUpperCase();
 
     return Scaffold(
       appBar: AppBar(
@@ -95,8 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                       Align(
                         child: SvgPicture.asset(
                           'assets/branding/muslim_scout_logo.svg',
-                          width: 104,
-                          height: 135,
+                          width: 150,
+                          height: 150,
                           colorFilter: ColorFilter.mode(
                             colors.primary,
                             BlendMode.srcIn,
@@ -162,8 +163,8 @@ class _LoginPageState extends State<LoginPage> {
                           onPressed: isLoading
                               ? null
                               : () => context.router.push(
-                                    const ForgotPasswordRoute(),
-                                  ),
+                                  const ForgotPasswordRoute(),
+                                ),
                           child: Text(strings.forgot_password),
                         ),
                       ),
@@ -189,14 +190,14 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: isLoading
                                 ? null
                                 : () => context.router.push(
-                                      const RegisterRoute(),
-                                    ),
+                                    const RegisterRoute(),
+                                  ),
                             child: Text(strings.register),
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
-                      Row(
+                      /*Row(
                         children: [
                           const Expanded(child: Divider()),
                           Padding(
@@ -230,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ],
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
@@ -267,15 +268,15 @@ class _LoginPageState extends State<LoginPage> {
     context.read<ApplicationStartCubit>().updateThemeMode(nextMode);
   }
 
-  void _showComingSoon() {
-    final messenger = ScaffoldMessenger.of(context);
+  /*void _showComingSoon() {
+    final messenger = ScaffoldMessenger.of(context)
 
-    messenger
+
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(content: Text(context.t.auth.login.coming_soon)),
       );
-  }
+  }*/
 
   Future<void> _submit() {
     return context.read<AuthCubit>().login(

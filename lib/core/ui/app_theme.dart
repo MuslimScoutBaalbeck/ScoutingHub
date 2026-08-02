@@ -66,14 +66,15 @@ abstract final class AppTheme {
     required Color inputFillColor,
   }) {
     final borderRadius = BorderRadius.circular(14);
-    final textTheme = ThemeData(
-      brightness: colorScheme.brightness,
-      fontFamily: fontFamily,
-    ).textTheme.apply(
-      fontFamily: fontFamily,
-      bodyColor: colorScheme.onSurface,
-      displayColor: colorScheme.onSurface,
-    );
+    final textTheme =
+        ThemeData(
+          brightness: colorScheme.brightness,
+          fontFamily: fontFamily,
+        ).textTheme.apply(
+          fontFamily: fontFamily,
+          bodyColor: colorScheme.onSurface,
+          displayColor: colorScheme.onSurface,
+        );
 
     return ThemeData(
       useMaterial3: true,

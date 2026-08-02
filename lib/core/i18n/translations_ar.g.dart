@@ -179,9 +179,9 @@ class _Translations$auth$login$ar extends Translations$auth$login$en {
 
   // Translations
   @override
-  String get title => 'مرحباً بك في منصة الكشاف المسلم';
+  String get title => 'مرحباً بك في\nمنصة الكشاف المسلم';
   @override
-  String get subtitle => 'سجّل الدخول لمتابعة رحلتك الكشفية.';
+  String get subtitle => 'سجّل الدخول لمتابعة مغامرتك';
   @override
   String get email => 'البريد الإلكتروني';
   @override
@@ -194,6 +194,14 @@ class _Translations$auth$login$ar extends Translations$auth$login$en {
   String get no_account => 'ليس لديك حساب؟';
   @override
   String get register => 'إنشاء حساب';
+  @override
+  String get or => 'أو';
+  @override
+  String get google => 'Google';
+  @override
+  String get apple => 'Apple';
+  @override
+  String get coming_soon => 'قريباً';
   @override
   String get switch_language => 'تبديل اللغة';
   @override
