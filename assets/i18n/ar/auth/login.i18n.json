@@ -1,12 +1,16 @@
 {
-  "title": "مرحباً بعودتك",
-  "subtitle": "سجّل الدخول للمتابعة إلى منصة الكشاف.",
+  "title": "مرحباً بك في منصة الكشاف المسلم",
+  "subtitle": "سجّل الدخول لمتابعة رحلتك الكشفية.",
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
   "forgot_password": "نسيت كلمة المرور؟",
   "submit": "تسجيل الدخول",
   "no_account": "ليس لديك حساب؟",
   "register": "إنشاء حساب",
+  "switch_language": "تبديل اللغة",
+  "switch_theme": "تبديل المظهر",
+  "show_password": "إظهار كلمة المرور",
+  "hide_password": "إخفاء كلمة المرور",
   "demo_credentials": "للتجربة: demo@example.com / password",
   "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
   "required_fields": "البريد الإلكتروني وكلمة المرور مطلوبان."
