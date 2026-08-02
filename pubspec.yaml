@@ -46,6 +46,7 @@ dependencies:
 
   # UI/runtime utilities.
   flutter_svg: ^2.3.0
+  animated_text_kit: ^4.3.0
   responsive_grid: ^2.4.4
 
   # Utils.
