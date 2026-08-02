@@ -110,8 +110,8 @@ class Translations$startup$en {
   /// ar: 'إعادة المحاولة'
   String get retry => 'Retry';
 
-  /// en: 'Preparing Wareed...'
+  /// en: 'Preparing Scouting Hub...'
   ///
-  /// ar: 'جاري تجهيز وريد...'
-  String get loading => 'Preparing Wareed...';
+  /// ar: 'جاري تجهيز Scouting Hub...'
+  String get loading => 'Preparing Scouting Hub...';
 }

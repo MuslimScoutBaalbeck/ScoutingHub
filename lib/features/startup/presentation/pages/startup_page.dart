@@ -36,6 +36,7 @@ class _StartupPageState extends State<StartupPage> {
     switch (destination) {
       case AppLaunchDestination.setup:
       case AppLaunchDestination.login:
+      await context.router.replaceAll([const LoginRoute()]);
       case AppLaunchDestination.pinUnlock:
       case AppLaunchDestination.home:
         await context.router.replaceAll([const HomeRoute()]);
