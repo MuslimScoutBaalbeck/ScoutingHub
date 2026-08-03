@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
@@ -7,6 +8,7 @@ import 'package:scouting_hub/features/auth/application/session/session_cubit.dar
 import 'package:scouting_hub/features/dashboard/presentation/widgets/quick_access_grid.dart';
 import 'package:scouting_hub/features/dashboard/presentation/widgets/upcoming_event_card.dart';
 
+@RoutePage()
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
