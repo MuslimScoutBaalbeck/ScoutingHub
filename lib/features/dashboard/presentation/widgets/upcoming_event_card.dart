@@ -20,39 +20,40 @@ class UpcomingEventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: AppRadius.extraLarge,
-        gradient: LinearGradient(
-          begin: AlignmentDirectional.topStart,
-          end: AlignmentDirectional.bottomEnd,
-          colors: [
-            colors.primary,
-            colors.primary.withValues(alpha: .82),
-          ],
-        ),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onPressed,
+    return SizedBox(
+      height: 190,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
           borderRadius: AppRadius.extraLarge,
-          child: Padding(
-            padding: AppSpacing.cardLarge,
-            child: Stack(
-              children: [
-                PositionedDirectional(
-                  end: -8,
-                  bottom: -18,
-                  child: Icon(
-                    Icons.terrain_rounded,
-                    size: 132,
-                    color: colors.onPrimary.withValues(alpha: .16),
+          gradient: LinearGradient(
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
+            colors: [
+              colors.primary,
+              colors.primary.withValues(alpha: .82),
+            ],
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onPressed,
+            borderRadius: AppRadius.extraLarge,
+            child: Padding(
+              padding: AppSpacing.cardLarge,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  PositionedDirectional(
+                    end: -8,
+                    bottom: -18,
+                    child: Icon(
+                      Icons.terrain_rounded,
+                      size: 132,
+                      color: colors.onPrimary.withValues(alpha: .16),
+                    ),
                   ),
-                ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 154),
-                  child: Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText.caption(
@@ -96,8 +97,8 @@ class UpcomingEventCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
