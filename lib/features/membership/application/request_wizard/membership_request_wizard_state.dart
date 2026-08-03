@@ -35,6 +35,24 @@ abstract class MembershipRequestWizardState
           .toList(growable: false) ??
       const [];
 
+  MembershipGovernorate? get selectedGovernorate {
+    for (final item in data?.governorates ?? const <MembershipGovernorate>[]) {
+      if (item.id == governorateId) {
+        return item;
+      }
+    }
+    return null;
+  }
+
+  MembershipDistrict? get selectedDistrict {
+    for (final item in data?.districts ?? const <MembershipDistrict>[]) {
+      if (item.id == districtId) {
+        return item;
+      }
+    }
+    return null;
+  }
+
   MembershipCadaster? get selectedCadaster {
     for (final item in data?.cadasters ?? const <MembershipCadaster>[]) {
       if (item.id == cadasterId) {
@@ -54,4 +72,9 @@ abstract class MembershipRequestWizardState
   }
 
   bool get sendsToCommission => cadasterId != null && availableTroops.isEmpty;
+
+  int? get commissionId => selectedCadaster?.commissionId;
+
+  String? get destinationName =>
+      selectedTroop?.name ?? selectedCadaster?.commissionName;
 }
