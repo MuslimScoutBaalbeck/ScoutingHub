@@ -40,7 +40,9 @@ class MembersDashboardPage extends StatelessWidget implements AutoRouteWrapper {
       floatingActionButton: FloatingActionButton(
         tooltip: strings.add,
         onPressed: () async {
-          final saved = await context.router.push<bool>(const MemberFormRoute());
+          final saved = await context.router.push<bool>(
+            const MemberCreateWizardRoute(),
+          );
           if (saved == true && context.mounted) {
             await context.read<MembersDashboardCubit>().load();
           }
@@ -75,26 +77,10 @@ class MembersDashboardPage extends StatelessWidget implements AutoRouteWrapper {
                   crossAxisSpacing: AppSpacing.sm,
                   childAspectRatio: 1.45,
                   children: [
-                    _MetricCard(
-                      label: strings.total_members,
-                      value: state.totalCount,
-                      icon: Icons.groups_rounded,
-                    ),
-                    _MetricCard(
-                      label: strings.active_members,
-                      value: state.activeCount,
-                      icon: Icons.verified_user_outlined,
-                    ),
-                    _MetricCard(
-                      label: strings.pending_requests,
-                      value: state.pendingCount,
-                      icon: Icons.pending_actions_rounded,
-                    ),
-                    _MetricCard(
-                      label: strings.incomplete_profiles,
-                      value: state.incompleteCount,
-                      icon: Icons.warning_amber_rounded,
-                    ),
+                    _MetricCard(label: strings.total_members, value: state.totalCount, icon: Icons.groups_rounded),
+                    _MetricCard(label: strings.active_members, value: state.activeCount, icon: Icons.verified_user_outlined),
+                    _MetricCard(label: strings.pending_requests, value: state.pendingCount, icon: Icons.pending_actions_rounded),
+                    _MetricCard(label: strings.incomplete_profiles, value: state.incompleteCount, icon: Icons.warning_amber_rounded),
                   ],
                 ),
                 AppGap.verticalLg,
@@ -107,9 +93,7 @@ class MembersDashboardPage extends StatelessWidget implements AutoRouteWrapper {
                   icon: Icons.how_to_reg_outlined,
                   title: strings.membership_requests,
                   badge: state.pendingCount,
-                  onTap: () => context.router.push(
-                    const MembershipRequestsRoute(),
-                  ),
+                  onTap: () => context.router.push(const MembershipRequestsRoute()),
                 ),
                 _DashboardAction(
                   icon: Icons.analytics_outlined,
@@ -124,17 +108,10 @@ class MembersDashboardPage extends StatelessWidget implements AutoRouteWrapper {
                     margin: const EdgeInsets.only(bottom: AppSpacing.xs),
                     child: ListTile(
                       dense: true,
-                      leading: CircleAvatar(
-                        child: Text(member.fullName.characters.first),
-                      ),
-                      title: AppText.body(
-                        member.fullName,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      leading: CircleAvatar(child: Text(member.fullName.characters.first)),
+                      title: AppText.body(member.fullName, fontWeight: FontWeight.w700),
                       subtitle: AppText.caption(member.unit),
-                      onTap: () => context.router.push(
-                        MemberDetailsRoute(person: member),
-                      ),
+                      onTap: () => context.router.push(MemberDetailsRoute(person: member)),
                     ),
                   ),
               ],
@@ -147,12 +124,7 @@ class MembersDashboardPage extends StatelessWidget implements AutoRouteWrapper {
 }
 
 class _MetricCard extends StatelessWidget {
-  const _MetricCard({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
-
+  const _MetricCard({required this.label, required this.value, required this.icon});
   final String label;
   final int value;
   final IconData icon;
@@ -160,7 +132,6 @@ class _MetricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-
     return Card(
       margin: EdgeInsets.zero,
       child: Padding(
@@ -171,12 +142,7 @@ class _MetricCard extends StatelessWidget {
           children: [
             Icon(icon, color: colors.primary),
             AppText.heading('$value', fontWeight: FontWeight.w800),
-            AppText.caption(
-              label,
-              color: colors.onSurfaceVariant,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+            AppText.caption(label, color: colors.onSurfaceVariant, maxLines: 2, overflow: TextOverflow.ellipsis),
           ],
         ),
       ),
@@ -185,13 +151,7 @@ class _MetricCard extends StatelessWidget {
 }
 
 class _DashboardAction extends StatelessWidget {
-  const _DashboardAction({
-    required this.icon,
-    required this.title,
-    required this.onTap,
-    this.badge,
-  });
-
+  const _DashboardAction({required this.icon, required this.title, required this.onTap, this.badge});
   final IconData icon;
   final String title;
   final VoidCallback onTap;
@@ -207,8 +167,7 @@ class _DashboardAction extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (badge case final value? when value > 0)
-              Badge(label: Text('$value')),
+            if (badge case final value? when value > 0) Badge(label: Text('$value')),
             const Icon(Icons.chevron_right_rounded),
           ],
         ),
