@@ -1,3 +1,4 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final strings = context.t.home.navigation;
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
 
     final items = <_BottomNavigationItem>[
       _BottomNavigationItem(
@@ -66,15 +70,66 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: _QuickCreateButton(
         onPressed: () => _showQuickCreateSheet(context),
       ),
-      bottomNavigationBar: _AppBottomNavigationBar(
-        currentIndex: _currentIndex,
-        items: items,
-        onSelected: (index) {
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+        itemCount: items.length,
+        activeIndex: _currentIndex,
+        gapLocation: GapLocation.center,
+        notchSmoothness: NotchSmoothness.verySmoothEdge,
+        leftCornerRadius: AppRadius.xl,
+        rightCornerRadius: AppRadius.xl,
+        backgroundColor: isDark ? colors.surface : Colors.white,
+        shadow: BoxShadow(
+          color: Colors.black.withValues(alpha: isDark ? .24 : .08),
+          blurRadius: 24,
+          offset: const Offset(0, -6),
+        ),
+        onTap: (index) {
           if (_currentIndex == index) {
             return;
           }
 
           setState(() => _currentIndex = index);
+        },
+        tabBuilder: (index, isActive) {
+          final item = items[index];
+          final foregroundColor = isActive
+              ? colors.primary
+              : colors.onSurfaceVariant;
+
+          return Semantics(
+            selected: isActive,
+            button: true,
+            label: item.label,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.xs,
+                vertical: AppSpacing.xs,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    isActive ? item.selectedIcon : item.icon,
+                    size: AppSize.iconMd,
+                    color: foregroundColor,
+                  ),
+                  AppGap.verticalXxs,
+                  Text(
+                    item.label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: foregroundColor,
+                      fontWeight: isActive
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
         },
       ),
     );
@@ -252,139 +307,6 @@ class _QuickCreateSheet extends StatelessWidget {
               ),
             ),
         ],
-      ),
-    );
-  }
-}
-
-class _AppBottomNavigationBar extends StatelessWidget {
-  const _AppBottomNavigationBar({
-    required this.currentIndex,
-    required this.items,
-    required this.onSelected,
-  });
-
-  final int currentIndex;
-  final List<_BottomNavigationItem> items;
-  final ValueChanged<int> onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
-    final backgroundColor = isDark ? colors.surface : Colors.white;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(AppRadius.xl),
-          topRight: Radius.circular(AppRadius.xl),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? .24 : .08),
-            blurRadius: 24,
-            offset: const Offset(0, -6),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        minimum: const EdgeInsets.only(
-          top: AppSpacing.sm,
-          bottom: AppSpacing.xs,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[0],
-                isSelected: currentIndex == 0,
-                onPressed: () => onSelected(0),
-              ),
-            ),
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[1],
-                isSelected: currentIndex == 1,
-                onPressed: () => onSelected(1),
-              ),
-            ),
-            const SizedBox(width: 76),
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[2],
-                isSelected: currentIndex == 2,
-                onPressed: () => onSelected(2),
-              ),
-            ),
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[3],
-                isSelected: currentIndex == 3,
-                onPressed: () => onSelected(3),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomNavigationDestination extends StatelessWidget {
-  const _BottomNavigationDestination({
-    required this.item,
-    required this.isSelected,
-    required this.onPressed,
-  });
-
-  final _BottomNavigationItem item;
-  final bool isSelected;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    final foregroundColor = isSelected
-        ? colors.primary
-        : colors.onSurfaceVariant;
-
-    return Semantics(
-      selected: isSelected,
-      button: true,
-      label: item.label,
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: AppRadius.large,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.xs,
-            vertical: AppSpacing.xs,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                isSelected ? item.selectedIcon : item.icon,
-                size: AppSize.iconMd,
-                color: foregroundColor,
-              ),
-              AppGap.verticalXxs,
-              Text(
-                item.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: foregroundColor,
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
