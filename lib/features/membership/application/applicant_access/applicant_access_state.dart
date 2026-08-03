@@ -8,6 +8,13 @@ abstract class ApplicantAccessState with _$ApplicantAccessState {
     String? requestId,
     @Default(ApplicantRequestStatus.none)
     ApplicantRequestStatus requestStatus,
+    ApplicantRequestType? requestType,
+    int? governorateId,
+    int? districtId,
+    int? cadasterId,
+    int? troopId,
+    int? commissionId,
+    String? destinationName,
   }) = _ApplicantAccessState;
 
   const ApplicantAccessState._();
