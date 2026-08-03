@@ -12,15 +12,11 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(page: StartupRoute.page, path: '/', initial: true),
-
-    /** Authentication **/
     AutoRoute(page: WelcomeRoute.page, path: '/welcome'),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
     AutoRoute(page: ForgotPasswordRoute.page, path: '/forgot-password'),
     AutoRoute(page: ResetPasswordRoute.page, path: '/reset-password'),
-
-    /** Home **/
     AutoRoute(
       page: HomeRoute.page,
       path: '/dashboard',
@@ -31,12 +27,13 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: MoreRoute.page, path: 'more'),
       ],
     ),
-
-    /** Troop member management **/
     AutoRoute(page: MembersDashboardRoute.page, path: '/members'),
     AutoRoute(page: MembersListRoute.page, path: '/members/list'),
     AutoRoute(page: MemberDetailsRoute.page, path: '/members/details'),
-    AutoRoute(page: MemberFormRoute.page, path: '/members/form'),
+    AutoRoute(
+      page: MemberCreateWizardRoute.page,
+      path: '/members/create',
+    ),
     AutoRoute(
       page: MembershipRequestsRoute.page,
       path: '/members/requests',
