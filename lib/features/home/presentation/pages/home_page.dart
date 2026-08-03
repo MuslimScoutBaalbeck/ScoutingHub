@@ -1,79 +1,73 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
+import 'package:scouting_hub/core/router/app_router.gr.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
 import 'package:scouting_hub/core/ui/widgets/widgets.dart';
 import 'package:scouting_hub/features/auth/application/session/session_cubit.dart';
 import 'package:scouting_hub/features/auth/domain/entities/app_permission.dart';
-import 'package:scouting_hub/features/calendar/presentation/pages/calendar_page.dart';
-import 'package:scouting_hub/features/dashboard/presentation/pages/dashboard_page.dart';
-import 'package:scouting_hub/features/more/presentation/pages/more_page.dart';
-import 'package:scouting_hub/features/tasks/presentation/pages/tasks_page.dart';
 
 @RoutePage()
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  static const _pages = <Widget>[
-    DashboardPage(),
-    TasksPage(),
-    CalendarPage(),
-    MorePage(),
-  ];
-
-  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.t.home.navigation;
-    final items = <_BottomNavigationItem>[
-      _BottomNavigationItem(
-        icon: Icons.home_outlined,
-        selectedIcon: Icons.home_rounded,
-        label: strings.dashboard,
-      ),
-      _BottomNavigationItem(
-        icon: Icons.task_alt_outlined,
-        selectedIcon: Icons.task_alt_rounded,
-        label: strings.tasks,
-      ),
-      _BottomNavigationItem(
-        icon: Icons.calendar_month_outlined,
-        selectedIcon: Icons.calendar_month_rounded,
-        label: strings.calendar,
-      ),
-      _BottomNavigationItem(
-        icon: Icons.grid_view_outlined,
-        selectedIcon: Icons.grid_view_rounded,
-        label: strings.more,
-      ),
-    ];
 
-    return Scaffold(
-      extendBody: true,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _QuickCreateButton(
-        onPressed: () => _showQuickCreateSheet(context),
-      ),
-      bottomNavigationBar: _AppBottomNavigationBar(
-        currentIndex: _currentIndex,
-        items: items,
-        onSelected: (index) {
-          if (_currentIndex != index) {
-            setState(() => _currentIndex = index);
-          }
-        },
-      ),
+    return AutoTabsRouter(
+      routes: const [
+        DashboardRoute(),
+        TasksRoute(),
+        CalendarRoute(),
+        MoreRoute(),
+      ],
+      transitionBuilder: (context, child, animation) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+      builder: (context, child) {
+        final tabsRouter = AutoTabsRouter.of(context);
+
+        return Scaffold(
+          extendBody: true,
+          body: child,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            heroTag: 'home_quick_create',
+            tooltip: context.t.home.create.tooltip,
+            onPressed: () => _showQuickCreateSheet(context),
+            child: const Icon(Icons.add_rounded),
+          ),
+          bottomNavigationBar: NavigationBar(
+            selectedIndex: tabsRouter.activeIndex,
+            onDestinationSelected: tabsRouter.setActiveIndex,
+            destinations: [
+              NavigationDestination(
+                icon: const Icon(Icons.home_outlined),
+                selectedIcon: const Icon(Icons.home_rounded),
+                label: strings.dashboard,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.task_alt_outlined),
+                selectedIcon: const Icon(Icons.task_alt_rounded),
+                label: strings.tasks,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.calendar_month_outlined),
+                selectedIcon: const Icon(Icons.calendar_month_rounded),
+                label: strings.calendar,
+              ),
+              NavigationDestination(
+                icon: const Icon(Icons.grid_view_outlined),
+                selectedIcon: const Icon(Icons.grid_view_rounded),
+                label: strings.more,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -142,185 +136,6 @@ class _HomePageState extends State<HomePage> {
       ..showSnackBar(
         SnackBar(content: Text(context.t.home.common.coming_soon)),
       );
-  }
-}
-
-class _QuickCreateButton extends StatelessWidget {
-  const _QuickCreateButton({required this.onPressed});
-
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-
-    return Semantics(
-      button: true,
-      label: context.t.home.create.tooltip,
-      child: SizedBox.square(
-        dimension: 64,
-        child: FloatingActionButton(
-          heroTag: 'home_quick_create',
-          onPressed: onPressed,
-          elevation: 8,
-          highlightElevation: 12,
-          backgroundColor: colors.primary,
-          foregroundColor: colors.onPrimary,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add_rounded, size: 32),
-        ),
-      ),
-    );
-  }
-}
-
-class _AppBottomNavigationBar extends StatelessWidget {
-  const _AppBottomNavigationBar({
-    required this.currentIndex,
-    required this.items,
-    required this.onSelected,
-  });
-
-  final int currentIndex;
-  final List<_BottomNavigationItem> items;
-  final ValueChanged<int> onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
-
-    return BottomAppBar(
-      height: 76,
-      padding: EdgeInsets.zero,
-      elevation: 18,
-      shadowColor: Colors.black.withValues(alpha: isDark ? .35 : .14),
-      color: isDark ? colors.surface : Colors.white,
-      surfaceTintColor: Colors.transparent,
-      notchMargin: 10,
-      shape: const AutomaticNotchedShape(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppRadius.xl),
-          ),
-        ),
-        CircleBorder(),
-      ),
-      child: SafeArea(
-        top: false,
-        minimum: const EdgeInsets.only(
-          top: AppSpacing.xs,
-          bottom: AppSpacing.xs,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[0],
-                isSelected: currentIndex == 0,
-                onPressed: () => onSelected(0),
-              ),
-            ),
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[1],
-                isSelected: currentIndex == 1,
-                onPressed: () => onSelected(1),
-              ),
-            ),
-            const SizedBox(width: 72),
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[2],
-                isSelected: currentIndex == 2,
-                onPressed: () => onSelected(2),
-              ),
-            ),
-            Expanded(
-              child: _BottomNavigationDestination(
-                item: items[3],
-                isSelected: currentIndex == 3,
-                onPressed: () => onSelected(3),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BottomNavigationDestination extends StatelessWidget {
-  const _BottomNavigationDestination({
-    required this.item,
-    required this.isSelected,
-    required this.onPressed,
-  });
-
-  final _BottomNavigationItem item;
-  final bool isSelected;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    final foreground = isSelected ? colors.primary : colors.onSurfaceVariant;
-
-    return Semantics(
-      selected: isSelected,
-      button: true,
-      label: item.label,
-      child: InkResponse(
-        onTap: onPressed,
-        radius: 34,
-        containedInkWell: true,
-        highlightShape: BoxShape.rectangle,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic,
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.xs,
-            vertical: AppSpacing.xs,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedScale(
-                scale: isSelected ? 1.08 : 1,
-                duration: const Duration(milliseconds: 220),
-                curve: Curves.easeOutBack,
-                child: Icon(
-                  isSelected ? item.selectedIcon : item.icon,
-                  size: AppSize.iconMd,
-                  color: foreground,
-                ),
-              ),
-              AppGap.verticalXxs,
-              Text(
-                item.label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: foreground,
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                ),
-              ),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 220),
-                margin: const EdgeInsets.only(top: 3),
-                width: isSelected ? 18 : 0,
-                height: 2,
-                decoration: BoxDecoration(
-                  color: colors.primary,
-                  borderRadius: AppRadius.fullyRounded,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
 
@@ -394,18 +209,6 @@ class _QuickCreateSheet extends StatelessWidget {
       ),
     );
   }
-}
-
-final class _BottomNavigationItem {
-  const _BottomNavigationItem({
-    required this.icon,
-    required this.selectedIcon,
-    required this.label,
-  });
-
-  final IconData icon;
-  final IconData selectedIcon;
-  final String label;
 }
 
 final class _QuickCreateAction {
