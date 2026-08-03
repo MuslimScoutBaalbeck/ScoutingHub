@@ -76,7 +76,9 @@ class _MemberFormPageState extends State<MemberFormPage> {
         key: _formKey,
         child: Stepper(
           currentStep: _step,
-          onStepTapped: _isSaving ? null : (value) => setState(() => _step = value),
+          onStepTapped: _isSaving
+              ? null
+              : (value) => setState(() => _step = value),
           onStepCancel: _step == 0 || _isSaving
               ? null
               : () => setState(() => _step--),
@@ -85,20 +87,24 @@ class _MemberFormPageState extends State<MemberFormPage> {
             padding: const EdgeInsets.only(top: AppSpacing.md),
             child: Row(
               children: [
-                FilledButton(
-                  onPressed: details.onStepContinue,
-                  child: _isSaving
-                      ? const SizedBox.square(
-                          dimension: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(_step == 3 ? strings.save : strings.next),
+                Expanded(
+                  child: FilledButton(
+                    onPressed: details.onStepContinue,
+                    child: _isSaving
+                        ? const SizedBox.square(
+                            dimension: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(_step == 3 ? strings.save : strings.next),
+                  ),
                 ),
                 if (_step > 0) ...[
                   const SizedBox(width: AppSpacing.sm),
-                  TextButton(
-                    onPressed: details.onStepCancel,
-                    child: Text(strings.back),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: details.onStepCancel,
+                      child: Text(strings.back),
+                    ),
                   ),
                 ],
               ],
