@@ -59,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
         final session = state.session;
         if (session != null) {
           context.read<SessionCubit>().setSession(session);
-          await context.router.replaceAll([const HomeRoute()]);
+          await context.router.replaceAll([const ApplicantAccessRoute()]);
         }
       },
       builder: (context, state) {
