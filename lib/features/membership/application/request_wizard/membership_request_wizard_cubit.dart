@@ -49,6 +49,7 @@ final class MembershipRequestWizardCubit
                 id: map['id'] as int,
                 districtId: map['districtId'] as int,
                 name: map['name'] as String,
+                commissionId: map['commissionId'] as int,
                 commissionName: map['commissionName'] as String,
               );
             })
