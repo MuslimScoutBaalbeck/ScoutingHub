@@ -42,7 +42,7 @@ class _StartupPageState extends State<StartupPage> {
         return;
       case AppLaunchDestination.pinUnlock:
       case AppLaunchDestination.home:
-        await context.router.replaceAll([const HomeRoute()]);
+        await context.router.replaceAll([const ApplicantAccessRoute()]);
         return;
       case AppLaunchDestination.failure:
         return;
