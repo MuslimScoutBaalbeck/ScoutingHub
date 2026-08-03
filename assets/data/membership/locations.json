@@ -9,11 +9,11 @@
     {"id": 21, "governorateId": 2, "name": "Zahle"}
   ],
   "cadasters": [
-    {"id": 111, "districtId": 11, "name": "Baalbek", "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 112, "districtId": 11, "name": "Douris", "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 113, "districtId": 11, "name": "Arsal", "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 121, "districtId": 12, "name": "Hermel", "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 211, "districtId": 21, "name": "Zahle", "commissionName": "Bekaa Commission"}
+    {"id": 111, "districtId": 11, "name": "Baalbek", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 112, "districtId": 11, "name": "Douris", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 113, "districtId": 11, "name": "Arsal", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 121, "districtId": 12, "name": "Hermel", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 211, "districtId": 21, "name": "Zahle", "commissionId": 2, "commissionName": "Bekaa Commission"}
   ],
   "troops": [
     {"id": 1001, "cadasterId": 111, "name": "Baalbek Troop", "address": "Baalbek", "acceptingMembers": true},
