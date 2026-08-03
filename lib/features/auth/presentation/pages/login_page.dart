@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         final session = state.session;
         if (session != null) {
           context.read<SessionCubit>().setSession(session);
-          await context.router.replaceAll([const HomeRoute()]);
+          await context.router.replaceAll([const ApplicantAccessRoute()]);
         }
       },
       builder: (context, state) {
