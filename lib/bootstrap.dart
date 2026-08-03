@@ -12,6 +12,7 @@ import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/ui/preload_branding_assets.dart';
 import 'package:scouting_hub/core/utils/observer/bloc_observer.dart';
+import 'package:scouting_hub/features/auth/application/session/session_cubit.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
@@ -36,6 +37,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = const AppBlocObserver();
 
   final applicationStartCubit = getIt<ApplicationStartCubit>();
+  final sessionCubit = getIt<SessionCubit>();
 
   final currentLocale =
       applicationStartCubit.state.locale ??
@@ -44,12 +46,16 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await Future.wait([
     LocaleSettings.setLocaleRaw(currentLocale),
     preloadBrandingAssets(),
+    sessionCubit.restore(),
   ]);
 
   runApp(
     TranslationProvider(
       child: MultiBlocProvider(
-        providers: [BlocProvider.value(value: applicationStartCubit)],
+        providers: [
+          BlocProvider.value(value: applicationStartCubit),
+          BlocProvider.value(value: sessionCubit),
+        ],
         child: await builder(),
       ),
     ),
