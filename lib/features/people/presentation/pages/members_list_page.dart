@@ -96,9 +96,9 @@ class _MembersListPageState extends State<MembersListPage> {
             initialStatus: state.status,
             onApply: (stage, status) {
               context.read<MembersListCubit>().applyFilters(
-                stage: stage,
-                status: status,
-              );
+                    stage: stage,
+                    status: status,
+                  );
               Navigator.of(context).pop();
             },
             onClear: () {
@@ -168,25 +168,21 @@ class _MembersListBody extends StatelessWidget {
       return Center(child: AppText.paragraph(strings.empty));
     }
 
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-
     return RefreshIndicator(
       onRefresh: context.read<MembersListCubit>().load,
       child: ListView.separated(
         padding: EdgeInsets.fromLTRB(
-          AppSpacing.xs,
-          AppSpacing.xs,
-          AppSpacing.xs,
-          112 + bottomInset,
+          AppSpacing.sm,
+          AppSpacing.sm,
+          AppSpacing.sm,
+          112 + MediaQuery.paddingOf(context).bottom,
         ),
         itemCount: state.visibleMembers.length,
-        separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.xxs),
+        separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.xs),
         itemBuilder: (context, index) {
           final member = state.visibleMembers[index];
-
           return _MemberListItem(
             member: member,
-            index: index,
             onTap: () async {
               final updated = await context.router.push<bool>(
                 MemberDetailsRoute(person: member),
@@ -203,78 +199,46 @@ class _MembersListBody extends StatelessWidget {
 }
 
 class _MemberListItem extends StatelessWidget {
-  const _MemberListItem({
-    required this.member,
-    required this.index,
-    required this.onTap,
-  });
+  const _MemberListItem({required this.member, required this.onTap});
 
   final Person member;
-  final int index;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.t.people;
     final colors = Theme.of(context).colorScheme;
-    final isEven = index.isEven;
-    final backgroundColor = colors.primary.withValues(
-      alpha: isEven ? .055 : .11,
-    );
 
-    return Material(
-      color: backgroundColor,
-      borderRadius: AppRadius.medium,
-      child: InkWell(
-        borderRadius: AppRadius.medium,
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.sm,
-          ),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: colors.primary.withValues(alpha: .16),
-                foregroundColor: colors.primary,
-                child: AppText.title(
-                  member.fullName.characters.first,
-                  color: colors.primary,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              AppGap.horizontalMd,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText.body(
-                      member.fullName,
-                      fontWeight: FontWeight.w700,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    AppGap.verticalXxs,
-                    AppText.caption(
-                      '${member.unit} · ${strings.membership_number}: ${member.membershipNumber}',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              AppGap.horizontalSm,
-              Icon(
-                Directionality.of(context) == TextDirection.rtl
-                    ? Icons.chevron_left_rounded
-                    : Icons.chevron_right_rounded,
-                color: colors.primary,
-              ),
-            ],
+    return Card(
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.sm,
+          vertical: AppSpacing.xs,
+        ),
+        leading: CircleAvatar(
+          backgroundColor: colors.primaryContainer,
+          foregroundColor: colors.onPrimaryContainer,
+          child: AppText.title(
+            member.fullName.characters.first,
+            color: colors.onPrimaryContainer,
+            fontWeight: FontWeight.w700,
           ),
         ),
+        title: AppText.body(
+          member.fullName,
+          fontWeight: FontWeight.w700,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: AppText.caption(
+          '${member.unit} · ${strings.membership_number}: ${member.membershipNumber}',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: const AppDirectionalChevron(),
+        onTap: onTap,
       ),
     );
   }
@@ -290,22 +254,22 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
 
   @override
   List<Widget>? buildActions(BuildContext context) => [
-    if (query.isNotEmpty)
-      IconButton(
-        onPressed: () => query = '',
-        icon: const Icon(Icons.clear_rounded),
-      ),
-  ];
+        if (query.isNotEmpty)
+          IconButton(
+            onPressed: () => query = '',
+            icon: const Icon(Icons.clear_rounded),
+          ),
+      ];
 
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
-    onPressed: () => close(context, null),
-    icon: Icon(
-      Directionality.of(context) == TextDirection.rtl
-          ? Icons.chevron_right_rounded
-          : Icons.chevron_left_rounded,
-    ),
-  );
+        onPressed: () => close(context, null),
+        icon: Icon(
+          Directionality.of(context) == TextDirection.rtl
+              ? Icons.chevron_right_rounded
+              : Icons.chevron_left_rounded,
+        ),
+      );
 
   @override
   Widget buildResults(BuildContext context) => _results();
@@ -315,7 +279,6 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
 
   Widget _results() {
     final results = searchMembers(query);
-
     return ListView.builder(
       itemCount: results.length,
       itemBuilder: (context, index) {
@@ -324,6 +287,7 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
           leading: const Icon(Icons.person_outline_rounded),
           title: Text(member.fullName),
           subtitle: Text('${member.membershipNumber} · ${member.phone}'),
+          trailing: const AppDirectionalChevron(),
           onTap: () => close(context, member),
         );
       },
@@ -377,9 +341,7 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 initialValue: _stage,
                 decoration: InputDecoration(labelText: strings.stage),
                 items: [
-                  DropdownMenuItem(
-                    child: Text(strings.all_stages),
-                  ),
+                  DropdownMenuItem(child: Text(strings.all_stages)),
                   ...ScoutStage.values.map(
                     (value) => DropdownMenuItem(
                       value: value,
@@ -394,9 +356,7 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 initialValue: _status,
                 decoration: InputDecoration(labelText: strings.status),
                 items: [
-                  DropdownMenuItem(
-                    child: Text(strings.all_statuses),
-                  ),
+                  DropdownMenuItem(child: Text(strings.all_statuses)),
                   ...PersonStatus.values.map(
                     (value) => DropdownMenuItem(
                       value: value,
