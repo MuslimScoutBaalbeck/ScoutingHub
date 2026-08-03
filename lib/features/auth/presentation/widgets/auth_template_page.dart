@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
+import 'package:scouting_hub/core/ui/widgets/app_decorative_background.dart';
 import 'package:scouting_hub/core/ui/widgets/atoms/app_back_button.dart';
 import 'package:scouting_hub/core/ui/widgets/atoms/app_gap.dart';
 import 'package:scouting_hub/core/ui/widgets/atoms/app_square_action.dart';
 import 'package:scouting_hub/core/ui/widgets/atoms/app_text.dart';
-import 'package:scouting_hub/core/ui/widgets/app_decorative_background.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
 class AuthTemplatePage extends StatelessWidget {
@@ -37,6 +37,7 @@ class AuthTemplatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final isDark = theme.brightness==.dark;
     final strings = context.t.auth.login;
     final languageCode = LocaleSettings.currentLocale.languageCode
         .toUpperCase();
@@ -59,7 +60,7 @@ class AuthTemplatePage extends StatelessWidget {
                   onPressed: () => _switchLanguage(context),
                   child: AppText.caption(
                     languageCode,
-                    color: colors.primary,
+                    color: isDark?colors.onPrimary:colors.primary,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -72,7 +73,7 @@ class AuthTemplatePage extends StatelessWidget {
                         ? Icons.light_mode_outlined
                         : Icons.dark_mode_outlined,
                     size: AppSize.iconSm,
-                    color: colors.primary,
+                    color: isDark?colors.onPrimary:colors.primary,
                   ),
                 ),
                 AppGap.horizontalMd,

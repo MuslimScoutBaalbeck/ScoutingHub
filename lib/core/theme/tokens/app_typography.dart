@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 abstract final class AppTypography {
   static const fontFamily = 'IBM Plex Sans Arabic';
 
-  static const displayWeight = FontWeight.w700;
-  static const headingWeight = FontWeight.w700;
-  static const titleWeight = FontWeight.w600;
-  static const bodyWeight = FontWeight.w400;
-  static const labelWeight = FontWeight.w600;
+  static const FontWeight displayWeight = FontWeight.w700;
+  static const FontWeight headingWeight = FontWeight.w700;
+  static const FontWeight titleWeight = FontWeight.w600;
+  static const FontWeight bodyWeight = FontWeight.w400;
+  static const FontWeight labelWeight = FontWeight.w600;
 
   static const double displaySize = 32;
   static const double headingSize = 24;

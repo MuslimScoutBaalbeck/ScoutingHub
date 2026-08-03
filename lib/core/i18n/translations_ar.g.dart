@@ -355,6 +355,8 @@ class _Translations$home$dashboard$ar extends Translations$home$dashboard$en {
   @override
   String get welcome_back => 'مرحباً بعودتك';
   @override
+  String get user_name => 'الكشاف التجريبي';
+  @override
   String get notifications => 'الإشعارات';
   @override
   String get upcoming_title => 'نشاط قادم';
@@ -386,6 +388,8 @@ class _Translations$home$dashboard$ar extends Translations$home$dashboard$en {
   String get no_assignment => 'لا توجد مسؤولية مسندة إليك';
   @override
   String get no_access => 'لا توجد وحدات وصول سريع متاحة ضمن صلاحياتك الحالية.';
+  @override
+  String get no_modules => 'لا توجد وحدات متاحة ضمن صلاحياتك الحالية.';
 }
 
 // Path: home.tasks

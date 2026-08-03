@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scouting_hub/core/theme/tokens/app_size.dart';
 import 'package:scouting_hub/core/ui/widgets/atoms/app_square_action.dart';
 
 class AppBackButton extends StatelessWidget {
@@ -8,12 +9,19 @@ class AppBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final isDark = theme.brightness==.dark;
     return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 8),
+      padding: const EdgeInsetsDirectional.all(8),
       child: AppSquareAction(
         tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         onPressed: onPressed ?? () => Navigator.maybePop(context),
-        child: const Icon(Icons.arrow_back_rounded),
+        child: Icon(
+          Icons.chevron_left,
+          size: AppSize.iconSm,
+          color: isDark?colors.onPrimary:colors.primary,
+        ),
       ),
     );
   }

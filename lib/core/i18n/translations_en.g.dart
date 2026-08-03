@@ -580,6 +580,11 @@ class Translations$home$dashboard$en {
   /// ar: 'مرحباً بعودتك'
   String get welcome_back => 'Welcome back';
 
+  /// en: 'Demo Scout'
+  ///
+  /// ar: 'الكشاف التجريبي'
+  String get user_name => 'Demo Scout';
+
   /// en: 'Notifications'
   ///
   /// ar: 'الإشعارات'
@@ -659,6 +664,11 @@ class Translations$home$dashboard$en {
   ///
   /// ar: 'لا توجد وحدات وصول سريع متاحة ضمن صلاحياتك الحالية.'
   String get no_access => 'No quick-access modules are available for your permissions.';
+
+  /// en: 'No modules are available for your current permissions.'
+  ///
+  /// ar: 'لا توجد وحدات متاحة ضمن صلاحياتك الحالية.'
+  String get no_modules => 'No modules are available for your current permissions.';
 }
 
 // Path: home.tasks

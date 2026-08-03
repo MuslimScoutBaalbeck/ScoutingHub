@@ -71,36 +71,36 @@ abstract final class AppTheme {
               displayColor: colorScheme.onSurface,
             )
             .copyWith(
-              headlineLarge: TextStyle(
+              headlineLarge: const TextStyle(
                 fontFamily: AppTypography.fontFamily,
                 fontSize: AppTypography.displaySize,
                 fontWeight: AppTypography.displayWeight,
                 height: AppTypography.compactHeight,
               ),
-              headlineSmall: TextStyle(
+              headlineSmall: const TextStyle(
                 fontFamily: AppTypography.fontFamily,
                 fontSize: AppTypography.headingSize,
                 fontWeight: AppTypography.headingWeight,
                 height: AppTypography.compactHeight,
               ),
-              titleMedium: TextStyle(
+              titleMedium: const TextStyle(
                 fontFamily: AppTypography.fontFamily,
                 fontSize: AppTypography.titleSize,
                 fontWeight: AppTypography.titleWeight,
               ),
-              bodyLarge: TextStyle(
+              bodyLarge: const TextStyle(
                 fontFamily: AppTypography.fontFamily,
                 fontSize: AppTypography.bodySize,
                 fontWeight: AppTypography.bodyWeight,
                 height: AppTypography.bodyHeight,
               ),
-              bodyMedium: TextStyle(
+              bodyMedium: const TextStyle(
                 fontFamily: AppTypography.fontFamily,
                 fontSize: AppTypography.paragraphSize,
                 fontWeight: AppTypography.bodyWeight,
                 height: AppTypography.bodyHeight,
               ),
-              bodySmall: TextStyle(
+              bodySmall: const TextStyle(
                 fontFamily: AppTypography.fontFamily,
                 fontSize: AppTypography.captionSize,
                 fontWeight: AppTypography.bodyWeight,

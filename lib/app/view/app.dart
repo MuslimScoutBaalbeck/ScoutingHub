@@ -5,7 +5,7 @@ import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.dart';
-import 'package:scouting_hub/core/ui/app_theme.dart';
+import 'package:scouting_hub/core/theme/app_theme.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
 class AppStart extends StatelessWidget {
