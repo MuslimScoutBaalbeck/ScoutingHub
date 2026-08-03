@@ -188,10 +188,10 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
                 items: ScoutStage.values
                     .map(
                       (value) => DropdownMenuItem(
-                    value: value,
-                    child: Text(value.name),
-                  ),
-                )
+                        value: value,
+                        child: Text(value.name),
+                      ),
+                    )
                     .toList(),
                 onChanged: (value) =>
                     setSheetState(() => stage = value ?? stage),
@@ -203,10 +203,10 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
                 items: PersonStatus.values
                     .map(
                       (value) => DropdownMenuItem(
-                    value: value,
-                    child: Text(value.name),
-                  ),
-                )
+                        value: value,
+                        child: Text(value.name),
+                      ),
+                    )
                     .toList(),
                 onChanged: (value) =>
                     setSheetState(() => status = value ?? status),
@@ -245,11 +245,11 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
   }
 
   Future<void> _showEditor(
-      BuildContext context, {
-        required String title,
-        required List<Widget> fields,
-        required Future<void> Function() onSave,
-      }) async {
+    BuildContext context, {
+    required String title,
+    required List<Widget> fields,
+    required Future<void> Function() onSave,
+  }) async {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -284,11 +284,11 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
                         onPressed: state.isSaving ? null : onSave,
                         child: state.isSaving
                             ? const SizedBox.square(
-                          dimension: 18,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        )
+                                dimension: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
                             : Text(context.t.people.save),
                       ),
                     ],
@@ -296,7 +296,7 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
                   body: ListView.separated(
                     padding: AppSpacing.pageWithBottom,
                     itemCount: fields.length,
-                    separatorBuilder: (_, __) => AppGap.verticalSm,
+                    separatorBuilder: (_, _) => AppGap.verticalSm,
                     itemBuilder: (_, index) => fields[index],
                   ),
                 ),

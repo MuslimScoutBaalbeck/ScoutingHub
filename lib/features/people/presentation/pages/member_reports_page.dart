@@ -23,7 +23,7 @@ class MemberReportsPage extends StatelessWidget {
       body: ListView.separated(
         padding: AppSpacing.pageWithBottom,
         itemCount: reports.length,
-        separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xs),
+        separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.xs),
         itemBuilder: (context, index) {
           final report = reports[index];
           return Card(

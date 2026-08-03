@@ -105,4 +105,4 @@ class AppButton extends StatelessWidget {
   }
 }
 
-enum AppButtonVariant { filled, outline, text}
+enum AppButtonVariant { filled, outline, text }

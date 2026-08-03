@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +21,11 @@ class MembersListPage extends StatefulWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<MembersListCubit>()..load(),
+      create: (_) {
+        final cubit = getIt<MembersListCubit>();
+        unawaited(cubit.load());
+        return cubit;
+      },
       child: this,
     );
   }
@@ -174,7 +180,7 @@ class _MembersListBody extends StatelessWidget {
           112 + bottomInset,
         ),
         itemCount: state.visibleMembers.length,
-        separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xxs),
+        separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.xxs),
         itemBuilder: (context, index) {
           final member = state.visibleMembers[index];
 
@@ -372,7 +378,6 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 decoration: InputDecoration(labelText: strings.stage),
                 items: [
                   DropdownMenuItem(
-                    value: null,
                     child: Text(strings.all_stages),
                   ),
                   ...ScoutStage.values.map(
@@ -390,7 +395,6 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 decoration: InputDecoration(labelText: strings.status),
                 items: [
                   DropdownMenuItem(
-                    value: null,
                     child: Text(strings.all_statuses),
                   ),
                   ...PersonStatus.values.map(

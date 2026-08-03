@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +17,11 @@ class MembersDashboardPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<MembersDashboardCubit>()..load(),
+      create: (_) {
+        final cubit = getIt<MembersDashboardCubit>();
+        unawaited(cubit.load());
+        return cubit;
+      },
       child: this,
     );
   }

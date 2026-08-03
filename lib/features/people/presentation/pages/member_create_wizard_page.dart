@@ -242,7 +242,7 @@ class _MemberCreateWizardPageState extends State<MemberCreateWizardPage> {
     );
   }
 
-  void _continue(MemberCreateState state) {
+  Future<void> _continue(MemberCreateState state) async {
     if (state.currentStep < 3) {
       context.read<MemberCreateCubit>().nextStep();
       return;
@@ -250,7 +250,7 @@ class _MemberCreateWizardPageState extends State<MemberCreateWizardPage> {
 
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
-    context.read<MemberCreateCubit>().create(
+    await context.read<MemberCreateCubit>().create(
       fullName: _name.text,
       phone: _phone.text,
       email: _email.text,
