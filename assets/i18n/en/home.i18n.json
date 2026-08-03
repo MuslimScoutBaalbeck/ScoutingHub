@@ -62,6 +62,18 @@
     "camps": "Camp management",
     "logout": "Log out"
   },
+  "create": {
+    "tooltip": "Create new",
+    "title": "Create new",
+    "subtitle": "Choose an action",
+    "task": "New task",
+    "event": "New event",
+    "member": "New member",
+    "meeting": "Meeting minutes",
+    "inventory": "Inventory transaction",
+    "correspondence": "Incoming or outgoing mail",
+    "no_actions": "No creation actions are available for your permissions."
+  },
   "common": {
     "coming_soon": "Coming soon",
     "access_denied": "You do not have permission to access this section."
