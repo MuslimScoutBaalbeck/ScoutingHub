@@ -72,52 +72,21 @@ class WelcomePage extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       child: Column(
                         children: [
-                          _PreferenceDropdownRow<AppLocale>(
+                          _PreferenceTile(
                             icon: Icons.language_rounded,
                             label: strings.language,
-                            value: LocaleSettings.currentLocale,
-                            items: [
-                              DropdownMenuItem(
-                                value: AppLocale.en,
-                                child: Text(strings.english),
-                              ),
-                              DropdownMenuItem(
-                                value: AppLocale.ar,
-                                child: Text(strings.arabic),
-                              ),
-                            ],
-                            onChanged: (locale) async {
-                              if (locale != null) {
-                                await _changeLocale(context, locale);
-                              }
-                            },
+                            value: _localeLabel(
+                              LocaleSettings.currentLocale,
+                              strings,
+                            ),
+                            onTap: () => _showLanguageSheet(context),
                           ),
                           const Divider(height: 1),
-                          _PreferenceDropdownRow<ThemeMode>(
+                          _PreferenceTile(
                             icon: Icons.palette_outlined,
                             label: strings.appearance,
-                            value: state.themeMode,
-                            items: [
-                              DropdownMenuItem(
-                                value: ThemeMode.system,
-                                child: Text(strings.theme_system),
-                              ),
-                              DropdownMenuItem(
-                                value: ThemeMode.light,
-                                child: Text(strings.theme_light),
-                              ),
-                              DropdownMenuItem(
-                                value: ThemeMode.dark,
-                                child: Text(strings.theme_dark),
-                              ),
-                            ],
-                            onChanged: (mode) {
-                              if (mode != null) {
-                                context
-                                    .read<ApplicationStartCubit>()
-                                    .updateThemeMode(mode);
-                              }
-                            },
+                            value: _themeLabel(state.themeMode, strings),
+                            onTap: () => _showThemeSheet(context),
                           ),
                         ],
                       ),
@@ -130,6 +99,98 @@ class WelcomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _localeLabel(
+    AppLocale locale,
+    TranslationsAuthWelcomeEn strings,
+  ) {
+    return switch (locale) {
+      AppLocale.en => strings.english,
+      AppLocale.ar => strings.arabic,
+    };
+  }
+
+  String _themeLabel(
+    ThemeMode mode,
+    TranslationsAuthWelcomeEn strings,
+  ) {
+    return switch (mode) {
+      ThemeMode.system => strings.theme_system,
+      ThemeMode.light => strings.theme_light,
+      ThemeMode.dark => strings.theme_dark,
+    };
+  }
+
+  Future<void> _showLanguageSheet(BuildContext context) async {
+    final strings = context.t.auth.welcome;
+    final selectedLocale = LocaleSettings.currentLocale;
+
+    final locale = await showModalBottomSheet<AppLocale>(
+      context: context,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (sheetContext) {
+        return _SelectionSheet<AppLocale>(
+          title: strings.language,
+          selectedValue: selectedLocale,
+          options: [
+            _SelectionOption(
+              value: AppLocale.en,
+              label: strings.english,
+              icon: Icons.translate_rounded,
+            ),
+            _SelectionOption(
+              value: AppLocale.ar,
+              label: strings.arabic,
+              icon: Icons.translate_rounded,
+            ),
+          ],
+        );
+      },
+    );
+
+    if (locale != null && context.mounted) {
+      await _changeLocale(context, locale);
+    }
+  }
+
+  Future<void> _showThemeSheet(BuildContext context) async {
+    final strings = context.t.auth.welcome;
+    final selectedMode = context.read<ApplicationStartCubit>().state.themeMode;
+
+    final mode = await showModalBottomSheet<ThemeMode>(
+      context: context,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (sheetContext) {
+        return _SelectionSheet<ThemeMode>(
+          title: strings.appearance,
+          selectedValue: selectedMode,
+          options: [
+            _SelectionOption(
+              value: ThemeMode.system,
+              label: strings.theme_system,
+              icon: Icons.settings_suggest_outlined,
+            ),
+            _SelectionOption(
+              value: ThemeMode.light,
+              label: strings.theme_light,
+              icon: Icons.light_mode_outlined,
+            ),
+            _SelectionOption(
+              value: ThemeMode.dark,
+              label: strings.theme_dark,
+              icon: Icons.dark_mode_outlined,
+            ),
+          ],
+        );
+      },
+    );
+
+    if (mode != null && context.mounted) {
+      context.read<ApplicationStartCubit>().updateThemeMode(mode);
+    }
   }
 
   Future<void> _changeLocale(BuildContext context, AppLocale locale) async {
@@ -148,61 +209,127 @@ class WelcomePage extends StatelessWidget {
   }
 }
 
-class _PreferenceDropdownRow<T> extends StatelessWidget {
-  const _PreferenceDropdownRow({
+class _PreferenceTile extends StatelessWidget {
+  const _PreferenceTile({
     required this.icon,
     required this.label,
     required this.value,
-    required this.items,
-    required this.onChanged,
+    required this.onTap,
   });
 
   final IconData icon;
   final String label;
-  final T value;
-  final List<DropdownMenuItem<T>> items;
-  final ValueChanged<T?> onChanged;
+  final String value;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: AppSize.iconMd,
-            color: colors.onSurfaceVariant,
-          ),
-          AppGap.horizontalSm,
-          SizedBox(
-            width: 82,
-            child: AppText.body(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          AppGap.horizontalMd,
-          Expanded(
-            child: DropdownButtonFormField<T>(
-              initialValue: value,
-              isExpanded: true,
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsetsDirectional.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.sm,
-                ),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.md,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: AppSize.controlSm,
+              height: AppSize.controlSm,
+              decoration: BoxDecoration(
+                color: colors.primaryContainer,
+                borderRadius: AppRadius.medium,
               ),
-              items: items,
-              onChanged: onChanged,
+              alignment: Alignment.center,
+              child: Icon(
+                icon,
+                size: AppSize.iconSm,
+                color: colors.primary,
+              ),
             ),
-          ),
+            AppGap.horizontalMd,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText.body(label, fontWeight: FontWeight.w600),
+                  AppGap.verticalXxs,
+                  AppText.caption(
+                    value,
+                    color: colors.onSurfaceVariant,
+                  ),
+                ],
+              ),
+            ),
+            AppGap.horizontalSm,
+            Icon(
+              Icons.chevron_right_rounded,
+              color: colors.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SelectionSheet<T> extends StatelessWidget {
+  const _SelectionSheet({
+    required this.title,
+    required this.selectedValue,
+    required this.options,
+  });
+
+  final String title;
+  final T selectedValue;
+  final List<_SelectionOption<T>> options;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xl,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppText.heading(title, fontWeight: FontWeight.w700),
+          AppGap.verticalMd,
+          for (final option in options)
+            RadioListTile<T>(
+              value: option.value,
+              groupValue: selectedValue,
+              secondary: Icon(option.icon),
+              title: AppText.body(option.label),
+              shape: const RoundedRectangleBorder(
+                borderRadius: AppRadius.medium,
+              ),
+              onChanged: (value) {
+                if (value != null) {
+                  Navigator.of(context).pop(value);
+                }
+              },
+            ),
         ],
       ),
     );
   }
+}
+
+final class _SelectionOption<T> {
+  const _SelectionOption({
+    required this.value,
+    required this.label,
+    required this.icon,
+  });
+
+  final T value;
+  final String label;
+  final IconData icon;
 }
