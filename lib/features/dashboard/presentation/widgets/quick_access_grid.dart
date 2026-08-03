@@ -37,7 +37,7 @@ class QuickAccessGrid extends StatelessWidget {
         icon: Icons.people_alt_rounded,
         label: strings.members,
         permissions: const [AppPermission.membersView],
-        onPressed: () => context.router.push(const PeopleRoute()),
+        onPressed: () => context.router.push(const MembersDashboardRoute()),
       ),
       QuickAccessItem(
         icon: Icons.music_note_rounded,
