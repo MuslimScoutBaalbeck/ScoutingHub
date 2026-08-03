@@ -19,7 +19,7 @@ class AppDecorativeBackground extends StatelessWidget {
     final theme = Theme.of(context).colorScheme;
     final primary = theme.primary;
     final onPrimary = theme.primary;
-    final isDark = theme.brightness ==.dark;
+    final isDark = theme.brightness == .dark;
 
     return IgnorePointer(
       child: Stack(
@@ -30,7 +30,9 @@ class AppDecorativeBackground extends StatelessWidget {
             end: -90,
             child: _DecorativeCircle(
               size: topCircleSize,
-              color: isDark?onPrimary.withValues(alpha:  .2): primary.withValues(alpha: topOpacity),
+              color: isDark
+                  ? onPrimary.withValues(alpha: .2)
+                  : primary.withValues(alpha: topOpacity),
             ),
           ),
           PositionedDirectional(
@@ -38,7 +40,9 @@ class AppDecorativeBackground extends StatelessWidget {
             start: -100,
             child: _DecorativeCircle(
               size: bottomCircleSize,
-              color:isDark?onPrimary.withValues(alpha: .1): primary.withValues(alpha: bottomOpacity),
+              color: isDark
+                  ? onPrimary.withValues(alpha: .1)
+                  : primary.withValues(alpha: bottomOpacity),
             ),
           ),
         ],

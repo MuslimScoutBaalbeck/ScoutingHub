@@ -69,66 +69,55 @@ class WelcomePage extends StatelessWidget {
                     AppSectionHeader(title: strings.preferences),
                     AppGap.verticalMd,
                     Card(
+                      clipBehavior: Clip.antiAlias,
                       child: Column(
                         children: [
-                          ListTile(
-                            leading: const Icon(Icons.language_rounded),
-                            title: Text(strings.language),
-                            trailing: Container(
-                              color: Colors.red,
-                              child: DropdownButton<AppLocale>(
-                                value: LocaleSettings.currentLocale,
-                                underline: const SizedBox.shrink(),
-                                items: [
-                                  DropdownMenuItem(
-                                    value: AppLocale.en,
-                                    child: Text(strings.english),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: AppLocale.ar,
-                                    child: Text(strings.arabic),
-                                  ),
-                                ],
-                                onChanged: (locale) async {
-                                  if (locale != null) {
-                                    await _changeLocale(context, locale);
-                                  }
-                                },
+                          _PreferenceDropdownRow<AppLocale>(
+                            icon: Icons.language_rounded,
+                            label: strings.language,
+                            value: LocaleSettings.currentLocale,
+                            items: [
+                              DropdownMenuItem(
+                                value: AppLocale.en,
+                                child: Text(strings.english),
                               ),
-                            ),
+                              DropdownMenuItem(
+                                value: AppLocale.ar,
+                                child: Text(strings.arabic),
+                              ),
+                            ],
+                            onChanged: (locale) async {
+                              if (locale != null) {
+                                await _changeLocale(context, locale);
+                              }
+                            },
                           ),
                           const Divider(height: 1),
-                          ListTile(
-                            leading: const Icon(Icons.palette_outlined),
-                            title: Text(strings.appearance),
-                            trailing: Container(
-                              color: Colors.red,
-                              child: DropdownButton<ThemeMode>(
-                                value: state.themeMode,
-                                underline: const SizedBox.shrink(),
-                                items: [
-                                  DropdownMenuItem(
-                                    value: ThemeMode.system,
-                                    child: Text(strings.theme_system),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: ThemeMode.light,
-                                    child: Text(strings.theme_light),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: ThemeMode.dark,
-                                    child: Text(strings.theme_dark),
-                                  ),
-                                ],
-                                onChanged: (mode) {
-                                  if (mode != null) {
-                                    context
-                                        .read<ApplicationStartCubit>()
-                                        .updateThemeMode(mode);
-                                  }
-                                },
+                          _PreferenceDropdownRow<ThemeMode>(
+                            icon: Icons.palette_outlined,
+                            label: strings.appearance,
+                            value: state.themeMode,
+                            items: [
+                              DropdownMenuItem(
+                                value: ThemeMode.system,
+                                child: Text(strings.theme_system),
                               ),
-                            ),
+                              DropdownMenuItem(
+                                value: ThemeMode.light,
+                                child: Text(strings.theme_light),
+                              ),
+                              DropdownMenuItem(
+                                value: ThemeMode.dark,
+                                child: Text(strings.theme_dark),
+                              ),
+                            ],
+                            onChanged: (mode) {
+                              if (mode != null) {
+                                context
+                                    .read<ApplicationStartCubit>()
+                                    .updateThemeMode(mode);
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -156,5 +145,64 @@ class WelcomePage extends StatelessWidget {
   Future<void> _complete(BuildContext context) async {
     context.read<ApplicationStartCubit>().completeOnboarding();
     await context.router.push(const LoginRoute());
+  }
+}
+
+class _PreferenceDropdownRow<T> extends StatelessWidget {
+  const _PreferenceDropdownRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+  });
+
+  final IconData icon;
+  final String label;
+  final T value;
+  final List<DropdownMenuItem<T>> items;
+  final ValueChanged<T?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: AppSize.iconMd,
+            color: colors.onSurfaceVariant,
+          ),
+          AppGap.horizontalSm,
+          SizedBox(
+            width: 82,
+            child: AppText.body(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          AppGap.horizontalMd,
+          Expanded(
+            child: DropdownButtonFormField<T>(
+              initialValue: value,
+              isExpanded: true,
+              decoration: const InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsetsDirectional.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
+                ),
+              ),
+              items: items,
+              onChanged: onChanged,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
