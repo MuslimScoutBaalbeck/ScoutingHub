@@ -5,6 +5,7 @@ import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.gr.dart';
 import 'package:scouting_hub/features/auth/application/register/register_cubit.dart';
+import 'package:scouting_hub/features/auth/application/session/session_cubit.dart';
 import 'package:scouting_hub/features/auth/presentation/extensions/auth_error_key_x.dart';
 import 'package:scouting_hub/features/auth/presentation/widgets/auth_template_page.dart';
 import 'package:scouting_hub/features/auth/presentation/widgets/auth_text_field.dart';
@@ -55,7 +56,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ..showSnackBar(SnackBar(content: Text(error.translate(context))));
         }
 
-        if (state.session != null) {
+        final session = state.session;
+        if (session != null) {
+          context.read<SessionCubit>().setSession(session);
           await context.router.replaceAll([const HomeRoute()]);
         }
       },
