@@ -11,62 +11,41 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # Localization.
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.2
   flutter_localized_locales: ^2.0.5
   slang: ^4.14.0
   slang_flutter: ^4.14.0
-
-  # State management.
   bloc: ^9.2.1
   flutter_bloc: ^9.1.1
   hydrated_bloc: ^11.0.0
   bloc_concurrency: ^0.3.0
   stream_transform: ^2.1.1
   equatable: ^2.0.8
-
-  # Offline-first persistence.
   drift: 2.34.0
   drift_dev: 2.34.0
   drift_flutter: ^0.3.0
   sqlite3: ^3.3.1
   path_provider: ^2.1.5
   path: ^1.9.1
-
-  # Routing and dependency injection.
   auto_route: ^11.1.0
   injectable: ^3.0.0
   get_it: ^9.2.1
-
-  # Models, DTOs, and serialization annotations.
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0
-
-  # UI/runtime utilities.
   flutter_svg: ^2.3.0
   responsive_grid: ^2.4.4
-
-  # Utils.
   rxdart: ^0.28.0
   fpdart: ^1.2.0
   url_launcher: ^6.3.2
   share_plus: ^13.2.1
-
-  # Icons.
   tabler_icons_plus: ^3.44.0
   cupertino_icons: ^1.0.8
-
-  # Cloud API layer.
   dio: ^5.9.2
   retrofit: ^4.9.2
-
-  # Audio.
   just_audio: ^0.10.6
   audio_session: ^0.2.4
-
-  # Images.
   cached_network_image: ^3.4.1
 
 dev_dependencies:
@@ -74,12 +53,8 @@ dev_dependencies:
     sdk: flutter
   bloc_test: ^10.0.0
   mocktail: ^1.0.5
-
-  # Analysis and Bloc-specific linting.
   bloc_lint: ^0.4.1
   very_good_analysis: ^10.2.0
-
-  # Code generation.
   build_runner: ^2.15.0
   retrofit_generator: ^10.2.6
   json_serializable: ^6.14.0
@@ -88,10 +63,7 @@ dev_dependencies:
   auto_route_generator: ^10.5.0
   flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.4.7
-
-  # Bloc architecture tooling.
   bloc_tools: ^0.1.0-dev.24
-
   flutter_lints: ^6.0.0
 
 flutter:
@@ -103,6 +75,7 @@ flutter:
     - assets/data/chants/
     - assets/data/chants/collections/
     - assets/data/people/
+    - assets/data/membership/
 
   fonts:
     - family: IBM Plex Sans Arabic
