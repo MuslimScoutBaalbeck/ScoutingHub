@@ -15,6 +15,7 @@ abstract final class AppGap {
   static const horizontalMd = SizedBox(width: AppSpacing.md);
   static const horizontalLg = SizedBox(width: AppSpacing.lg);
 
+  static const verticalXxs = SizedBox(height: AppSpacing.xxs);
   static const verticalXs = SizedBox(height: AppSpacing.xs);
   static const verticalSm = SizedBox(height: AppSpacing.sm);
   static const verticalMd = SizedBox(height: AppSpacing.md);
