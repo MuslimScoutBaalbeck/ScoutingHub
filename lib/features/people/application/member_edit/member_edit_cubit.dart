@@ -9,8 +9,7 @@ part 'member_edit_state.dart';
 
 @injectable
 final class MemberEditCubit extends Cubit<MemberEditState> {
-  MemberEditCubit(this._savePersonUseCase)
-      : super(const MemberEditState());
+  MemberEditCubit(this._savePersonUseCase) : super(const MemberEditState());
 
   final SavePersonUseCase _savePersonUseCase;
 

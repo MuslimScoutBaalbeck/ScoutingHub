@@ -13,8 +13,7 @@ class MemberCreateWizardPage extends StatefulWidget
   const MemberCreateWizardPage({super.key});
 
   @override
-  State<MemberCreateWizardPage> createState() =>
-      _MemberCreateWizardPageState();
+  State<MemberCreateWizardPage> createState() => _MemberCreateWizardPageState();
 
   @override
   Widget wrappedRoute(BuildContext context) {
@@ -59,7 +58,8 @@ class _MemberCreateWizardPageState extends State<MemberCreateWizardPage> {
 
     return BlocConsumer<MemberCreateCubit, MemberCreateState>(
       listenWhen: (previous, current) =>
-          previous.isSaved != current.isSaved || previous.error != current.error,
+          previous.isSaved != current.isSaved ||
+          previous.error != current.error,
       listener: (context, state) {
         if (state.isSaved) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -96,7 +96,9 @@ class _MemberCreateWizardPageState extends State<MemberCreateWizardPage> {
                         child: state.isSaving
                             ? const SizedBox.square(
                                 dimension: 18,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : Text(
                                 state.currentStep == 3
@@ -235,7 +237,8 @@ class _MemberCreateWizardPageState extends State<MemberCreateWizardPage> {
       controller: controller,
       keyboardType: keyboard,
       decoration: InputDecoration(labelText: label),
-      validator: (value) => value == null || value.trim().isEmpty ? label : null,
+      validator: (value) =>
+          value == null || value.trim().isEmpty ? label : null,
     );
   }
 

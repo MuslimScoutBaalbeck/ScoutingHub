@@ -10,7 +10,7 @@ part 'members_dashboard_state.dart';
 @injectable
 final class MembersDashboardCubit extends Cubit<MembersDashboardState> {
   MembersDashboardCubit(this._loadPeopleUseCase)
-      : super(const MembersDashboardState());
+    : super(const MembersDashboardState());
 
   final LoadPeopleUseCase _loadPeopleUseCase;
 

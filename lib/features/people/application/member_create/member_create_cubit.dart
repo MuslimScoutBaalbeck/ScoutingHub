@@ -9,8 +9,7 @@ part 'member_create_state.dart';
 
 @injectable
 final class MemberCreateCubit extends Cubit<MemberCreateState> {
-  MemberCreateCubit(this._savePersonUseCase)
-      : super(const MemberCreateState());
+  MemberCreateCubit(this._savePersonUseCase) : super(const MemberCreateState());
 
   final SavePersonUseCase _savePersonUseCase;
 
@@ -52,7 +51,8 @@ final class MemberCreateCubit extends Cubit<MemberCreateState> {
         stage: state.stage,
         unit: unit.trim(),
         status: state.status,
-        profileComplete: fullName.trim().isNotEmpty &&
+        profileComplete:
+            fullName.trim().isNotEmpty &&
             phone.trim().isNotEmpty &&
             membershipNumber.trim().isNotEmpty &&
             unit.trim().isNotEmpty,

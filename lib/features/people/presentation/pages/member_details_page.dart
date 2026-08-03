@@ -104,7 +104,9 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
             _Section(
               title: strings.notes,
               onEdit: () => _openNotesEditor(context),
-              children: [AppText.paragraph(_member.notes.isEmpty ? '—' : _member.notes)],
+              children: [
+                AppText.paragraph(_member.notes.isEmpty ? '—' : _member.notes),
+              ],
             ),
           ],
         ),
@@ -123,20 +125,37 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
       context,
       title: context.t.people.personal_information,
       fields: [
-        TextFormField(controller: name, decoration: InputDecoration(labelText: context.t.people.full_name)),
-        TextFormField(controller: phone, decoration: InputDecoration(labelText: context.t.people.phone)),
-        TextFormField(controller: email, decoration: InputDecoration(labelText: context.t.people.email)),
-        TextFormField(controller: address, decoration: InputDecoration(labelText: context.t.people.address)),
-        TextFormField(controller: emergency, decoration: InputDecoration(labelText: context.t.people.emergency_contact)),
+        TextFormField(
+          controller: name,
+          decoration: InputDecoration(labelText: context.t.people.full_name),
+        ),
+        TextFormField(
+          controller: phone,
+          decoration: InputDecoration(labelText: context.t.people.phone),
+        ),
+        TextFormField(
+          controller: email,
+          decoration: InputDecoration(labelText: context.t.people.email),
+        ),
+        TextFormField(
+          controller: address,
+          decoration: InputDecoration(labelText: context.t.people.address),
+        ),
+        TextFormField(
+          controller: emergency,
+          decoration: InputDecoration(
+            labelText: context.t.people.emergency_contact,
+          ),
+        ),
       ],
       onSave: () => context.read<MemberEditCubit>().updatePersonal(
-            member: _member,
-            fullName: name.text,
-            phone: phone.text,
-            email: email.text,
-            address: address.text,
-            emergencyContact: emergency.text,
-          ),
+        member: _member,
+        fullName: name.text,
+        phone: phone.text,
+        email: email.text,
+        address: address.text,
+        emergencyContact: emergency.text,
+      ),
     );
   }
 
@@ -150,35 +169,59 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
       context,
       title: context.t.people.scout_information,
       fields: [
-        TextFormField(controller: membership, decoration: InputDecoration(labelText: context.t.people.membership_number)),
-        TextFormField(controller: unit, decoration: InputDecoration(labelText: context.t.people.unit)),
+        TextFormField(
+          controller: membership,
+          decoration: InputDecoration(
+            labelText: context.t.people.membership_number,
+          ),
+        ),
+        TextFormField(
+          controller: unit,
+          decoration: InputDecoration(labelText: context.t.people.unit),
+        ),
         StatefulBuilder(
           builder: (context, setSheetState) => Column(
             children: [
               DropdownButtonFormField<ScoutStage>(
                 initialValue: stage,
                 decoration: InputDecoration(labelText: context.t.people.stage),
-                items: ScoutStage.values.map((value) => DropdownMenuItem(value: value, child: Text(value.name))).toList(),
-                onChanged: (value) => setSheetState(() => stage = value ?? stage),
+                items: ScoutStage.values
+                    .map(
+                      (value) => DropdownMenuItem(
+                    value: value,
+                    child: Text(value.name),
+                  ),
+                )
+                    .toList(),
+                onChanged: (value) =>
+                    setSheetState(() => stage = value ?? stage),
               ),
               AppGap.verticalSm,
               DropdownButtonFormField<PersonStatus>(
                 initialValue: status,
                 decoration: InputDecoration(labelText: context.t.people.status),
-                items: PersonStatus.values.map((value) => DropdownMenuItem(value: value, child: Text(value.name))).toList(),
-                onChanged: (value) => setSheetState(() => status = value ?? status),
+                items: PersonStatus.values
+                    .map(
+                      (value) => DropdownMenuItem(
+                    value: value,
+                    child: Text(value.name),
+                  ),
+                )
+                    .toList(),
+                onChanged: (value) =>
+                    setSheetState(() => status = value ?? status),
               ),
             ],
           ),
         ),
       ],
       onSave: () => context.read<MemberEditCubit>().updateScout(
-            member: _member,
-            membershipNumber: membership.text,
-            unit: unit.text,
-            stage: stage,
-            status: status,
-          ),
+        member: _member,
+        membershipNumber: membership.text,
+        unit: unit.text,
+        stage: stage,
+        status: status,
+      ),
     );
   }
 
@@ -195,18 +238,18 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
         ),
       ],
       onSave: () => context.read<MemberEditCubit>().updateNotes(
-            member: _member,
-            notes: notes.text,
-          ),
+        member: _member,
+        notes: notes.text,
+      ),
     );
   }
 
   Future<void> _showEditor(
-    BuildContext context, {
-    required String title,
-    required List<Widget> fields,
-    required Future<void> Function() onSave,
-  }) async {
+      BuildContext context, {
+        required String title,
+        required List<Widget> fields,
+        required Future<void> Function() onSave,
+      }) async {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -230,7 +273,9 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
                 child: Scaffold(
                   appBar: AppBar(
                     leading: IconButton(
-                      onPressed: state.isSaving ? null : () => Navigator.of(sheetContext).pop(),
+                      onPressed: state.isSaving
+                          ? null
+                          : () => Navigator.of(sheetContext).pop(),
                       icon: const Icon(Icons.close_rounded),
                     ),
                     title: Text(title),
@@ -239,9 +284,11 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
                         onPressed: state.isSaving ? null : onSave,
                         child: state.isSaving
                             ? const SizedBox.square(
-                                dimension: 18,
-                                child: CircularProgressIndicator(strokeWidth: 2),
-                              )
+                          dimension: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
                             : Text(context.t.people.save),
                       ),
                     ],
@@ -263,7 +310,11 @@ class _MemberDetailsPageState extends State<MemberDetailsPage> {
 }
 
 class _Section extends StatelessWidget {
-  const _Section({required this.title, required this.children, required this.onEdit});
+  const _Section({
+    required this.title,
+    required this.children,
+    required this.onEdit,
+  });
 
   final String title;
   final List<Widget> children;
@@ -280,7 +331,9 @@ class _Section extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: AppText.title(title, fontWeight: FontWeight.w800)),
+                Expanded(
+                  child: AppText.title(title, fontWeight: FontWeight.w800),
+                ),
                 IconButton(
                   tooltip: context.t.people.edit,
                   onPressed: onEdit,

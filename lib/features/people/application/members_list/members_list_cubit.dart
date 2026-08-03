@@ -62,12 +62,14 @@ final class MembersListCubit extends Cubit<MembersListState> {
   List<Person> search(String value) {
     final query = value.trim().toLowerCase();
 
-    return state.members.where((member) {
-      return query.isEmpty ||
-          member.fullName.toLowerCase().contains(query) ||
-          member.membershipNumber.toLowerCase().contains(query) ||
-          member.phone.contains(query);
-    }).toList(growable: false);
+    return state.members
+        .where((member) {
+          return query.isEmpty ||
+              member.fullName.toLowerCase().contains(query) ||
+              member.membershipNumber.toLowerCase().contains(query) ||
+              member.phone.contains(query);
+        })
+        .toList(growable: false);
   }
 
   List<Person> _filter(
@@ -75,9 +77,11 @@ final class MembersListCubit extends Cubit<MembersListState> {
     ScoutStage? stage,
     PersonStatus? status,
   }) {
-    return members.where((member) {
-      return (stage == null || member.stage == stage) &&
-          (status == null || member.status == status);
-    }).toList(growable: false);
+    return members
+        .where((member) {
+          return (stage == null || member.stage == stage) &&
+              (status == null || member.status == status);
+        })
+        .toList(growable: false);
   }
 }

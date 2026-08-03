@@ -37,6 +37,24 @@ import '../../features/organizations/data/datasources/fake_organizations_data_so
     as _i63;
 import '../../features/organizations/data/datasources/organizations_data_source.dart'
     as _i664;
+import '../../features/people/application/member_create/member_create_cubit.dart'
+    as _i949;
+import '../../features/people/application/member_edit/member_edit_cubit.dart'
+    as _i31;
+import '../../features/people/application/members_dashboard/members_dashboard_cubit.dart'
+    as _i112;
+import '../../features/people/application/members_list/members_list_cubit.dart'
+    as _i79;
+import '../../features/people/data/datasources/fake_people_data_source.dart'
+    as _i957;
+import '../../features/people/data/repositories/fake_people_repository.dart'
+    as _i606;
+import '../../features/people/domain/repositories/people_repository.dart'
+    as _i646;
+import '../../features/people/domain/usecases/load_people_use_case.dart'
+    as _i181;
+import '../../features/people/domain/usecases/save_person_use_case.dart'
+    as _i535;
 import '../../features/startup/application/application_start/application_start_cubit.dart'
     as _i123;
 import '../database/database.dart' as _i660;
@@ -56,6 +74,9 @@ _i174.GetIt $initGetIt(
   gh.singleton<_i123.ApplicationStartCubit>(
     () => _i123.ApplicationStartCubit(),
   );
+  gh.lazySingleton<_i957.FakePeopleDataSource>(
+    () => _i957.FakePeopleDataSource(),
+  );
   gh.lazySingleton<_i664.OrganizationsDataSource>(
     () => _i63.FakeOrganizationsDataSource(),
   );
@@ -64,6 +85,21 @@ _i174.GetIt $initGetIt(
   );
   gh.factory<_i787.AuthRepository>(
     () => _i153.AuthRepositoryImpl(gh<_i107.AuthRemoteDataSource>()),
+  );
+  gh.lazySingleton<_i646.PeopleRepository>(
+    () => _i606.FakePeopleRepository(gh<_i957.FakePeopleDataSource>()),
+  );
+  gh.factory<_i181.LoadPeopleUseCase>(
+    () => _i181.LoadPeopleUseCase(gh<_i646.PeopleRepository>()),
+  );
+  gh.factory<_i535.SavePersonUseCase>(
+    () => _i535.SavePersonUseCase(gh<_i646.PeopleRepository>()),
+  );
+  gh.factory<_i949.MemberCreateCubit>(
+    () => _i949.MemberCreateCubit(gh<_i535.SavePersonUseCase>()),
+  );
+  gh.factory<_i31.MemberEditCubit>(
+    () => _i31.MemberEditCubit(gh<_i535.SavePersonUseCase>()),
   );
   gh.singleton<_i510.ForgotPasswordUseCase>(
     () => _i510.ForgotPasswordUseCase(gh<_i787.AuthRepository>()),
@@ -84,6 +120,12 @@ _i174.GetIt $initGetIt(
     () => _i456.RestoreSessionUseCase(gh<_i787.AuthRepository>()),
   );
   gh.factory<_i99.LoginCubit>(() => _i99.LoginCubit(gh<_i428.LoginUseCase>()));
+  gh.factory<_i112.MembersDashboardCubit>(
+    () => _i112.MembersDashboardCubit(gh<_i181.LoadPeopleUseCase>()),
+  );
+  gh.factory<_i79.MembersListCubit>(
+    () => _i79.MembersListCubit(gh<_i181.LoadPeopleUseCase>()),
+  );
   gh.factory<_i777.RegisterCubit>(
     () => _i777.RegisterCubit(gh<_i480.RegisterUseCase>()),
   );

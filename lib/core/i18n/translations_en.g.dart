@@ -14,8 +14,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   ///
   /// Usage:
   /// final t = Translations.of(context);
-  static Translations of(BuildContext context) =>
-      InheritedLocaleData.of<AppLocale, Translations>(context).translations;
+  static Translations of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context).translations;
 
   /// You can call this constructor and build your own translation instance of this locale.
   /// Constructing via the enum [AppLocale.build] is preferred.
@@ -24,10 +23,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
     PluralResolver? cardinalResolver,
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
-  }) : assert(
-         overrides == null,
-         'Set "translation_overrides: true" in order to enable this feature.',
-       ),
+  }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
        $meta =
            meta ??
            TranslationMetadata(
@@ -43,19 +39,16 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   late final Translations _root = this; // ignore: unused_field
 
-  Translations $copyWith({
-    TranslationMetadata<AppLocale, Translations>? meta,
-  }) => Translations(meta: meta ?? this.$meta);
+  Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) =>
+      Translations(meta: meta ?? this.$meta);
 
   // Translations
   late final Translations$app$en app = Translations$app$en.internal(_root);
   late final Translations$auth$en auth = Translations$auth$en.internal(_root);
   late final Translations$home$en home = Translations$home$en.internal(_root);
-  late final Translations$language$en language =
-      Translations$language$en.internal(_root);
-  late final Translations$startup$en startup = Translations$startup$en.internal(
-    _root,
-  );
+  late final Translations$language$en language = Translations$language$en.internal(_root);
+  late final Translations$people$en people = Translations$people$en.internal(_root);
+  late final Translations$startup$en startup = Translations$startup$en.internal(_root);
 }
 
 // Path: app
@@ -74,8 +67,7 @@ class Translations$app$en {
   /// en: 'Manage your scout group and everything you need for your adventure'
   ///
   /// ar: 'إدارة فوجك وكل ما تحتاجه في مغامرتك الكشفية'
-  String get tagline =>
-      'Manage your scout group and everything you need for your adventure';
+  String get tagline => 'Manage your scout group and everything you need for your adventure';
 
   /// en: 'A complete app for managing scout groups, members, activities, tasks, chants, and everything you need throughout your scouting journey.'
   ///
@@ -91,20 +83,14 @@ class Translations$auth$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$auth$errors$en errors =
-      Translations$auth$errors$en.internal(_root);
-  late final Translations$auth$forgot_password$en forgot_password =
-      Translations$auth$forgot_password$en.internal(
-        _root,
-      );
-  late final Translations$auth$login$en login =
-      Translations$auth$login$en.internal(_root);
-  late final Translations$auth$register$en register =
-      Translations$auth$register$en.internal(_root);
-  late final Translations$auth$reset_password$en reset_password =
-      Translations$auth$reset_password$en.internal(_root);
-  late final Translations$auth$welcome$en welcome =
-      Translations$auth$welcome$en.internal(_root);
+  late final Translations$auth$errors$en errors = Translations$auth$errors$en.internal(_root);
+  late final Translations$auth$forgot_password$en forgot_password = Translations$auth$forgot_password$en.internal(
+    _root,
+  );
+  late final Translations$auth$login$en login = Translations$auth$login$en.internal(_root);
+  late final Translations$auth$register$en register = Translations$auth$register$en.internal(_root);
+  late final Translations$auth$reset_password$en reset_password = Translations$auth$reset_password$en.internal(_root);
+  late final Translations$auth$welcome$en welcome = Translations$auth$welcome$en.internal(_root);
 }
 
 // Path: home
@@ -114,20 +100,13 @@ class Translations$home$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$home$navigation$en navigation =
-      Translations$home$navigation$en.internal(_root);
-  late final Translations$home$dashboard$en dashboard =
-      Translations$home$dashboard$en.internal(_root);
-  late final Translations$home$tasks$en tasks =
-      Translations$home$tasks$en.internal(_root);
-  late final Translations$home$calendar$en calendar =
-      Translations$home$calendar$en.internal(_root);
-  late final Translations$home$more$en more =
-      Translations$home$more$en.internal(_root);
-  late final Translations$home$create$en create =
-      Translations$home$create$en.internal(_root);
-  late final Translations$home$common$en common =
-      Translations$home$common$en.internal(_root);
+  late final Translations$home$navigation$en navigation = Translations$home$navigation$en.internal(_root);
+  late final Translations$home$dashboard$en dashboard = Translations$home$dashboard$en.internal(_root);
+  late final Translations$home$tasks$en tasks = Translations$home$tasks$en.internal(_root);
+  late final Translations$home$calendar$en calendar = Translations$home$calendar$en.internal(_root);
+  late final Translations$home$more$en more = Translations$home$more$en.internal(_root);
+  late final Translations$home$create$en create = Translations$home$create$en.internal(_root);
+  late final Translations$home$common$en common = Translations$home$common$en.internal(_root);
 }
 
 // Path: language
@@ -147,6 +126,322 @@ class Translations$language$en {
   ///
   /// ar: 'جاري تجهيز اللغة...'
   String get wait => 'Preparing your language...';
+}
+
+// Path: people
+class Translations$people$en {
+  Translations$people$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Members'
+  ///
+  /// ar: 'الأعضاء'
+  String get title => 'Members';
+
+  /// en: 'Manage troop members and membership records'
+  ///
+  /// ar: 'إدارة أعضاء الفوج وسجلات الانتساب'
+  String get subtitle => 'Manage troop members and membership records';
+
+  /// en: 'Member management'
+  ///
+  /// ar: 'إدارة الأعضاء'
+  String get dashboard => 'Member management';
+
+  /// en: 'Membership, requests, records, and reports'
+  ///
+  /// ar: 'العضوية والطلبات والسجلات والتقارير'
+  String get dashboard_subtitle => 'Membership, requests, records, and reports';
+
+  /// en: 'Search members'
+  ///
+  /// ar: 'البحث عن عضو'
+  String get search => 'Search members';
+
+  /// en: 'Filter'
+  ///
+  /// ar: 'تصفية'
+  String get filter => 'Filter';
+
+  /// en: 'Member filters'
+  ///
+  /// ar: 'فلاتر الأعضاء'
+  String get filters => 'Member filters';
+
+  /// en: 'Apply filters'
+  ///
+  /// ar: 'تطبيق الفلاتر'
+  String get apply_filters => 'Apply filters';
+
+  /// en: 'Clear all filters'
+  ///
+  /// ar: 'إزالة جميع الفلاتر'
+  String get clear_filters => 'Clear all filters';
+
+  /// en: 'All stages'
+  ///
+  /// ar: 'جميع المراحل'
+  String get all_stages => 'All stages';
+
+  /// en: 'All statuses'
+  ///
+  /// ar: 'جميع الحالات'
+  String get all_statuses => 'All statuses';
+
+  /// en: 'Add member'
+  ///
+  /// ar: 'إضافة عضو'
+  String get add => 'Add member';
+
+  /// en: 'Edit member'
+  ///
+  /// ar: 'تعديل العضو'
+  String get edit => 'Edit member';
+
+  /// en: 'Member details'
+  ///
+  /// ar: 'تفاصيل العضو'
+  String get details => 'Member details';
+
+  /// en: 'Save member'
+  ///
+  /// ar: 'حفظ العضو'
+  String get save => 'Save member';
+
+  /// en: 'Next'
+  ///
+  /// ar: 'التالي'
+  String get next => 'Next';
+
+  /// en: 'Back'
+  ///
+  /// ar: 'السابق'
+  String get back => 'Back';
+
+  /// en: 'Finish'
+  ///
+  /// ar: 'إنهاء'
+  String get finish => 'Finish';
+
+  /// en: 'Active'
+  ///
+  /// ar: 'فاعل'
+  String get active => 'Active';
+
+  /// en: 'Pending'
+  ///
+  /// ar: 'قيد المراجعة'
+  String get pending => 'Pending';
+
+  /// en: 'Inactive'
+  ///
+  /// ar: 'غير فاعل'
+  String get inactive => 'Inactive';
+
+  /// en: 'Archived'
+  ///
+  /// ar: 'مؤرشف'
+  String get archived => 'Archived';
+
+  /// en: 'Profile complete'
+  ///
+  /// ar: 'الملف مكتمل'
+  String get complete => 'Profile complete';
+
+  /// en: 'Profile incomplete'
+  ///
+  /// ar: 'الملف غير مكتمل'
+  String get incomplete => 'Profile incomplete';
+
+  /// en: 'No members match your search or filters.'
+  ///
+  /// ar: 'لا يوجد أعضاء مطابقون للبحث أو الفلاتر.'
+  String get empty => 'No members match your search or filters.';
+
+  /// en: 'Unable to load members. Please try again.'
+  ///
+  /// ar: 'تعذر تحميل الأعضاء. حاول مجدداً.'
+  String get unexpected_error => 'Unable to load members. Please try again.';
+
+  /// en: 'Retry'
+  ///
+  /// ar: 'إعادة المحاولة'
+  String get retry => 'Retry';
+
+  /// en: 'Membership #'
+  ///
+  /// ar: 'رقم العضوية'
+  String get membership_number => 'Membership #';
+
+  /// en: '$count members'
+  ///
+  /// ar: '$count أعضاء'
+  String members_count({required Object count}) => '${count} members';
+
+  /// en: 'Total members'
+  ///
+  /// ar: 'إجمالي الأعضاء'
+  String get total_members => 'Total members';
+
+  /// en: 'Active members'
+  ///
+  /// ar: 'الأعضاء الفاعلون'
+  String get active_members => 'Active members';
+
+  /// en: 'Pending requests'
+  ///
+  /// ar: 'طلبات قيد المراجعة'
+  String get pending_requests => 'Pending requests';
+
+  /// en: 'Incomplete profiles'
+  ///
+  /// ar: 'ملفات غير مكتملة'
+  String get incomplete_profiles => 'Incomplete profiles';
+
+  /// en: 'Members list'
+  ///
+  /// ar: 'قائمة الأعضاء'
+  String get members_list => 'Members list';
+
+  /// en: 'Membership requests'
+  ///
+  /// ar: 'طلبات الانتساب'
+  String get membership_requests => 'Membership requests';
+
+  /// en: 'Reports'
+  ///
+  /// ar: 'التقارير'
+  String get reports => 'Reports';
+
+  /// en: 'Recent members'
+  ///
+  /// ar: 'أحدث الأعضاء'
+  String get recent_members => 'Recent members';
+
+  /// en: 'Personal information'
+  ///
+  /// ar: 'المعلومات الشخصية'
+  String get personal_information => 'Personal information';
+
+  /// en: 'Scout information'
+  ///
+  /// ar: 'المعلومات الكشفية'
+  String get scout_information => 'Scout information';
+
+  /// en: 'Contact information'
+  ///
+  /// ar: 'معلومات الاتصال'
+  String get contact_information => 'Contact information';
+
+  /// en: 'Review'
+  ///
+  /// ar: 'المراجعة'
+  String get review => 'Review';
+
+  /// en: 'Full name'
+  ///
+  /// ar: 'الاسم الكامل'
+  String get full_name => 'Full name';
+
+  /// en: 'Phone'
+  ///
+  /// ar: 'رقم الهاتف'
+  String get phone => 'Phone';
+
+  /// en: 'Email'
+  ///
+  /// ar: 'البريد الإلكتروني'
+  String get email => 'Email';
+
+  /// en: 'Address'
+  ///
+  /// ar: 'العنوان'
+  String get address => 'Address';
+
+  /// en: 'Emergency contact'
+  ///
+  /// ar: 'جهة اتصال للطوارئ'
+  String get emergency_contact => 'Emergency contact';
+
+  /// en: 'Unit'
+  ///
+  /// ar: 'الوحدة'
+  String get unit => 'Unit';
+
+  /// en: 'Stage'
+  ///
+  /// ar: 'المرحلة'
+  String get stage => 'Stage';
+
+  /// en: 'Status'
+  ///
+  /// ar: 'الحالة'
+  String get status => 'Status';
+
+  /// en: 'Joined at'
+  ///
+  /// ar: 'تاريخ الانتساب'
+  String get joined_at => 'Joined at';
+
+  /// en: 'Notes'
+  ///
+  /// ar: 'ملاحظات'
+  String get notes => 'Notes';
+
+  /// en: 'New'
+  ///
+  /// ar: 'جديد'
+  String get request_new => 'New';
+
+  /// en: 'Under review'
+  ///
+  /// ar: 'قيد التدقيق'
+  String get request_review => 'Under review';
+
+  /// en: 'Needs information'
+  ///
+  /// ar: 'يحتاج معلومات'
+  String get request_needs_info => 'Needs information';
+
+  /// en: 'Approved'
+  ///
+  /// ar: 'مقبول'
+  String get request_approved => 'Approved';
+
+  /// en: 'Members by stage'
+  ///
+  /// ar: 'الأعضاء حسب المرحلة'
+  String get report_by_stage => 'Members by stage';
+
+  /// en: 'Incomplete profiles'
+  ///
+  /// ar: 'الملفات غير المكتملة'
+  String get report_incomplete => 'Incomplete profiles';
+
+  /// en: 'New members'
+  ///
+  /// ar: 'الأعضاء الجدد'
+  String get report_new_members => 'New members';
+
+  /// en: 'Contact directory'
+  ///
+  /// ar: 'دليل التواصل'
+  String get report_contacts => 'Contact directory';
+
+  /// en: 'Export'
+  ///
+  /// ar: 'تصدير'
+  String get export => 'Export';
+
+  /// en: 'Member saved successfully.'
+  ///
+  /// ar: 'تم حفظ العضو بنجاح.'
+  String get saved => 'Member saved successfully.';
+
+  late final Translations$people$stages$en stages = Translations$people$stages$en.internal(_root);
 }
 
 // Path: startup
@@ -180,8 +475,7 @@ class Translations$startup$en {
   /// en: 'Please wait while we prepare your scouting experience'
   ///
   /// ar: 'يرجى الانتظار ريثما نجهّز تجربتك الكشفية'
-  String get please_wait =>
-      'Please wait while we prepare your scouting experience';
+  String get please_wait => 'Please wait while we prepare your scouting experience';
 }
 
 // Path: auth.errors
@@ -216,8 +510,7 @@ class Translations$auth$errors$en {
   /// en: 'Complete all fields correctly and use a password with at least 8 characters.'
   ///
   /// ar: 'أكمل جميع الحقول بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.'
-  String get reset_fields_invalid =>
-      'Complete all fields correctly and use a password with at least 8 characters.';
+  String get reset_fields_invalid => 'Complete all fields correctly and use a password with at least 8 characters.';
 
   /// en: 'The email or password is incorrect.'
   ///
@@ -227,8 +520,7 @@ class Translations$auth$errors$en {
   /// en: 'An account already exists for this email address.'
   ///
   /// ar: 'يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني.'
-  String get email_already_exists =>
-      'An account already exists for this email address.';
+  String get email_already_exists => 'An account already exists for this email address.';
 
   /// en: 'The password reset code is invalid.'
   ///
@@ -262,8 +554,7 @@ class Translations$auth$forgot_password$en {
   /// en: 'Enter your email and we will send a fake reset code for this demo.'
   ///
   /// ar: 'أدخل بريدك الإلكتروني وسنرسل رمز إعادة تعيين تجريبي.'
-  String get subtitle =>
-      'Enter your email and we will send a fake reset code for this demo.';
+  String get subtitle => 'Enter your email and we will send a fake reset code for this demo.';
 
   /// en: 'Email address'
   ///
@@ -419,8 +710,7 @@ class Translations$auth$register$en {
   /// en: 'Join Scouting Hub and keep your scouting resources together.'
   ///
   /// ar: 'انضم إلى منصة الكشاف واحتفظ بمواردك الكشفية في مكان واحد.'
-  String get subtitle =>
-      'Join Scouting Hub and keep your scouting resources together.';
+  String get subtitle => 'Join Scouting Hub and keep your scouting resources together.';
 
   /// en: 'Full name'
   ///
@@ -524,8 +814,7 @@ class Translations$auth$reset_password$en {
   /// en: 'The reset code is invalid. Use 123456 for the demo.'
   ///
   /// ar: 'رمز إعادة التعيين غير صحيح. استخدم 123456 للتجربة.'
-  String get invalid_code =>
-      'The reset code is invalid. Use 123456 for the demo.';
+  String get invalid_code => 'The reset code is invalid. Use 123456 for the demo.';
 
   /// en: 'Complete all fields correctly.'
   ///
@@ -549,8 +838,7 @@ class Translations$auth$welcome$en {
   /// en: 'Manage your scout group and everything you need for your scouting adventure.'
   ///
   /// ar: 'أدِر فوجك وكل ما تحتاجه في مغامرتك الكشفية.'
-  String get subtitle =>
-      'Manage your scout group and everything you need for your scouting adventure.';
+  String get subtitle => 'Manage your scout group and everything you need for your scouting adventure.';
 
   /// en: 'Get started'
   ///
@@ -738,14 +1026,12 @@ class Translations$home$dashboard$en {
   /// en: 'No quick-access modules are available for your permissions.'
   ///
   /// ar: 'لا توجد وحدات وصول سريع متاحة ضمن صلاحياتك الحالية.'
-  String get no_access =>
-      'No quick-access modules are available for your permissions.';
+  String get no_access => 'No quick-access modules are available for your permissions.';
 
   /// en: 'No modules are available for your current permissions.'
   ///
   /// ar: 'لا توجد وحدات متاحة ضمن صلاحياتك الحالية.'
-  String get no_modules =>
-      'No modules are available for your current permissions.';
+  String get no_modules => 'No modules are available for your current permissions.';
 }
 
 // Path: home.tasks
@@ -981,8 +1267,7 @@ class Translations$home$create$en {
   /// en: 'No creation actions are available for your permissions.'
   ///
   /// ar: 'لا توجد إجراءات إنشاء متاحة ضمن صلاحياتك الحالية.'
-  String get no_actions =>
-      'No creation actions are available for your permissions.';
+  String get no_actions => 'No creation actions are available for your permissions.';
 }
 
 // Path: home.common
@@ -1001,8 +1286,36 @@ class Translations$home$common$en {
   /// en: 'You do not have permission to access this section.'
   ///
   /// ar: 'لا تملك صلاحية الوصول إلى هذا القسم.'
-  String get access_denied =>
-      'You do not have permission to access this section.';
+  String get access_denied => 'You do not have permission to access this section.';
+}
+
+// Path: people.stages
+class Translations$people$stages$en {
+  Translations$people$stages$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Cub'
+  ///
+  /// ar: 'جرموز'
+  String get cub => 'Cub';
+
+  /// en: 'Scout'
+  ///
+  /// ar: 'كشاف'
+  String get scout => 'Scout';
+
+  /// en: 'Rover'
+  ///
+  /// ar: 'جوال'
+  String get rover => 'Rover';
+
+  /// en: 'Leader'
+  ///
+  /// ar: 'قائد'
+  String get leader => 'Leader';
 }
 
 // Path: auth.login.adventure_words

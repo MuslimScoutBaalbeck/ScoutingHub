@@ -31,6 +31,7 @@ class _MembersListPageState extends State<MembersListPage> {
   @override
   Widget build(BuildContext context) {
     final strings = context.t.people;
+    final primary = Theme.of(context).colorScheme;
 
     return BlocBuilder<MembersListCubit, MembersListState>(
       builder: (context, state) {
@@ -41,8 +42,28 @@ class _MembersListPageState extends State<MembersListPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(strings.members_list),
-                Text(strings.subtitle, style: Theme.of(context).textTheme.bodySmall),
+                Text(
+                  strings.subtitle,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ],
+            ),
+            bottom: PreferredSize(
+              preferredSize:const Size.fromHeight(40),
+              child:  Container(
+                color: primary.primary.withAlpha(25),
+                padding:  const EdgeInsets.symmetric(vertical:10,horizontal: 10),
+                child: Row(
+                  crossAxisAlignment: .start,
+                  children: [
+                    AppText.body(
+                      strings.members_count(count: state.visibleCount),
+                      textAlign: TextAlign.center,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ],
+                ),
+              )
             ),
             actions: [
               IconButton(
@@ -68,7 +89,10 @@ class _MembersListPageState extends State<MembersListPage> {
             initialStage: state.stage,
             initialStatus: state.status,
             onApply: (stage, status) {
-              context.read<MembersListCubit>().applyFilters(stage: stage, status: status);
+              context.read<MembersListCubit>().applyFilters(
+                stage: stage,
+                status: status,
+              );
               Navigator.of(context).pop();
             },
             onClear: () {
@@ -88,34 +112,7 @@ class _MembersListPageState extends State<MembersListPage> {
             },
             child: const Icon(Icons.person_add_alt_1_rounded),
           ),
-          body: Column(
-            children: [
-              Expanded(child: _MembersListBody(state: state)),
-              SafeArea(
-                top: false,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
-                    vertical: AppSpacing.sm,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    border: Border(
-                      top: BorderSide(
-                        color: Theme.of(context).colorScheme.outlineVariant,
-                      ),
-                    ),
-                  ),
-                  child: AppText.body(
-                    strings.members_count(count: state.visibleCount),
-                    textAlign: TextAlign.center,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          body: Expanded(child: _MembersListBody(state: state)),
         );
       },
     );
@@ -181,7 +178,9 @@ class _MembersListBody extends StatelessWidget {
                 horizontal: AppSpacing.sm,
                 vertical: AppSpacing.xxs,
               ),
-              leading: CircleAvatar(child: Text(member.fullName.characters.first)),
+              leading: CircleAvatar(
+                child: Text(member.fullName.characters.first),
+              ),
               title: AppText.body(member.fullName, fontWeight: FontWeight.w700),
               subtitle: AppText.caption(
                 '${member.unit} · ${strings.membership_number}: ${member.membershipNumber}',
@@ -219,7 +218,10 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
   @override
   List<Widget>? buildActions(BuildContext context) => [
     if (query.isNotEmpty)
-      IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear_rounded)),
+      IconButton(
+        onPressed: () => query = '',
+        icon: const Icon(Icons.clear_rounded),
+      ),
   ];
 
   @override
@@ -300,9 +302,13 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 initialValue: _stage,
                 decoration: InputDecoration(labelText: strings.stage),
                 items: [
-                  DropdownMenuItem(value: null, child: Text(strings.all_stages)),
+                  DropdownMenuItem(
+                    value: null,
+                    child: Text(strings.all_stages),
+                  ),
                   ...ScoutStage.values.map(
-                    (value) => DropdownMenuItem(value: value, child: Text(value.name)),
+                    (value) =>
+                        DropdownMenuItem(value: value, child: Text(value.name)),
                   ),
                 ],
                 onChanged: (value) => setState(() => _stage = value),
@@ -312,15 +318,22 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 initialValue: _status,
                 decoration: InputDecoration(labelText: strings.status),
                 items: [
-                  DropdownMenuItem(value: null, child: Text(strings.all_statuses)),
+                  DropdownMenuItem(
+                    value: null,
+                    child: Text(strings.all_statuses),
+                  ),
                   ...PersonStatus.values.map(
-                    (value) => DropdownMenuItem(value: value, child: Text(value.name)),
+                    (value) =>
+                        DropdownMenuItem(value: value, child: Text(value.name)),
                   ),
                 ],
                 onChanged: (value) => setState(() => _status = value),
               ),
               const Spacer(),
-              AppButton.outline(label: strings.clear_filters, onPressed: widget.onClear),
+              AppButton.outline(
+                label: strings.clear_filters,
+                onPressed: widget.onClear,
+              ),
               AppGap.verticalSm,
               AppButton.filled(
                 label: strings.apply_filters,

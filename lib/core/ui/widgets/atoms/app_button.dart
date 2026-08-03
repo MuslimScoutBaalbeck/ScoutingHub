@@ -11,7 +11,7 @@ class AppButton extends StatelessWidget {
     super.key,
   });
 
-  const AppButton.action({
+  const AppButton.filled({
     required String label,
     required VoidCallback? onPressed,
     Widget? icon,
@@ -21,7 +21,7 @@ class AppButton extends StatelessWidget {
   }) : this._(
          key: key,
          label: label,
-         variant: AppButtonVariant.action,
+         variant: AppButtonVariant.filled,
          onPressed: onPressed,
          icon: icon,
          isLoading: isLoading,
@@ -87,7 +87,7 @@ class AppButton extends StatelessWidget {
           );
 
     final button = switch (variant) {
-      AppButtonVariant.action => FilledButton(
+      AppButtonVariant.filled => FilledButton(
         onPressed: callback,
         child: content,
       ),
@@ -105,4 +105,4 @@ class AppButton extends StatelessWidget {
   }
 }
 
-enum AppButtonVariant { action, outline, text }
+enum AppButtonVariant { filled, outline, text}

@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
             onDestinationSelected: tabsRouter.setActiveIndex,
             elevation: 3,
             shadowColor: Colors.black,
-            backgroundColor:colors.surface,
+            backgroundColor: colors.surface,
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.home_outlined),

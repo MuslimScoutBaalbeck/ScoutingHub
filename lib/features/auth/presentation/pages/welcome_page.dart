@@ -70,7 +70,7 @@ class WelcomePage extends StatelessWidget {
                       color: colors.onSurfaceVariant,
                     ),
                     AppGap.verticalXl,
-                    AppButton.action(
+                    AppButton.filled(
                       label: strings.get_started,
                       onPressed: () => _complete(context),
                     ),
