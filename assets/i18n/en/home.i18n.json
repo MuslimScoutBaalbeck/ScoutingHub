@@ -7,7 +7,6 @@
   },
   "dashboard": {
     "welcome_back": "Welcome back",
-    "user_name": "Demo Scout",
     "notifications": "Notifications",
     "upcoming_title": "Upcoming event",
     "upcoming_name": "Weekly troop meeting",
@@ -18,7 +17,12 @@
     "teams": "Teams",
     "members": "Members",
     "chants": "Chants",
-    "games": "Games"
+    "games": "Games",
+    "inventory": "Inventory",
+    "assignments": "Your responsibilities",
+    "active_assignment": "Active responsibility",
+    "no_assignment": "No responsibility assigned",
+    "no_access": "No quick-access modules are available for your permissions."
   },
   "tasks": {
     "title": "Tasks",
@@ -30,14 +34,16 @@
     "camp_inventory_1": "Count tents",
     "camp_inventory_2": "Check first-aid supplies",
     "done": "Completed",
-    "pending": "Pending"
+    "pending": "Pending",
+    "access_denied": "You do not have permission to view tasks."
   },
   "calendar": {
     "title": "Calendar",
     "subtitle": "Events for this month",
     "meeting": "Troop meeting",
     "training": "Leadership training",
-    "camp": "Weekend camp"
+    "camp": "Weekend camp",
+    "access_denied": "You do not have permission to view events."
   },
   "more": {
     "title": "More",
@@ -55,6 +61,7 @@
     "logout": "Log out"
   },
   "common": {
-    "coming_soon": "Coming soon"
+    "coming_soon": "Coming soon",
+    "access_denied": "You do not have permission to access this section."
   }
 }
