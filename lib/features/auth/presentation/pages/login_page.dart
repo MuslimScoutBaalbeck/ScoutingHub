@@ -5,6 +5,7 @@ import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.gr.dart';
 import 'package:scouting_hub/features/auth/application/login/login_cubit.dart';
+import 'package:scouting_hub/features/auth/application/session/session_cubit.dart';
 import 'package:scouting_hub/features/auth/presentation/extensions/auth_error_key_x.dart';
 import 'package:scouting_hub/features/auth/presentation/widgets/auth_template_page.dart';
 import 'package:scouting_hub/features/auth/presentation/widgets/auth_text_field.dart';
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return BlocConsumer<LoginCubit, LoginState>(
       listenWhen: (previous, current) =>
-      previous.error != current.error ||
+          previous.error != current.error ||
           previous.session != current.session,
       listener: (context, state) async {
         final error = state.error;
@@ -50,7 +51,9 @@ class _LoginPageState extends State<LoginPage> {
             ..showSnackBar(SnackBar(content: Text(error.translate(context))));
         }
 
-        if (state.session != null) {
+        final session = state.session;
+        if (session != null) {
+          context.read<SessionCubit>().setSession(session);
           await context.router.replaceAll([const HomeRoute()]);
         }
       },
@@ -84,8 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: state.isLoading
                         ? null
                         : () => setState(
-                          () => _obscurePassword = !_obscurePassword,
-                    ),
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_off_outlined
@@ -101,8 +104,8 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: state.isLoading
                         ? null
                         : () => context.router.push(
-                      const ForgotPasswordRoute(),
-                    ),
+                            const ForgotPasswordRoute(),
+                          ),
                     child: Text(strings.forgot_password),
                   ),
                 ),
@@ -111,9 +114,9 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: state.isLoading ? null : _submit,
                   child: state.isLoading
                       ? const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
+                          dimension: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : Text(strings.submit),
                 ),
                 const SizedBox(height: 14),
