@@ -14,8 +14,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   ///
   /// Usage:
   /// final t = Translations.of(context);
-  static Translations of(BuildContext context) =>
-      InheritedLocaleData.of<AppLocale, Translations>(context).translations;
+  static Translations of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context).translations;
 
   /// You can call this constructor and build your own translation instance of this locale.
   /// Constructing via the enum [AppLocale.build] is preferred.
@@ -24,10 +23,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
     PluralResolver? cardinalResolver,
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
-  }) : assert(
-         overrides == null,
-         'Set "translation_overrides: true" in order to enable this feature.',
-       ),
+  }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
        $meta =
            meta ??
            TranslationMetadata(
@@ -43,19 +39,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   late final Translations _root = this; // ignore: unused_field
 
-  Translations $copyWith({
-    TranslationMetadata<AppLocale, Translations>? meta,
-  }) => Translations(meta: meta ?? this.$meta);
+  Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) =>
+      Translations(meta: meta ?? this.$meta);
 
   // Translations
   late final Translations$app$en app = Translations$app$en.internal(_root);
   late final Translations$auth$en auth = Translations$auth$en.internal(_root);
   late final Translations$home$en home = Translations$home$en.internal(_root);
-  late final Translations$language$en language =
-      Translations$language$en.internal(_root);
-  late final Translations$startup$en startup = Translations$startup$en.internal(
-    _root,
-  );
+  late final Translations$language$en language = Translations$language$en.internal(_root);
+  late final Translations$startup$en startup = Translations$startup$en.internal(_root);
 }
 
 // Path: app
@@ -74,8 +66,7 @@ class Translations$app$en {
   /// en: 'Manage your scout group and everything you need for your adventure'
   ///
   /// ar: 'إدارة فوجك وكل ما تحتاجه في مغامرتك الكشفية'
-  String get tagline =>
-      'Manage your scout group and everything you need for your adventure';
+  String get tagline => 'Manage your scout group and everything you need for your adventure';
 
   /// en: 'A complete app for managing scout groups, members, activities, tasks, chants, and everything you need throughout your scouting journey.'
   ///
@@ -91,20 +82,14 @@ class Translations$auth$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$auth$errors$en errors =
-      Translations$auth$errors$en.internal(_root);
-  late final Translations$auth$forgot_password$en forgot_password =
-      Translations$auth$forgot_password$en.internal(
-        _root,
-      );
-  late final Translations$auth$login$en login =
-      Translations$auth$login$en.internal(_root);
-  late final Translations$auth$register$en register =
-      Translations$auth$register$en.internal(_root);
-  late final Translations$auth$reset_password$en reset_password =
-      Translations$auth$reset_password$en.internal(_root);
-  late final Translations$auth$welcome$en welcome =
-      Translations$auth$welcome$en.internal(_root);
+  late final Translations$auth$errors$en errors = Translations$auth$errors$en.internal(_root);
+  late final Translations$auth$forgot_password$en forgot_password = Translations$auth$forgot_password$en.internal(
+    _root,
+  );
+  late final Translations$auth$login$en login = Translations$auth$login$en.internal(_root);
+  late final Translations$auth$register$en register = Translations$auth$register$en.internal(_root);
+  late final Translations$auth$reset_password$en reset_password = Translations$auth$reset_password$en.internal(_root);
+  late final Translations$auth$welcome$en welcome = Translations$auth$welcome$en.internal(_root);
 }
 
 // Path: home
@@ -114,18 +99,13 @@ class Translations$home$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$home$navigation$en navigation =
-      Translations$home$navigation$en.internal(_root);
-  late final Translations$home$dashboard$en dashboard =
-      Translations$home$dashboard$en.internal(_root);
-  late final Translations$home$tasks$en tasks =
-      Translations$home$tasks$en.internal(_root);
-  late final Translations$home$calendar$en calendar =
-      Translations$home$calendar$en.internal(_root);
-  late final Translations$home$more$en more =
-      Translations$home$more$en.internal(_root);
-  late final Translations$home$common$en common =
-      Translations$home$common$en.internal(_root);
+  late final Translations$home$navigation$en navigation = Translations$home$navigation$en.internal(_root);
+  late final Translations$home$dashboard$en dashboard = Translations$home$dashboard$en.internal(_root);
+  late final Translations$home$tasks$en tasks = Translations$home$tasks$en.internal(_root);
+  late final Translations$home$calendar$en calendar = Translations$home$calendar$en.internal(_root);
+  late final Translations$home$more$en more = Translations$home$more$en.internal(_root);
+  late final Translations$home$create$en create = Translations$home$create$en.internal(_root);
+  late final Translations$home$common$en common = Translations$home$common$en.internal(_root);
 }
 
 // Path: language
@@ -178,8 +158,7 @@ class Translations$startup$en {
   /// en: 'Please wait while we prepare your scouting experience'
   ///
   /// ar: 'يرجى الانتظار ريثما نجهّز تجربتك الكشفية'
-  String get please_wait =>
-      'Please wait while we prepare your scouting experience';
+  String get please_wait => 'Please wait while we prepare your scouting experience';
 }
 
 // Path: auth.errors
@@ -214,8 +193,7 @@ class Translations$auth$errors$en {
   /// en: 'Complete all fields correctly and use a password with at least 8 characters.'
   ///
   /// ar: 'أكمل جميع الحقول بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.'
-  String get reset_fields_invalid =>
-      'Complete all fields correctly and use a password with at least 8 characters.';
+  String get reset_fields_invalid => 'Complete all fields correctly and use a password with at least 8 characters.';
 
   /// en: 'The email or password is incorrect.'
   ///
@@ -225,8 +203,7 @@ class Translations$auth$errors$en {
   /// en: 'An account already exists for this email address.'
   ///
   /// ar: 'يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني.'
-  String get email_already_exists =>
-      'An account already exists for this email address.';
+  String get email_already_exists => 'An account already exists for this email address.';
 
   /// en: 'The password reset code is invalid.'
   ///
@@ -260,8 +237,7 @@ class Translations$auth$forgot_password$en {
   /// en: 'Enter your email and we will send a fake reset code for this demo.'
   ///
   /// ar: 'أدخل بريدك الإلكتروني وسنرسل رمز إعادة تعيين تجريبي.'
-  String get subtitle =>
-      'Enter your email and we will send a fake reset code for this demo.';
+  String get subtitle => 'Enter your email and we will send a fake reset code for this demo.';
 
   /// en: 'Email address'
   ///
@@ -417,8 +393,7 @@ class Translations$auth$register$en {
   /// en: 'Join Scouting Hub and keep your scouting resources together.'
   ///
   /// ar: 'انضم إلى منصة الكشاف واحتفظ بمواردك الكشفية في مكان واحد.'
-  String get subtitle =>
-      'Join Scouting Hub and keep your scouting resources together.';
+  String get subtitle => 'Join Scouting Hub and keep your scouting resources together.';
 
   /// en: 'Full name'
   ///
@@ -522,8 +497,7 @@ class Translations$auth$reset_password$en {
   /// en: 'The reset code is invalid. Use 123456 for the demo.'
   ///
   /// ar: 'رمز إعادة التعيين غير صحيح. استخدم 123456 للتجربة.'
-  String get invalid_code =>
-      'The reset code is invalid. Use 123456 for the demo.';
+  String get invalid_code => 'The reset code is invalid. Use 123456 for the demo.';
 
   /// en: 'Complete all fields correctly.'
   ///
@@ -547,8 +521,7 @@ class Translations$auth$welcome$en {
   /// en: 'Manage your scout group and everything you need for your scouting adventure.'
   ///
   /// ar: 'أدِر فوجك وكل ما تحتاجه في مغامرتك الكشفية.'
-  String get subtitle =>
-      'Manage your scout group and everything you need for your scouting adventure.';
+  String get subtitle => 'Manage your scout group and everything you need for your scouting adventure.';
 
   /// en: 'Get started'
   ///
@@ -736,14 +709,12 @@ class Translations$home$dashboard$en {
   /// en: 'No quick-access modules are available for your permissions.'
   ///
   /// ar: 'لا توجد وحدات وصول سريع متاحة ضمن صلاحياتك الحالية.'
-  String get no_access =>
-      'No quick-access modules are available for your permissions.';
+  String get no_access => 'No quick-access modules are available for your permissions.';
 
   /// en: 'No modules are available for your current permissions.'
   ///
   /// ar: 'لا توجد وحدات متاحة ضمن صلاحياتك الحالية.'
-  String get no_modules =>
-      'No modules are available for your current permissions.';
+  String get no_modules => 'No modules are available for your current permissions.';
 }
 
 // Path: home.tasks
@@ -923,6 +894,65 @@ class Translations$home$more$en {
   String get logout => 'Log out';
 }
 
+// Path: home.create
+class Translations$home$create$en {
+  Translations$home$create$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Create new'
+  ///
+  /// ar: 'إنشاء جديد'
+  String get tooltip => 'Create new';
+
+  /// en: 'Create new'
+  ///
+  /// ar: 'إنشاء جديد'
+  String get title => 'Create new';
+
+  /// en: 'Choose an action'
+  ///
+  /// ar: 'اختر الإجراء المطلوب'
+  String get subtitle => 'Choose an action';
+
+  /// en: 'New task'
+  ///
+  /// ar: 'مهمة جديدة'
+  String get task => 'New task';
+
+  /// en: 'New event'
+  ///
+  /// ar: 'نشاط جديد'
+  String get event => 'New event';
+
+  /// en: 'New member'
+  ///
+  /// ar: 'عضو جديد'
+  String get member => 'New member';
+
+  /// en: 'Meeting minutes'
+  ///
+  /// ar: 'محضر اجتماع'
+  String get meeting => 'Meeting minutes';
+
+  /// en: 'Inventory transaction'
+  ///
+  /// ar: 'حركة مخزون'
+  String get inventory => 'Inventory transaction';
+
+  /// en: 'Incoming or outgoing mail'
+  ///
+  /// ar: 'كتاب صادر أو وارد'
+  String get correspondence => 'Incoming or outgoing mail';
+
+  /// en: 'No creation actions are available for your permissions.'
+  ///
+  /// ar: 'لا توجد إجراءات إنشاء متاحة ضمن صلاحياتك الحالية.'
+  String get no_actions => 'No creation actions are available for your permissions.';
+}
+
 // Path: home.common
 class Translations$home$common$en {
   Translations$home$common$en.internal(this._root);
@@ -939,8 +969,7 @@ class Translations$home$common$en {
   /// en: 'You do not have permission to access this section.'
   ///
   /// ar: 'لا تملك صلاحية الوصول إلى هذا القسم.'
-  String get access_denied =>
-      'You do not have permission to access this section.';
+  String get access_denied => 'You do not have permission to access this section.';
 }
 
 // Path: auth.login.adventure_words
