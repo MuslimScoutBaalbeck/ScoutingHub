@@ -20,9 +20,21 @@ final class MembershipRequestsCubit extends Cubit<MembershipRequestsState> {
     emit(state.copyWith(isLoading: true, error: null));
     try {
       final requests = await _loadUseCase();
-      emit(state.copyWith(isLoading: false, requests: requests));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isSaving: false,
+          requests: requests,
+        ),
+      );
     } on Object {
-      emit(state.copyWith(isLoading: false, error: MembershipRequestsError.unexpected));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isSaving: false,
+          error: MembershipRequestsError.unexpected,
+        ),
+      );
     }
   }
 
@@ -77,7 +89,12 @@ final class MembershipRequestsCubit extends Cubit<MembershipRequestsState> {
       await load();
       return true;
     } on Object {
-      emit(state.copyWith(isSaving: false, error: MembershipRequestsError.unexpected));
+      emit(
+        state.copyWith(
+          isSaving: false,
+          error: MembershipRequestsError.unexpected,
+        ),
+      );
       return false;
     }
   }
