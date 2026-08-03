@@ -204,81 +204,87 @@ Future<void> _showDetailsSheet(
   MembershipRequest request,
 ) async {
   final strings = context.t.people;
+  final cubit = context.read<MembershipRequestsCubit>();
+
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
     showDragHandle: true,
-    builder: (sheetContext) => DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: .9,
-      minChildSize: .6,
-      maxChildSize: .95,
-      builder: (context, controller) => ListView(
-        controller: controller,
-        padding: AppSpacing.pageWithBottom,
-        children: [
-          AppText.heading(
-            strings.request_details,
-            fontWeight: FontWeight.w800,
-          ),
-          AppGap.verticalLg,
-          _DetailRow(label: strings.request_id, value: request.id),
-          _DetailRow(label: strings.full_name, value: request.fullName),
-          _DetailRow(label: strings.phone, value: request.phone),
-          _DetailRow(label: strings.email, value: request.email),
-          _DetailRow(label: strings.address, value: request.address),
-          _DetailRow(label: strings.stage, value: request.stage),
-          _DetailRow(
-            label: strings.status,
-            value: _statusLabel(context, request.status),
-          ),
-          _DetailRow(
-            label: strings.submitted_at,
-            value: request.submittedAt.toLocal().toString().split('.').first,
-          ),
-          if (request.notes.isNotEmpty)
-            _DetailRow(label: strings.notes, value: request.notes),
-          AppGap.verticalLg,
-          if (request.status == MembershipRequestStatus.submitted)
-            AppButton.filled(
-              label: strings.start_review,
-              onPressed: () => _changeStatus(
-                sheetContext,
-                request,
-                MembershipRequestStatus.underReview,
-              ),
+    builder: (sheetContext) => BlocProvider.value(
+      value: cubit,
+      child: DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: .9,
+        minChildSize: .6,
+        maxChildSize: .95,
+        builder: (context, controller) => ListView(
+          controller: controller,
+          padding: AppSpacing.pageWithBottom,
+          children: [
+            AppText.heading(
+              strings.request_details,
+              fontWeight: FontWeight.w800,
             ),
-          if (request.status == MembershipRequestStatus.underReview ||
-              request.status == MembershipRequestStatus.needsInformation) ...[
-            AppButton.outline(
-              label: strings.request_information,
-              onPressed: () => _changeStatus(
-                sheetContext,
-                request,
-                MembershipRequestStatus.needsInformation,
-              ),
+            AppGap.verticalLg,
+            _DetailRow(label: strings.request_id, value: request.id),
+            _DetailRow(label: strings.full_name, value: request.fullName),
+            _DetailRow(label: strings.phone, value: request.phone),
+            _DetailRow(label: strings.email, value: request.email),
+            _DetailRow(label: strings.address, value: request.address),
+            _DetailRow(label: strings.stage, value: request.stage),
+            _DetailRow(
+              label: strings.status,
+              value: _statusLabel(context, request.status),
             ),
-            AppGap.verticalSm,
-            AppButton.filled(
-              label: strings.approve,
-              onPressed: () => _changeStatus(
-                sheetContext,
-                request,
-                MembershipRequestStatus.approved,
-              ),
+            _DetailRow(
+              label: strings.submitted_at,
+              value: request.submittedAt.toLocal().toString().split('.').first,
             ),
-            AppGap.verticalSm,
-            TextButton(
-              onPressed: () => _changeStatus(
-                sheetContext,
-                request,
-                MembershipRequestStatus.rejected,
+            if (request.notes.isNotEmpty)
+              _DetailRow(label: strings.notes, value: request.notes),
+            AppGap.verticalLg,
+            if (request.status == MembershipRequestStatus.submitted)
+              AppButton.filled(
+                label: strings.start_review,
+                onPressed: () => _changeStatus(
+                  context,
+                  request,
+                  MembershipRequestStatus.underReview,
+                ),
               ),
-              child: Text(strings.reject),
-            ),
+            if (request.status == MembershipRequestStatus.underReview ||
+                request.status ==
+                    MembershipRequestStatus.needsInformation) ...[
+              AppButton.outline(
+                label: strings.request_information,
+                onPressed: () => _changeStatus(
+                  context,
+                  request,
+                  MembershipRequestStatus.needsInformation,
+                ),
+              ),
+              AppGap.verticalSm,
+              AppButton.filled(
+                label: strings.approve,
+                onPressed: () => _changeStatus(
+                  context,
+                  request,
+                  MembershipRequestStatus.approved,
+                ),
+              ),
+              AppGap.verticalSm,
+              TextButton(
+                onPressed: () => _changeStatus(
+                  context,
+                  request,
+                  MembershipRequestStatus.rejected,
+                ),
+                child: Text(strings.reject),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     ),
   );
@@ -289,17 +295,17 @@ Future<void> _changeStatus(
   MembershipRequest request,
   MembershipRequestStatus status,
 ) async {
-  final rootContext = sheetContext;
-  final saved = await rootContext
-      .read<MembershipRequestsCubit>()
-      .updateStatus(request, status);
-  if (!sheetContext.mounted) return;
-  if (saved) {
-    Navigator.of(sheetContext).pop();
-    ScaffoldMessenger.of(rootContext).showSnackBar(
-      SnackBar(content: Text(rootContext.t.people.request_updated)),
-    );
+  final cubit = sheetContext.read<MembershipRequestsCubit>();
+  final messenger = ScaffoldMessenger.of(sheetContext);
+  final updatedMessage = sheetContext.t.people.request_updated;
+  final saved = await cubit.updateStatus(request, status);
+
+  if (!sheetContext.mounted || !saved) {
+    return;
   }
+
+  Navigator.of(sheetContext).pop();
+  messenger.showSnackBar(SnackBar(content: Text(updatedMessage)));
 }
 
 Future<void> _showCreateSheet(BuildContext context) async {
@@ -311,90 +317,103 @@ Future<void> _showCreateSheet(BuildContext context) async {
   final stage = TextEditingController();
   final notes = TextEditingController();
   final strings = context.t.people;
+  final cubit = context.read<MembershipRequestsCubit>();
 
   await showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
     showDragHandle: true,
-    builder: (sheetContext) => Padding(
-      padding: EdgeInsets.fromLTRB(
-        AppSpacing.md,
-        AppSpacing.sm,
-        AppSpacing.md,
-        MediaQuery.viewInsetsOf(sheetContext).bottom + AppSpacing.md,
-      ),
-      child: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppText.heading(
-                strings.new_request,
-                fontWeight: FontWeight.w800,
-              ),
-              AppGap.verticalLg,
-              TextFormField(
-                controller: name,
-                decoration: InputDecoration(labelText: strings.full_name),
-                validator: _required,
-              ),
-              AppGap.verticalSm,
-              TextFormField(
-                controller: phone,
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(labelText: strings.phone),
-                validator: _required,
-              ),
-              AppGap.verticalSm,
-              TextFormField(
-                controller: email,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(labelText: strings.email),
-              ),
-              AppGap.verticalSm,
-              TextFormField(
-                controller: address,
-                decoration: InputDecoration(labelText: strings.address),
-              ),
-              AppGap.verticalSm,
-              TextFormField(
-                controller: stage,
-                decoration: InputDecoration(labelText: strings.stage),
-                validator: _required,
-              ),
-              AppGap.verticalSm,
-              TextFormField(
-                controller: notes,
-                maxLines: 3,
-                decoration: InputDecoration(labelText: strings.notes),
-              ),
-              AppGap.verticalLg,
-              AppButton.filled(
-                label: strings.create_request,
-                onPressed: () async {
-                  if (!(formKey.currentState?.validate() ?? false)) return;
-                  final saved = await context
-                      .read<MembershipRequestsCubit>()
-                      .create(
-                        fullName: name.text,
-                        phone: phone.text,
-                        email: email.text,
-                        address: address.text,
-                        stage: stage.text,
-                        notes: notes.text,
+    builder: (sheetContext) => BlocProvider.value(
+      value: cubit,
+      child: Builder(
+        builder: (providerContext) => Padding(
+          padding: EdgeInsets.fromLTRB(
+            AppSpacing.md,
+            AppSpacing.sm,
+            AppSpacing.md,
+            MediaQuery.viewInsetsOf(providerContext).bottom + AppSpacing.md,
+          ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  AppText.heading(
+                    strings.new_request,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  AppGap.verticalLg,
+                  TextFormField(
+                    controller: name,
+                    decoration: InputDecoration(labelText: strings.full_name),
+                    validator: _required,
+                  ),
+                  AppGap.verticalSm,
+                  TextFormField(
+                    controller: phone,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(labelText: strings.phone),
+                    validator: _required,
+                  ),
+                  AppGap.verticalSm,
+                  TextFormField(
+                    controller: email,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(labelText: strings.email),
+                  ),
+                  AppGap.verticalSm,
+                  TextFormField(
+                    controller: address,
+                    decoration: InputDecoration(labelText: strings.address),
+                  ),
+                  AppGap.verticalSm,
+                  TextFormField(
+                    controller: stage,
+                    decoration: InputDecoration(labelText: strings.stage),
+                    validator: _required,
+                  ),
+                  AppGap.verticalSm,
+                  TextFormField(
+                    controller: notes,
+                    maxLines: 3,
+                    decoration: InputDecoration(labelText: strings.notes),
+                  ),
+                  AppGap.verticalLg,
+                  AppButton.filled(
+                    label: strings.create_request,
+                    onPressed: () async {
+                      if (!(formKey.currentState?.validate() ?? false)) {
+                        return;
+                      }
+
+                      final messenger = ScaffoldMessenger.of(providerContext);
+                      final savedMessage = strings.request_saved;
+                      final saved = await providerContext
+                          .read<MembershipRequestsCubit>()
+                          .create(
+                            fullName: name.text,
+                            phone: phone.text,
+                            email: email.text,
+                            address: address.text,
+                            stage: stage.text,
+                            notes: notes.text,
+                          );
+
+                      if (!providerContext.mounted || !saved) {
+                        return;
+                      }
+
+                      Navigator.of(providerContext).pop();
+                      messenger.showSnackBar(
+                        SnackBar(content: Text(savedMessage)),
                       );
-                  if (!sheetContext.mounted) return;
-                  if (saved) {
-                    Navigator.of(sheetContext).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(strings.request_saved)),
-                    );
-                  }
-                },
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
