@@ -163,7 +163,7 @@ abstract final class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size.fromHeight(AppSize.controlLg),
+          minimumSize: const Size(0, AppSize.controlLg),
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
           shape: const RoundedRectangleBorder(borderRadius: AppRadius.medium),
@@ -176,7 +176,7 @@ abstract final class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size.fromHeight(AppSize.controlLg),
+          minimumSize: const Size(0, AppSize.controlLg),
           foregroundColor: colorScheme.onSurface,
           side: BorderSide(color: colorScheme.outlineVariant),
           shape: const RoundedRectangleBorder(borderRadius: AppRadius.medium),
