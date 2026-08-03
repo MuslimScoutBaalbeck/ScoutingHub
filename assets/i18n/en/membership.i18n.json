@@ -1,0 +1,52 @@
+{
+  "verify_email": {
+    "title": "Verify your email",
+    "description": "We sent a verification link to $email. You cannot access the home page before verification.",
+    "verified_action": "I verified my email",
+    "resend_action": "Resend verification email",
+    "resent": "Verification email sent."
+  },
+  "request": {
+    "title": "Membership request",
+    "subtitle": "Complete your membership request before accessing the application.",
+    "steps": {
+      "personal": "Personal information",
+      "location": "Location",
+      "troop": "Troop selection",
+      "review": "Review"
+    },
+    "full_name": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Detailed address",
+    "notes": "Notes",
+    "governorate": "Governorate",
+    "district": "District",
+    "cadaster": "Cadaster / town",
+    "choose_troop": "Choose a troop",
+    "no_troop_title": "No troop is currently available in this area",
+    "no_troop_description": "Your request will be sent to $commission. They may contact you when a nearby troop becomes available or when there is enough interest to establish a new troop.",
+    "review_title": "Review request",
+    "name": "Name",
+    "destination": "Destination",
+    "request_type": "Request type",
+    "troop_membership": "Troop membership",
+    "commission_interest": "Commission interest request",
+    "commission_notice": "This request will be reviewed by the responsible commission.",
+    "required": "Required",
+    "select_location_error": "Select governorate, district, and cadaster.",
+    "select_troop_error": "Select a troop.",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit request"
+  },
+  "status": {
+    "title": "Request status",
+    "under_review": "Your request is under review",
+    "request_number": "Request number: $number",
+    "destination": "Sent to: $destination",
+    "notification_notice": "You will receive a notification when your request is approved.",
+    "approved_notification": "Your membership request has been approved.",
+    "debug_approve": "Debug: approve request"
+  }
+}
