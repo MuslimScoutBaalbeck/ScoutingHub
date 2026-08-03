@@ -22,6 +22,7 @@ class AssignmentSwitcher extends StatelessWidget {
 
         if (assignments.isEmpty) {
           return Card(
+            margin: EdgeInsets.zero,
             child: Padding(
               padding: AppSpacing.card,
               child: AppText.paragraph(strings.no_assignment),
@@ -31,15 +32,44 @@ class AssignmentSwitcher extends StatelessWidget {
 
         return DropdownButtonFormField<int>(
           initialValue: state.activeAssignmentId,
+          isExpanded: true,
           decoration: InputDecoration(
             labelText: strings.active_assignment,
             prefixIcon: const Icon(Icons.badge_outlined),
+            contentPadding: const EdgeInsetsDirectional.fromSTEB(
+              AppSpacing.md,
+              AppSpacing.sm,
+              AppSpacing.md,
+              AppSpacing.sm,
+            ),
           ),
+          selectedItemBuilder: (context) {
+            return assignments
+                .map(
+                  (assignment) => Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: AppText.body(
+                      _label(assignment),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                )
+                .toList(growable: false);
+          },
           items: assignments
               .map(
                 (assignment) => DropdownMenuItem<int>(
                   value: assignment.id,
-                  child: Text(_label(assignment)),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 280),
+                    child: AppText.body(
+                      _label(assignment),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ),
               )
               .toList(growable: false),
