@@ -63,7 +63,6 @@ class QuickAccessGrid extends StatelessWidget {
         crossAxisCount: 3,
         mainAxisSpacing: AppSpacing.sm,
         crossAxisSpacing: AppSpacing.sm,
-        childAspectRatio: 1,
       ),
       itemBuilder: (context, index) {
         final item = visibleItems[index];

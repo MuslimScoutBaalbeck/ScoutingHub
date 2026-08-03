@@ -28,7 +28,6 @@ class DashboardPage extends StatelessWidget {
             sliver: SliverList.list(
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: BlocBuilder<SessionCubit, SessionState>(
@@ -40,9 +39,9 @@ class DashboardPage extends StatelessWidget {
                             children: [
                               AppText.body(
                                 strings.welcome_back,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                               ),
                               AppGap.verticalXxs,
                               AppText.heading(
@@ -65,16 +64,16 @@ class DashboardPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                AppGap.verticalLg,
+                AppGap.verticalSm,
                 UpcomingEventCard(
                   eyebrow: strings.upcoming_title,
                   title: strings.upcoming_name,
                   details: strings.upcoming_details,
                   onPressed: () => _showComingSoon(context),
                 ),
-                AppGap.verticalXl,
+                AppGap.verticalSm,
                 AppSectionHeader(title: strings.quick_access),
-                AppGap.verticalMd,
+                AppGap.verticalSm,
                 QuickAccessGrid(
                   onItemPressed: () => _showComingSoon(context),
                 ),

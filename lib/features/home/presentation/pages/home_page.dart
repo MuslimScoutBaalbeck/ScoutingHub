@@ -32,8 +32,8 @@ class _HomePageState extends State<HomePage> {
 
     final items = <_BottomNavigationItem>[
       _BottomNavigationItem(
-        icon: Icons.dashboard_outlined,
-        selectedIcon: Icons.dashboard_rounded,
+        icon: Icons.home_outlined,
+        selectedIcon: Icons.home_rounded,
         label: strings.dashboard,
       ),
       _BottomNavigationItem(
@@ -176,9 +176,7 @@ class _BottomNavigationDestination extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: foregroundColor,
-                  fontWeight: isSelected
-                      ? FontWeight.w700
-                      : FontWeight.w500,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 ),
               ),
             ],
