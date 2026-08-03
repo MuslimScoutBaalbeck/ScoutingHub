@@ -55,29 +55,23 @@ class QuickAccessGrid extends StatelessWidget {
       return AppText.paragraph(strings.no_modules);
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final columns = constraints.maxWidth < 340 ? 2 : 3;
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: visibleItems.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: AppSpacing.sm,
+        crossAxisSpacing: AppSpacing.sm,
+        mainAxisExtent: 126,
+      ),
+      itemBuilder: (context, index) {
+        final item = visibleItems[index];
 
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: visibleItems.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: columns,
-            mainAxisSpacing: AppSpacing.sm,
-            crossAxisSpacing: AppSpacing.sm,
-            mainAxisExtent: 126,
-          ),
-          itemBuilder: (context, index) {
-            final item = visibleItems[index];
-
-            return QuickAccessTile(
-              icon: item.icon,
-              label: item.label,
-              onPressed: onItemPressed,
-            );
-          },
+        return QuickAccessTile(
+          icon: item.icon,
+          label: item.label,
+          onPressed: onItemPressed,
         );
       },
     );
@@ -116,8 +110,8 @@ class QuickAccessTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: 44,
+                height: 44,
                 decoration: BoxDecoration(
                   color: colors.primaryContainer,
                   shape: BoxShape.circle,
@@ -125,13 +119,13 @@ class QuickAccessTile extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Icon(
                   icon,
-                  size: AppSize.iconMd,
+                  size: AppSize.iconSm,
                   color: colors.primary,
                 ),
               ),
               AppGap.verticalSm,
               Flexible(
-                child: AppText.body(
+                child: AppText.caption(
                   label,
                   textAlign: TextAlign.center,
                   fontWeight: FontWeight.w600,
