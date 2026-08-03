@@ -18,6 +18,15 @@ class WelcomePage extends StatelessWidget {
     final strings = context.t.auth.welcome;
     final colors = Theme.of(context).colorScheme;
     final state = context.watch<ApplicationStartCubit>().state;
+    final localeValue = switch (LocaleSettings.currentLocale) {
+      AppLocale.en => strings.english,
+      AppLocale.ar => strings.arabic,
+    };
+    final themeValue = switch (state.themeMode) {
+      ThemeMode.system => strings.theme_system,
+      ThemeMode.light => strings.theme_light,
+      ThemeMode.dark => strings.theme_dark,
+    };
 
     return Scaffold(
       body: Stack(
@@ -72,52 +81,18 @@ class WelcomePage extends StatelessWidget {
                       clipBehavior: Clip.antiAlias,
                       child: Column(
                         children: [
-                          _PreferenceDropdownRow<AppLocale>(
+                          _PreferenceTile(
                             icon: Icons.language_rounded,
                             label: strings.language,
-                            value: LocaleSettings.currentLocale,
-                            items: [
-                              DropdownMenuItem(
-                                value: AppLocale.en,
-                                child: Text(strings.english),
-                              ),
-                              DropdownMenuItem(
-                                value: AppLocale.ar,
-                                child: Text(strings.arabic),
-                              ),
-                            ],
-                            onChanged: (locale) async {
-                              if (locale != null) {
-                                await _changeLocale(context, locale);
-                              }
-                            },
+                            value: localeValue,
+                            onTap: () => _showLanguageSheet(context),
                           ),
                           const Divider(height: 1),
-                          _PreferenceDropdownRow<ThemeMode>(
+                          _PreferenceTile(
                             icon: Icons.palette_outlined,
                             label: strings.appearance,
-                            value: state.themeMode,
-                            items: [
-                              DropdownMenuItem(
-                                value: ThemeMode.system,
-                                child: Text(strings.theme_system),
-                              ),
-                              DropdownMenuItem(
-                                value: ThemeMode.light,
-                                child: Text(strings.theme_light),
-                              ),
-                              DropdownMenuItem(
-                                value: ThemeMode.dark,
-                                child: Text(strings.theme_dark),
-                              ),
-                            ],
-                            onChanged: (mode) {
-                              if (mode != null) {
-                                context
-                                    .read<ApplicationStartCubit>()
-                                    .updateThemeMode(mode);
-                              }
-                            },
+                            value: themeValue,
+                            onTap: () => _showThemeSheet(context),
                           ),
                         ],
                       ),
@@ -130,6 +105,75 @@ class WelcomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _showLanguageSheet(BuildContext context) async {
+    final strings = context.t.auth.welcome;
+    final selectedLocale = LocaleSettings.currentLocale;
+
+    final locale = await showModalBottomSheet<AppLocale>(
+      context: context,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (sheetContext) {
+        return _SelectionSheet<AppLocale>(
+          title: strings.language,
+          selectedValue: selectedLocale,
+          options: [
+            _SelectionOption(
+              value: AppLocale.en,
+              label: strings.english,
+            ),
+            _SelectionOption(
+              value: AppLocale.ar,
+              label: strings.arabic,
+            ),
+          ],
+        );
+      },
+    );
+
+    if (locale != null && context.mounted) {
+      await _changeLocale(context, locale);
+    }
+  }
+
+  Future<void> _showThemeSheet(BuildContext context) async {
+    final strings = context.t.auth.welcome;
+    final selectedMode = context.read<ApplicationStartCubit>().state.themeMode;
+
+    final mode = await showModalBottomSheet<ThemeMode>(
+      context: context,
+      showDragHandle: true,
+      useSafeArea: true,
+      builder: (sheetContext) {
+        return _ThemeSelectionSheet(
+          title: strings.appearance,
+          selectedValue: selectedMode,
+          segments: [
+            ButtonSegment<ThemeMode>(
+              value: ThemeMode.system,
+              icon: const Icon(Icons.settings_suggest_outlined),
+              label: Text(strings.theme_system),
+            ),
+            ButtonSegment<ThemeMode>(
+              value: ThemeMode.light,
+              icon: const Icon(Icons.light_mode_outlined),
+              label: Text(strings.theme_light),
+            ),
+            ButtonSegment<ThemeMode>(
+              value: ThemeMode.dark,
+              icon: const Icon(Icons.dark_mode_outlined),
+              label: Text(strings.theme_dark),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (mode != null && context.mounted) {
+      context.read<ApplicationStartCubit>().updateThemeMode(mode);
+    }
   }
 
   Future<void> _changeLocale(BuildContext context, AppLocale locale) async {
@@ -148,61 +192,173 @@ class WelcomePage extends StatelessWidget {
   }
 }
 
-class _PreferenceDropdownRow<T> extends StatelessWidget {
-  const _PreferenceDropdownRow({
+class _PreferenceTile extends StatelessWidget {
+  const _PreferenceTile({
     required this.icon,
     required this.label,
     required this.value,
-    required this.items,
-    required this.onChanged,
+    required this.onTap,
   });
 
   final IconData icon;
   final String label;
-  final T value;
-  final List<DropdownMenuItem<T>> items;
-  final ValueChanged<T?> onChanged;
+  final String value;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.sm),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: AppSize.iconMd,
-            color: colors.onSurfaceVariant,
-          ),
-          AppGap.horizontalSm,
-          SizedBox(
-            width: 82,
-            child: AppText.body(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          AppGap.horizontalMd,
-          Expanded(
-            child: DropdownButtonFormField<T>(
-              initialValue: value,
-              isExpanded: true,
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsetsDirectional.symmetric(
-                  horizontal: AppSpacing.md,
-                  vertical: AppSpacing.sm,
-                ),
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.md,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: AppSize.controlSm,
+              height: AppSize.controlSm,
+              decoration: BoxDecoration(
+                color: colors.primary,
+                borderRadius: AppRadius.medium,
               ),
-              items: items,
-              onChanged: onChanged,
+              alignment: Alignment.center,
+              child: Icon(
+                icon,
+                size: AppSize.iconSm,
+                color: colors.onPrimary,
+              ),
+            ),
+            AppGap.horizontalMd,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText.body(label, fontWeight: FontWeight.w600),
+                  AppGap.verticalXxs,
+                  AppText.caption(
+                    value,
+                    color: colors.onSurfaceVariant,
+                  ),
+                ],
+              ),
+            ),
+            AppGap.horizontalSm,
+            Icon(
+              Icons.chevron_right_rounded,
+              color: colors.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SelectionSheet<T> extends StatelessWidget {
+  const _SelectionSheet({
+    required this.title,
+    required this.selectedValue,
+    required this.options,
+  });
+
+  final String title;
+  final T selectedValue;
+  final List<_SelectionOption<T>> options;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xl,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppText.heading(title, fontWeight: FontWeight.w700),
+          AppGap.verticalMd,
+          RadioGroup<T>(
+            groupValue: selectedValue,
+            onChanged: (value) {
+              Navigator.of(context).pop(value);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (final option in options)
+                  RadioListTile<T>(
+                    value: option.value,
+                    secondary: Icon(option.icon),
+                    title: AppText.body(option.label),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: AppRadius.medium,
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
+}
+
+class _ThemeSelectionSheet extends StatelessWidget {
+  const _ThemeSelectionSheet({
+    required this.title,
+    required this.selectedValue,
+    required this.segments,
+  });
+
+  final String title;
+  final ThemeMode selectedValue;
+  final List<ButtonSegment<ThemeMode>> segments;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xl,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppText.heading(title, fontWeight: FontWeight.w700),
+          AppGap.verticalLg,
+          SegmentedButton<ThemeMode>(
+            segments: segments,
+            selected: {selectedValue},
+            showSelectedIcon: false,
+            expandedInsets: EdgeInsets.zero,
+            onSelectionChanged: (selection) {
+              Navigator.of(context).pop(selection.first);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+final class _SelectionOption<T> {
+  const _SelectionOption({
+    required this.value,
+    required this.label,
+   this.icon,
+  });
+
+  final T value;
+  final String label;
+  final IconData? icon;
 }
