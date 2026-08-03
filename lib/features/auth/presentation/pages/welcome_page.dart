@@ -18,6 +18,15 @@ class WelcomePage extends StatelessWidget {
     final strings = context.t.auth.welcome;
     final colors = Theme.of(context).colorScheme;
     final state = context.watch<ApplicationStartCubit>().state;
+    final localeValue = switch (LocaleSettings.currentLocale) {
+      AppLocale.en => strings.english,
+      AppLocale.ar => strings.arabic,
+    };
+    final themeValue = switch (state.themeMode) {
+      ThemeMode.system => strings.theme_system,
+      ThemeMode.light => strings.theme_light,
+      ThemeMode.dark => strings.theme_dark,
+    };
 
     return Scaffold(
       body: Stack(
@@ -75,17 +84,14 @@ class WelcomePage extends StatelessWidget {
                           _PreferenceTile(
                             icon: Icons.language_rounded,
                             label: strings.language,
-                            value: _localeLabel(
-                              LocaleSettings.currentLocale,
-                              strings,
-                            ),
+                            value: localeValue,
                             onTap: () => _showLanguageSheet(context),
                           ),
                           const Divider(height: 1),
                           _PreferenceTile(
                             icon: Icons.palette_outlined,
                             label: strings.appearance,
-                            value: _themeLabel(state.themeMode, strings),
+                            value: themeValue,
                             onTap: () => _showThemeSheet(context),
                           ),
                         ],
@@ -99,27 +105,6 @@ class WelcomePage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _localeLabel(
-    AppLocale locale,
-    TranslationsAuthWelcomeEn strings,
-  ) {
-    return switch (locale) {
-      AppLocale.en => strings.english,
-      AppLocale.ar => strings.arabic,
-    };
-  }
-
-  String _themeLabel(
-    ThemeMode mode,
-    TranslationsAuthWelcomeEn strings,
-  ) {
-    return switch (mode) {
-      ThemeMode.system => strings.theme_system,
-      ThemeMode.light => strings.theme_light,
-      ThemeMode.dark => strings.theme_dark,
-    };
   }
 
   Future<void> _showLanguageSheet(BuildContext context) async {
