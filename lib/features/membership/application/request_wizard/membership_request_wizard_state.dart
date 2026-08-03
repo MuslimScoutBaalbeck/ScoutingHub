@@ -75,6 +75,6 @@ abstract class MembershipRequestWizardState
 
   int? get commissionId => selectedCadaster?.commissionId;
 
-  String? get destinationName =>
-      selectedTroop?.name ?? selectedCadaster?.commissionName;
+  String get destinationName =>
+      selectedTroop?.name ?? selectedCadaster?.commissionName ?? '';
 }
