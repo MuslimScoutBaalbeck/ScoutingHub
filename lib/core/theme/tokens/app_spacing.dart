@@ -11,8 +11,17 @@ abstract final class AppSpacing {
   static const double xxl = 48;
   static const double xxxl = 64;
 
-  static const page = EdgeInsets.symmetric(horizontal: lg);
-  static const pageWithBottom = EdgeInsets.fromLTRB(lg, md, lg, xl);
+  static const double pageHorizontal = lg;
+
+  static const page = EdgeInsets.symmetric(horizontal: pageHorizontal);
+  static const pageWithBottom = EdgeInsets.fromLTRB(
+    pageHorizontal,
+    md,
+    pageHorizontal,
+    xl,
+  );
+  static const cardSmall = EdgeInsets.all(sm);
   static const card = EdgeInsets.all(md);
+  static const cardLarge = EdgeInsets.all(lg);
   static const section = EdgeInsets.symmetric(vertical: lg);
 }
