@@ -55,22 +55,31 @@ class QuickAccessGrid extends StatelessWidget {
       return AppText.paragraph(strings.no_modules);
     }
 
-    return GridView.count(
-      crossAxisCount: 3,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: AppSpacing.sm,
-      crossAxisSpacing: AppSpacing.sm,
-      childAspectRatio: .95,
-      children: visibleItems
-          .map(
-            (item) => QuickAccessTile(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final columns = constraints.maxWidth < 340 ? 2 : 3;
+
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: visibleItems.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: columns,
+            mainAxisExtent: 116,
+            mainAxisSpacing: AppSpacing.sm,
+            crossAxisSpacing: AppSpacing.sm,
+          ),
+          itemBuilder: (context, index) {
+            final item = visibleItems[index];
+
+            return QuickAccessTile(
               icon: item.icon,
               label: item.label,
               onPressed: onItemPressed,
-            ),
-          )
-          .toList(growable: false),
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -92,25 +101,43 @@ class QuickAccessTile extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     return Card(
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        borderRadius: AppRadius.large,
         onTap: onPressed,
         child: Padding(
-          padding: AppSpacing.cardSmall,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.md,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                backgroundColor: colors.primaryContainer,
-                foregroundColor: colors.primary,
-                child: Icon(icon),
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: colors.primaryContainer,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  icon,
+                  size: AppSize.iconMd,
+                  color: colors.primary,
+                ),
               ),
               AppGap.verticalSm,
-              AppText.paragraph(
-                label,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: Center(
+                  child: AppText.caption(
+                    label,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ],
           ),
