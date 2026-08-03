@@ -1,0 +1,7 @@
+{
+  "requests": [
+    {"id":"REQ-0001","fullName":"Hassan Ali","phone":"+96170111222","email":"hassan@example.com","address":"Baalbek","stage":"scout","notes":"Parent approval attached","status":"submitted","submittedAt":"2026-08-01T10:00:00Z"},
+    {"id":"REQ-0002","fullName":"Mohammad Khalil","phone":"+96171122334","email":"mohammad@example.com","address":"Baalbek","stage":"rover","notes":"Previous scouting experience","status":"underReview","submittedAt":"2026-07-30T09:30:00Z"},
+    {"id":"REQ-0003","fullName":"Ali Abbas","phone":"+96176123456","email":"","address":"Douris","stage":"cub","notes":"Missing guardian phone","status":"needsInformation","submittedAt":"2026-07-28T14:15:00Z"}
+  ]
+}
