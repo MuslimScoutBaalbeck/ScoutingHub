@@ -97,10 +97,13 @@ class QuickAccessTile extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       elevation: 0,
+      color: Colors.white,
+      surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: AppRadius.large,
         side: BorderSide(color: colors.outlineVariant),
       ),
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         borderRadius: AppRadius.large,
         onTap: onPressed,
@@ -109,24 +112,16 @@ class QuickAccessTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: colors.primaryContainer,
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: Icon(
-                  icon,
-                  size: AppSize.iconSm,
-                  color: colors.primary,
-                ),
+              Icon(
+                icon,
+                size: AppSize.iconLg,
+                color: colors.primary,
               ),
               AppGap.verticalSm,
               Flexible(
                 child: AppText.caption(
                   label,
+                  color: Colors.black,
                   textAlign: TextAlign.center,
                   fontWeight: FontWeight.w600,
                   maxLines: 2,
