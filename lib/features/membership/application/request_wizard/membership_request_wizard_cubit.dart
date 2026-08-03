@@ -17,6 +17,7 @@ final class MembershipRequestWizardCubit
 
   Future<void> load() async {
     emit(state.copyWith(isLoading: true, error: null));
+
     try {
       final source = await rootBundle.loadString(
         'assets/data/membership/locations.json',
@@ -28,7 +29,8 @@ final class MembershipRequestWizardCubit
               final map = item as Map<String, dynamic>;
               return MembershipGovernorate(
                 id: map['id'] as int,
-                name: map['name'] as String,
+                nameEn: map['nameEn'] as String,
+                nameAr: map['nameAr'] as String,
               );
             })
             .toList(growable: false),
@@ -38,7 +40,8 @@ final class MembershipRequestWizardCubit
               return MembershipDistrict(
                 id: map['id'] as int,
                 governorateId: map['governorateId'] as int,
-                name: map['name'] as String,
+                nameEn: map['nameEn'] as String,
+                nameAr: map['nameAr'] as String,
               );
             })
             .toList(growable: false),
@@ -48,9 +51,11 @@ final class MembershipRequestWizardCubit
               return MembershipCadaster(
                 id: map['id'] as int,
                 districtId: map['districtId'] as int,
-                name: map['name'] as String,
+                nameEn: map['nameEn'] as String,
+                nameAr: map['nameAr'] as String,
                 commissionId: map['commissionId'] as int,
-                commissionName: map['commissionName'] as String,
+                commissionNameEn: map['commissionNameEn'] as String,
+                commissionNameAr: map['commissionNameAr'] as String,
               );
             })
             .toList(growable: false),
@@ -60,13 +65,16 @@ final class MembershipRequestWizardCubit
               return MembershipTroop(
                 id: map['id'] as int,
                 cadasterId: map['cadasterId'] as int,
-                name: map['name'] as String,
-                address: map['address'] as String,
+                nameEn: map['nameEn'] as String,
+                nameAr: map['nameAr'] as String,
+                addressEn: map['addressEn'] as String,
+                addressAr: map['addressAr'] as String,
                 acceptingMembers: map['acceptingMembers'] as bool,
               );
             })
             .toList(growable: false),
       );
+
       emit(state.copyWith(isLoading: false, data: data));
     } on Object {
       emit(state.copyWith(isLoading: false, error: 'load_failed'));
@@ -86,7 +94,11 @@ final class MembershipRequestWizardCubit
 
   void selectDistrict(int? id) {
     emit(
-      state.copyWith(districtId: id, cadasterId: null, troopId: null),
+      state.copyWith(
+        districtId: id,
+        cadasterId: null,
+        troopId: null,
+      ),
     );
   }
 
