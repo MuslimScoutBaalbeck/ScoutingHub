@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
@@ -5,6 +6,7 @@ import 'package:scouting_hub/core/ui/widgets/widgets.dart';
 import 'package:scouting_hub/features/auth/domain/entities/app_permission.dart';
 import 'package:scouting_hub/features/tasks/presentation/widgets/task_card.dart';
 
+@RoutePage()
 class TasksPage extends StatelessWidget {
   const TasksPage({super.key});
 
