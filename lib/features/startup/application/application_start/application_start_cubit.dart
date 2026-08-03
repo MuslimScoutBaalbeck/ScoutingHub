@@ -49,7 +49,7 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
       await Future<void>.delayed(const Duration(milliseconds: 1750));
 
       final destination = state.onboardingCompleted
-          ? AppLaunchDestination.setup
+          ? AppLaunchDestination.home
           : AppLaunchDestination.setup;
 
       emit(
