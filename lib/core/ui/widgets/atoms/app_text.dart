@@ -10,7 +10,7 @@ class AppText extends StatelessWidget {
     this.overflow,
     this.fontWeight,
     this.semanticsLabel,
-    super.key
+    super.key,
   });
 
   const AppText.display(

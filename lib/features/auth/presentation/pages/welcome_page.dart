@@ -87,9 +87,9 @@ class WelcomePage extends StatelessWidget {
                                   child: Text(strings.arabic),
                                 ),
                               ],
-                              onChanged: (locale) {
+                              onChanged: (locale) async {
                                 if (locale != null) {
-                                  _changeLocale(context, locale);
+                                  await _changeLocale(context, locale);
                                 }
                               },
                             ),
@@ -149,6 +149,6 @@ class WelcomePage extends StatelessWidget {
 
   Future<void> _complete(BuildContext context) async {
     context.read<ApplicationStartCubit>().completeOnboarding();
-    await context.router.replaceAll([const LoginRoute()]);
+    await context.router.push(const LoginRoute());
   }
 }

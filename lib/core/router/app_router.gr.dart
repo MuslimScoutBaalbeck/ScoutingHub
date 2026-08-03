@@ -9,8 +9,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i7;
-import 'package:flutter/material.dart' as _i8;
+import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:flutter/material.dart' as _i9;
 import 'package:scouting_hub/features/auth/presentation/pages/forgot_password_page.dart'
     as _i1;
 import 'package:scouting_hub/features/auth/presentation/pages/login_page.dart'
@@ -19,6 +19,8 @@ import 'package:scouting_hub/features/auth/presentation/pages/register_page.dart
     as _i4;
 import 'package:scouting_hub/features/auth/presentation/pages/reset_password_page.dart'
     as _i5;
+import 'package:scouting_hub/features/auth/presentation/pages/welcome_page.dart'
+    as _i7;
 import 'package:scouting_hub/features/home/presentation/pages/home_page.dart'
     as _i2;
 import 'package:scouting_hub/features/startup/presentation/pages/startup_page.dart'
@@ -26,29 +28,29 @@ import 'package:scouting_hub/features/startup/presentation/pages/startup_page.da
 
 /// generated route for
 /// [_i1.ForgotPasswordPage]
-class ForgotPasswordRoute extends _i7.PageRouteInfo<void> {
-  const ForgotPasswordRoute({List<_i7.PageRouteInfo>? children})
+class ForgotPasswordRoute extends _i8.PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<_i8.PageRouteInfo>? children})
     : super(ForgotPasswordRoute.name, initialChildren: children);
 
   static const String name = 'ForgotPasswordRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return _i7.WrappedRoute(child: const _i1.ForgotPasswordPage());
+      return _i8.WrappedRoute(child: const _i1.ForgotPasswordPage());
     },
   );
 }
 
 /// generated route for
 /// [_i2.HomePage]
-class HomeRoute extends _i7.PageRouteInfo<void> {
-  const HomeRoute({List<_i7.PageRouteInfo>? children})
+class HomeRoute extends _i8.PageRouteInfo<void> {
+  const HomeRoute({List<_i8.PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       return const _i2.HomePage();
@@ -58,43 +60,43 @@ class HomeRoute extends _i7.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.LoginPage]
-class LoginRoute extends _i7.PageRouteInfo<void> {
-  const LoginRoute({List<_i7.PageRouteInfo>? children})
+class LoginRoute extends _i8.PageRouteInfo<void> {
+  const LoginRoute({List<_i8.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return _i7.WrappedRoute(child: const _i3.LoginPage());
+      return _i8.WrappedRoute(child: const _i3.LoginPage());
     },
   );
 }
 
 /// generated route for
 /// [_i4.RegisterPage]
-class RegisterRoute extends _i7.PageRouteInfo<void> {
-  const RegisterRoute({List<_i7.PageRouteInfo>? children})
+class RegisterRoute extends _i8.PageRouteInfo<void> {
+  const RegisterRoute({List<_i8.PageRouteInfo>? children})
     : super(RegisterRoute.name, initialChildren: children);
 
   static const String name = 'RegisterRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return _i7.WrappedRoute(child: const _i4.RegisterPage());
+      return _i8.WrappedRoute(child: const _i4.RegisterPage());
     },
   );
 }
 
 /// generated route for
 /// [_i5.ResetPasswordPage]
-class ResetPasswordRoute extends _i7.PageRouteInfo<ResetPasswordRouteArgs> {
+class ResetPasswordRoute extends _i8.PageRouteInfo<ResetPasswordRouteArgs> {
   ResetPasswordRoute({
     required String email,
-    _i8.Key? key,
-    List<_i7.PageRouteInfo>? children,
+    _i9.Key? key,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
          ResetPasswordRoute.name,
          args: ResetPasswordRouteArgs(email: email, key: key),
@@ -103,11 +105,11 @@ class ResetPasswordRoute extends _i7.PageRouteInfo<ResetPasswordRouteArgs> {
 
   static const String name = 'ResetPasswordRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<ResetPasswordRouteArgs>();
-      return _i7.WrappedRoute(
+      return _i8.WrappedRoute(
         child: _i5.ResetPasswordPage(email: args.email, key: args.key),
       );
     },
@@ -119,7 +121,7 @@ class ResetPasswordRouteArgs {
 
   final String email;
 
-  final _i8.Key? key;
+  final _i9.Key? key;
 
   @override
   String toString() {
@@ -139,16 +141,32 @@ class ResetPasswordRouteArgs {
 
 /// generated route for
 /// [_i6.StartupPage]
-class StartupRoute extends _i7.PageRouteInfo<void> {
-  const StartupRoute({List<_i7.PageRouteInfo>? children})
+class StartupRoute extends _i8.PageRouteInfo<void> {
+  const StartupRoute({List<_i8.PageRouteInfo>? children})
     : super(StartupRoute.name, initialChildren: children);
 
   static const String name = 'StartupRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       return const _i6.StartupPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i7.WelcomePage]
+class WelcomeRoute extends _i8.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i8.PageRouteInfo>? children})
+    : super(WelcomeRoute.name, initialChildren: children);
+
+  static const String name = 'WelcomeRoute';
+
+  static _i8.PageInfo page = _i8.PageInfo(
+    name,
+    builder: (data) {
+      return const _i7.WelcomePage();
     },
   );
 }

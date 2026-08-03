@@ -11,7 +11,7 @@ class AppBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    final isDark = theme.brightness==.dark;
+    final isDark = theme.brightness == .dark;
     return Padding(
       padding: const EdgeInsetsDirectional.all(8),
       child: AppSquareAction(
@@ -20,7 +20,7 @@ class AppBackButton extends StatelessWidget {
         child: Icon(
           Icons.chevron_left,
           size: AppSize.iconSm,
-          color: isDark?colors.onPrimary:colors.primary,
+          color: isDark ? colors.onPrimary : colors.primary,
         ),
       ),
     );
