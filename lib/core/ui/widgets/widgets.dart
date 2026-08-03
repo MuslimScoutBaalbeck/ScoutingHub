@@ -5,5 +5,6 @@ export 'atoms/app_permission_gate.dart';
 export 'atoms/app_square_action.dart';
 export 'atoms/app_text.dart';
 export 'molecules/app_section_header.dart';
+export 'organisms/app_access_denied.dart';
 export 'organisms/app_page_header.dart';
 export 'templates/app_page_template.dart';
