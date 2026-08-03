@@ -1,19 +1,28 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
+import 'package:scouting_hub/features/people/application/member_form/member_form_cubit.dart';
 import 'package:scouting_hub/features/people/domain/entities/person.dart';
-import 'package:scouting_hub/features/people/domain/usecases/save_person_use_case.dart';
 
 @RoutePage()
-class MemberFormPage extends StatefulWidget {
+class MemberFormPage extends StatefulWidget implements AutoRouteWrapper {
   const MemberFormPage({super.key, this.person});
 
   final Person? person;
 
   @override
   State<MemberFormPage> createState() => _MemberFormPageState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<MemberFormCubit>()..initialize(person),
+      child: this,
+    );
+  }
 }
 
 class _MemberFormPageState extends State<MemberFormPage> {
@@ -26,25 +35,19 @@ class _MemberFormPageState extends State<MemberFormPage> {
   late final TextEditingController _unit;
   late final TextEditingController _emergency;
   late final TextEditingController _notes;
-  late ScoutStage _stage;
-  late PersonStatus _status;
-  int _step = 0;
-  bool _isSaving = false;
 
   @override
   void initState() {
     super.initState();
-    final person = widget.person;
-    _name = TextEditingController(text: person?.fullName);
-    _phone = TextEditingController(text: person?.phone);
-    _email = TextEditingController(text: person?.email);
-    _address = TextEditingController(text: person?.address);
-    _membership = TextEditingController(text: person?.membershipNumber);
-    _unit = TextEditingController(text: person?.unit);
-    _emergency = TextEditingController(text: person?.emergencyContact);
-    _notes = TextEditingController(text: person?.notes);
-    _stage = person?.stage ?? ScoutStage.scout;
-    _status = person?.status ?? PersonStatus.pending;
+    final member = widget.person;
+    _name = TextEditingController(text: member?.fullName);
+    _phone = TextEditingController(text: member?.phone);
+    _email = TextEditingController(text: member?.email);
+    _address = TextEditingController(text: member?.address);
+    _membership = TextEditingController(text: member?.membershipNumber);
+    _unit = TextEditingController(text: member?.unit);
+    _emergency = TextEditingController(text: member?.emergencyContact);
+    _notes = TextEditingController(text: member?.notes);
   }
 
   @override
@@ -68,138 +71,175 @@ class _MemberFormPageState extends State<MemberFormPage> {
   Widget build(BuildContext context) {
     final strings = context.t.people;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.person == null ? strings.add : strings.edit),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Stepper(
-          currentStep: _step,
-          onStepTapped: _isSaving
-              ? null
-              : (value) => setState(() => _step = value),
-          onStepCancel: _step == 0 || _isSaving
-              ? null
-              : () => setState(() => _step--),
-          onStepContinue: _isSaving ? null : _continue,
-          controlsBuilder: (context, details) => Padding(
-            padding: const EdgeInsets.only(top: AppSpacing.md),
-            child: Row(
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    onPressed: details.onStepContinue,
-                    child: _isSaving
-                        ? const SizedBox.square(
-                            dimension: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(_step == 3 ? strings.save : strings.next),
+    return BlocConsumer<MemberFormCubit, MemberFormState>(
+      listenWhen: (previous, current) =>
+          previous.isSaved != current.isSaved || previous.error != current.error,
+      listener: (context, state) {
+        if (state.isSaved) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(strings.saved)),
+          );
+          context.router.pop(true);
+          return;
+        }
+
+        if (state.error != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(strings.unexpected_error)),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(widget.person == null ? strings.add : strings.edit),
+          ),
+          body: Form(
+            key: _formKey,
+            child: Stepper(
+              currentStep: state.currentStep,
+              onStepTapped: state.isSaving
+                  ? null
+                  : context.read<MemberFormCubit>().goToStep,
+              onStepCancel: state.canGoBack
+                  ? context.read<MemberFormCubit>().previousStep
+                  : null,
+              onStepContinue: state.isSaving ? null : () => _continue(state),
+              controlsBuilder: (context, details) => Padding(
+                padding: const EdgeInsets.only(top: AppSpacing.md),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: details.onStepContinue,
+                        child: state.isSaving
+                            ? const SizedBox.square(
+                                dimension: 18,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : Text(
+                                state.isLastStep ? strings.save : strings.next,
+                              ),
+                      ),
+                    ),
+                    if (state.canGoBack) ...[
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: details.onStepCancel,
+                          child: Text(strings.back),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              steps: [
+                Step(
+                  title: Text(strings.personal_information),
+                  isActive: state.currentStep >= 0,
+                  content: Column(
+                    children: [
+                      _requiredField(_name, strings.full_name),
+                      const SizedBox(height: AppSpacing.sm),
+                      _requiredField(
+                        _phone,
+                        strings.phone,
+                        keyboard: TextInputType.phone,
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      TextFormField(
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(labelText: strings.email),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      TextFormField(
+                        controller: _address,
+                        decoration: InputDecoration(labelText: strings.address),
+                      ),
+                    ],
                   ),
                 ),
-                if (_step > 0) ...[
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: details.onStepCancel,
-                      child: Text(strings.back),
+                Step(
+                  title: Text(strings.contact_information),
+                  isActive: state.currentStep >= 1,
+                  content: TextFormField(
+                    controller: _emergency,
+                    decoration: InputDecoration(
+                      labelText: strings.emergency_contact,
                     ),
                   ),
-                ],
+                ),
+                Step(
+                  title: Text(strings.scout_information),
+                  isActive: state.currentStep >= 2,
+                  content: Column(
+                    children: [
+                      _requiredField(_membership, strings.membership_number),
+                      const SizedBox(height: AppSpacing.sm),
+                      _requiredField(_unit, strings.unit),
+                      const SizedBox(height: AppSpacing.sm),
+                      DropdownButtonFormField<ScoutStage>(
+                        value: state.stage,
+                        decoration: InputDecoration(labelText: strings.stage),
+                        items: ScoutStage.values
+                            .map(
+                              (value) => DropdownMenuItem(
+                                value: value,
+                                child: Text(value.name),
+                              ),
+                            )
+                            .toList(growable: false),
+                        onChanged: state.isSaving
+                            ? null
+                            : (value) {
+                                if (value != null) {
+                                  context
+                                      .read<MemberFormCubit>()
+                                      .changeStage(value);
+                                }
+                              },
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      DropdownButtonFormField<PersonStatus>(
+                        value: state.status,
+                        decoration: InputDecoration(labelText: strings.status),
+                        items: PersonStatus.values
+                            .map(
+                              (value) => DropdownMenuItem(
+                                value: value,
+                                child: Text(value.name),
+                              ),
+                            )
+                            .toList(growable: false),
+                        onChanged: state.isSaving
+                            ? null
+                            : (value) {
+                                if (value != null) {
+                                  context
+                                      .read<MemberFormCubit>()
+                                      .changeStatus(value);
+                                }
+                              },
+                      ),
+                    ],
+                  ),
+                ),
+                Step(
+                  title: Text(strings.review),
+                  isActive: state.currentStep >= 3,
+                  content: TextFormField(
+                    controller: _notes,
+                    maxLines: 4,
+                    decoration: InputDecoration(labelText: strings.notes),
+                  ),
+                ),
               ],
             ),
           ),
-          steps: [
-            Step(
-              title: Text(strings.personal_information),
-              isActive: _step >= 0,
-              content: Column(
-                children: [
-                  _requiredField(_name, strings.full_name),
-                  const SizedBox(height: AppSpacing.sm),
-                  _requiredField(
-                    _phone,
-                    strings.phone,
-                    keyboard: TextInputType.phone,
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  TextFormField(
-                    controller: _email,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(labelText: strings.email),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  TextFormField(
-                    controller: _address,
-                    decoration: InputDecoration(labelText: strings.address),
-                  ),
-                ],
-              ),
-            ),
-            Step(
-              title: Text(strings.contact_information),
-              isActive: _step >= 1,
-              content: TextFormField(
-                controller: _emergency,
-                decoration: InputDecoration(
-                  labelText: strings.emergency_contact,
-                ),
-              ),
-            ),
-            Step(
-              title: Text(strings.scout_information),
-              isActive: _step >= 2,
-              content: Column(
-                children: [
-                  _requiredField(_membership, strings.membership_number),
-                  const SizedBox(height: AppSpacing.sm),
-                  _requiredField(_unit, strings.unit),
-                  const SizedBox(height: AppSpacing.sm),
-                  DropdownButtonFormField<ScoutStage>(
-                    initialValue: _stage,
-                    decoration: InputDecoration(labelText: strings.stage),
-                    items: ScoutStage.values
-                        .map(
-                          (value) => DropdownMenuItem(
-                            value: value,
-                            child: Text(value.name),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) =>
-                        setState(() => _stage = value ?? _stage),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  DropdownButtonFormField<PersonStatus>(
-                    initialValue: _status,
-                    decoration: InputDecoration(labelText: strings.status),
-                    items: PersonStatus.values
-                        .map(
-                          (value) => DropdownMenuItem(
-                            value: value,
-                            child: Text(value.name),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) =>
-                        setState(() => _status = value ?? _status),
-                  ),
-                ],
-              ),
-            ),
-            Step(
-              title: Text(strings.review),
-              isActive: _step >= 3,
-              content: TextFormField(
-                controller: _notes,
-                maxLines: 4,
-                decoration: InputDecoration(labelText: strings.notes),
-              ),
-            ),
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -216,9 +256,9 @@ class _MemberFormPageState extends State<MemberFormPage> {
     );
   }
 
-  Future<void> _continue() async {
-    if (_step < 3) {
-      setState(() => _step++);
+  Future<void> _continue(MemberFormState state) async {
+    if (!state.isLastStep) {
+      context.read<MemberFormCubit>().nextStep();
       return;
     }
 
@@ -226,37 +266,15 @@ class _MemberFormPageState extends State<MemberFormPage> {
       return;
     }
 
-    setState(() => _isSaving = true);
-    final previous = widget.person;
-    final person = Person(
-      id: previous?.id ?? DateTime.now().microsecondsSinceEpoch.toString(),
-      membershipNumber: _membership.text.trim(),
-      fullName: _name.text.trim(),
-      phone: _phone.text.trim(),
-      email: _email.text.trim(),
-      address: _address.text.trim(),
-      emergencyContact: _emergency.text.trim(),
-      notes: _notes.text.trim(),
-      stage: _stage,
-      unit: _unit.text.trim(),
-      status: _status,
-      profileComplete: _name.text.trim().isNotEmpty &&
-          _phone.text.trim().isNotEmpty &&
-          _membership.text.trim().isNotEmpty &&
-          _unit.text.trim().isNotEmpty,
-      joinedAt: previous?.joinedAt ?? DateTime.now(),
-      dateOfBirth: previous?.dateOfBirth,
+    await context.read<MemberFormCubit>().save(
+      fullName: _name.text,
+      phone: _phone.text,
+      email: _email.text,
+      address: _address.text,
+      membershipNumber: _membership.text,
+      unit: _unit.text,
+      emergencyContact: _emergency.text,
+      notes: _notes.text,
     );
-
-    await getIt<SavePersonUseCase>()(person);
-
-    if (!mounted) {
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(context.t.people.saved)),
-    );
-    context.router.pop(true);
   }
 }
