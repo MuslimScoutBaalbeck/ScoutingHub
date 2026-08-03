@@ -1,0 +1,59 @@
+{
+  "organizations": [
+    {
+      "id": 1,
+      "name": "Muslim Scout in Lebanon",
+      "code": "MSL"
+    }
+  ],
+  "units": [
+    {
+      "id": 10,
+      "organization_id": 1,
+      "parent_id": null,
+      "name": "Baalbek Commission",
+      "type": "commission"
+    },
+    {
+      "id": 20,
+      "organization_id": 1,
+      "parent_id": 10,
+      "name": "Baalbek Troop",
+      "type": "troop"
+    },
+    {
+      "id": 30,
+      "organization_id": 1,
+      "parent_id": 20,
+      "name": "Rover Clan",
+      "type": "clan"
+    },
+    {
+      "id": 40,
+      "organization_id": 1,
+      "parent_id": 20,
+      "name": "Scout Section",
+      "type": "section"
+    },
+    {
+      "id": 50,
+      "organization_id": 1,
+      "parent_id": 20,
+      "name": "Cub Section",
+      "type": "section"
+    }
+  ],
+  "positions": [
+    {"id": 1, "code": "troop_dean", "name": "Troop Dean", "category": "management"},
+    {"id": 2, "code": "deputy_troop_dean", "name": "Deputy Troop Dean", "category": "management"},
+    {"id": 3, "code": "secretary", "name": "Secretary", "category": "administration"},
+    {"id": 4, "code": "treasurer", "name": "Treasurer", "category": "finance"},
+    {"id": 5, "code": "storekeeper", "name": "Storekeeper", "category": "inventory"},
+    {"id": 6, "code": "public_relations", "name": "Public Relations", "category": "communications"},
+    {"id": 7, "code": "rover_leader", "name": "Rover Leader", "category": "leadership"},
+    {"id": 8, "code": "scout_leader", "name": "Scout Leader", "category": "leadership"},
+    {"id": 9, "code": "cub_leader", "name": "Cub Leader", "category": "leadership"},
+    {"id": 10, "code": "patrol_leader", "name": "Patrol Leader", "category": "leadership"},
+    {"id": 11, "code": "medic", "name": "Medic", "category": "support"}
+  ]
+}
