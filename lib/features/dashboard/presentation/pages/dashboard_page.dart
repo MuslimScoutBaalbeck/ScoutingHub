@@ -4,7 +4,6 @@ import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
 import 'package:scouting_hub/core/ui/widgets/widgets.dart';
 import 'package:scouting_hub/features/auth/application/session/session_cubit.dart';
-import 'package:scouting_hub/features/dashboard/presentation/widgets/assignment_switcher.dart';
 import 'package:scouting_hub/features/dashboard/presentation/widgets/quick_access_grid.dart';
 import 'package:scouting_hub/features/dashboard/presentation/widgets/upcoming_event_card.dart';
 
@@ -16,49 +15,64 @@ class DashboardPage extends StatelessWidget {
     final strings = context.t.home.dashboard;
 
     return SafeArea(
+      bottom: false,
       child: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: true,
-            titleSpacing: AppSpacing.lg,
-            title: BlocBuilder<SessionCubit, SessionState>(
-              buildWhen: (previous, current) => previous.user != current.user,
-              builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText.caption(strings.welcome_back),
-                    AppText.title(
-                      state.user?.name ?? strings.user_name,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ],
-                );
-              },
-            ),
-            actions: [
-              AppSquareAction(
-                tooltip: strings.notifications,
-                onPressed: () => _showComingSoon(context),
-                child: const Badge(
-                  child: Icon(Icons.notifications_outlined),
-                ),
-              ),
-              AppGap.horizontalMd,
-            ],
-          ),
           SliverPadding(
-            padding: AppSpacing.pageWithBottom,
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.md,
+              AppSpacing.lg,
+              AppSpacing.xxl,
+            ),
             sliver: SliverList.list(
               children: [
-                const AssignmentSwitcher(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: BlocBuilder<SessionCubit, SessionState>(
+                        buildWhen: (previous, current) =>
+                            previous.user?.name != current.user?.name,
+                        builder: (context, state) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText.body(
+                                strings.welcome_back,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
+                              ),
+                              AppGap.verticalXxs,
+                              AppText.heading(
+                                state.user?.name ?? strings.user_name,
+                                fontWeight: FontWeight.w800,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: strings.notifications,
+                      onPressed: () => _showComingSoon(context),
+                      icon: const Badge(
+                        child: Icon(Icons.notifications_none_rounded),
+                      ),
+                    ),
+                  ],
+                ),
                 AppGap.verticalLg,
                 UpcomingEventCard(
                   eyebrow: strings.upcoming_title,
                   title: strings.upcoming_name,
                   details: strings.upcoming_details,
+                  onPressed: () => _showComingSoon(context),
                 ),
-                AppGap.verticalLg,
+                AppGap.verticalXl,
                 AppSectionHeader(title: strings.quick_access),
                 AppGap.verticalMd,
                 QuickAccessGrid(
