@@ -188,7 +188,7 @@ class WelcomePage extends StatelessWidget {
 
   Future<void> _complete(BuildContext context) async {
     context.read<ApplicationStartCubit>().completeOnboarding();
-    await context.router.push(const LoginRoute());
+    await context.router.replaceAll([const LoginRoute()]);
   }
 }
 
@@ -324,7 +324,7 @@ class _ThemeSelectionSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness==.dark;
+    final isDark = Theme.of(context).brightness == .dark;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -350,18 +350,22 @@ class _ThemeSelectionSheet extends StatelessWidget {
                 ),
                 leading: Icon(
                   option.icon,
-                  color: option.value == selectedValue? colors.onPrimary:
-                  isDark?
-                  colors.onPrimary:colors.primary
+                  color: option.value == selectedValue
+                      ? colors.onPrimary
+                      : isDark
+                      ? colors.onPrimary
+                      : colors.primary,
                 ),
                 title: AppText.body(
                   option.label,
                   fontWeight: option.value == selectedValue
                       ? FontWeight.w700
                       : FontWeight.w500,
-                  color:option.value == selectedValue? colors.onPrimary:
-                  isDark?
-                  colors.onPrimary:colors.primary
+                  color: option.value == selectedValue
+                      ? colors.onPrimary
+                      : isDark
+                      ? colors.onPrimary
+                      : colors.primary,
                 ),
                 trailing: option.value == selectedValue
                     ? Icon(

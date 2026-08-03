@@ -33,6 +33,10 @@ import '../../features/auth/domain/usecases/logout.dart' as _i597;
 import '../../features/auth/domain/usecases/register.dart' as _i480;
 import '../../features/auth/domain/usecases/reset_password.dart' as _i1066;
 import '../../features/auth/domain/usecases/restore_session.dart' as _i456;
+import '../../features/organizations/data/datasources/fake_organizations_data_source.dart'
+    as _i63;
+import '../../features/organizations/data/datasources/organizations_data_source.dart'
+    as _i664;
 import '../../features/startup/application/application_start/application_start_cubit.dart'
     as _i123;
 import '../database/database.dart' as _i660;
@@ -51,6 +55,9 @@ _i174.GetIt $initGetIt(
   gh.singleton<_i81.AppRouter>(() => appModule.appRouter);
   gh.singleton<_i123.ApplicationStartCubit>(
     () => _i123.ApplicationStartCubit(),
+  );
+  gh.lazySingleton<_i664.OrganizationsDataSource>(
+    () => _i63.FakeOrganizationsDataSource(),
   );
   gh.lazySingleton<_i107.AuthRemoteDataSource>(
     () => _i305.FakeAuthRemoteDataSource(),

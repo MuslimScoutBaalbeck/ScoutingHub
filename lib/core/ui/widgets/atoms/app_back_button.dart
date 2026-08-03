@@ -14,10 +14,10 @@ class AppBackButton extends StatelessWidget {
     final isDark = theme.brightness == .dark;
     return Padding(
       padding: const EdgeInsetsDirectional.all(8),
-      child: AppSquareAction(
+      child: IconButton(
         tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         onPressed: onPressed ?? () => Navigator.maybePop(context),
-        child: Icon(
+        icon: Icon(
           Icons.chevron_left,
           size: AppSize.iconSm,
           color: isDark ? colors.onPrimary : colors.primary,
