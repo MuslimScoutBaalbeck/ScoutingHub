@@ -11,4 +11,7 @@ final class FakePeopleRepository implements PeopleRepository {
 
   @override
   Future<List<Person>> getPeople() => _dataSource.loadPeople();
+
+  @override
+  Future<Person> savePerson(Person person) => _dataSource.savePerson(person);
 }
