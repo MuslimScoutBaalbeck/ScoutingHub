@@ -31,7 +31,7 @@ class _MembersListPageState extends State<MembersListPage> {
   @override
   Widget build(BuildContext context) {
     final strings = context.t.people;
-    final primary = Theme.of(context).colorScheme;
+    final colors = Theme.of(context).colorScheme;
 
     return BlocBuilder<MembersListCubit, MembersListState>(
       builder: (context, state) {
@@ -44,26 +44,26 @@ class _MembersListPageState extends State<MembersListPage> {
                 Text(strings.members_list),
                 Text(
                   strings.subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),
             bottom: PreferredSize(
-              preferredSize:const Size.fromHeight(40),
-              child:  Container(
-                color: primary.primary.withAlpha(25),
-                padding:  const EdgeInsets.symmetric(vertical:10,horizontal: 10),
-                child: Row(
-                  crossAxisAlignment: .start,
-                  children: [
-                    AppText.body(
-                      strings.members_count(count: state.visibleCount),
-                      textAlign: TextAlign.center,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ],
+              preferredSize: const Size.fromHeight(48),
+              child: Container(
+                width: double.infinity,
+                color: colors.primary.withValues(alpha: .08),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.sm,
+                  vertical: AppSpacing.sm,
                 ),
-              )
+                child: AppText.body(
+                  strings.members_count(count: state.visibleCount),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ),
             actions: [
               IconButton(
@@ -112,7 +112,7 @@ class _MembersListPageState extends State<MembersListPage> {
             },
             child: const Icon(Icons.person_add_alt_1_rounded),
           ),
-          body: Expanded(child: _MembersListBody(state: state)),
+          body: _MembersListBody(state: state),
         );
       },
     );
@@ -129,13 +129,16 @@ class _MembersListPageState extends State<MembersListPage> {
       final updated = await context.router.push<bool>(
         MemberDetailsRoute(person: member),
       );
-      if (updated == true && context.mounted) await cubit.load();
+      if (updated == true && context.mounted) {
+        await cubit.load();
+      }
     }
   }
 }
 
 class _MembersListBody extends StatelessWidget {
   const _MembersListBody({required this.state});
+
   final MembersListState state;
 
   @override
@@ -145,6 +148,7 @@ class _MembersListBody extends StatelessWidget {
     if (state.isLoading && state.members.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
+
     if (state.error != null && state.members.isEmpty) {
       return Center(
         child: AppButton.filled(
@@ -153,54 +157,38 @@ class _MembersListBody extends StatelessWidget {
         ),
       );
     }
+
     if (state.visibleMembers.isEmpty) {
       return Center(child: AppText.paragraph(strings.empty));
     }
 
+    final bottomInset = MediaQuery.paddingOf(context).bottom;
+
     return RefreshIndicator(
       onRefresh: context.read<MembersListCubit>().load,
       child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(
+        padding: EdgeInsets.fromLTRB(
           AppSpacing.xs,
           AppSpacing.xs,
           AppSpacing.xs,
-          AppSpacing.xl,
+          112 + bottomInset,
         ),
         itemCount: state.visibleMembers.length,
         separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xxs),
         itemBuilder: (context, index) {
           final member = state.visibleMembers[index];
-          return Card(
-            margin: EdgeInsets.zero,
-            child: ListTile(
-              dense: true,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.sm,
-                vertical: AppSpacing.xxs,
-              ),
-              leading: CircleAvatar(
-                child: Text(member.fullName.characters.first),
-              ),
-              title: AppText.body(member.fullName, fontWeight: FontWeight.w700),
-              subtitle: AppText.caption(
-                '${member.unit} · ${strings.membership_number}: ${member.membershipNumber}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Icon(
-                Directionality.of(context) == TextDirection.rtl
-                    ? Icons.chevron_left_rounded
-                    : Icons.chevron_right_rounded,
-              ),
-              onTap: () async {
-                final updated = await context.router.push<bool>(
-                  MemberDetailsRoute(person: member),
-                );
-                if (updated == true && context.mounted) {
-                  await context.read<MembersListCubit>().load();
-                }
-              },
-            ),
+
+          return _MemberListItem(
+            member: member,
+            index: index,
+            onTap: () async {
+              final updated = await context.router.push<bool>(
+                MemberDetailsRoute(person: member),
+              );
+              if (updated == true && context.mounted) {
+                await context.read<MembersListCubit>().load();
+              }
+            },
           );
         },
       ),
@@ -208,8 +196,87 @@ class _MembersListBody extends StatelessWidget {
   }
 }
 
+class _MemberListItem extends StatelessWidget {
+  const _MemberListItem({
+    required this.member,
+    required this.index,
+    required this.onTap,
+  });
+
+  final Person member;
+  final int index;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = context.t.people;
+    final colors = Theme.of(context).colorScheme;
+    final isEven = index.isEven;
+    final backgroundColor = colors.primary.withValues(
+      alpha: isEven ? .055 : .11,
+    );
+
+    return Material(
+      color: backgroundColor,
+      borderRadius: AppRadius.medium,
+      child: InkWell(
+        borderRadius: AppRadius.medium,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.sm,
+            vertical: AppSpacing.sm,
+          ),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: colors.primary.withValues(alpha: .16),
+                foregroundColor: colors.primary,
+                child: AppText.title(
+                  member.fullName.characters.first,
+                  color: colors.primary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              AppGap.horizontalMd,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText.body(
+                      member.fullName,
+                      fontWeight: FontWeight.w700,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    AppGap.verticalXxs,
+                    AppText.caption(
+                      '${member.unit} · ${strings.membership_number}: ${member.membershipNumber}',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              AppGap.horizontalSm,
+              Icon(
+                Directionality.of(context) == TextDirection.rtl
+                    ? Icons.chevron_left_rounded
+                    : Icons.chevron_right_rounded,
+                color: colors.primary,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _MemberSearchDelegate extends SearchDelegate<Person?> {
   _MemberSearchDelegate(this.searchMembers);
+
   final List<Person> Function(String query) searchMembers;
 
   @override
@@ -242,6 +309,7 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
 
   Widget _results() {
     final results = searchMembers(query);
+
     return ListView.builder(
       itemCount: results.length,
       itemBuilder: (context, index) {
@@ -289,6 +357,7 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
   @override
   Widget build(BuildContext context) {
     final strings = context.t.people;
+
     return Drawer(
       child: SafeArea(
         child: Padding(
@@ -307,8 +376,10 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                     child: Text(strings.all_stages),
                   ),
                   ...ScoutStage.values.map(
-                    (value) =>
-                        DropdownMenuItem(value: value, child: Text(value.name)),
+                    (value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(value.name),
+                    ),
                   ),
                 ],
                 onChanged: (value) => setState(() => _stage = value),
@@ -323,8 +394,10 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                     child: Text(strings.all_statuses),
                   ),
                   ...PersonStatus.values.map(
-                    (value) =>
-                        DropdownMenuItem(value: value, child: Text(value.name)),
+                    (value) => DropdownMenuItem(
+                      value: value,
+                      child: Text(value.name),
+                    ),
                   ),
                 ],
                 onChanged: (value) => setState(() => _status = value),
