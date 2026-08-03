@@ -6,6 +6,7 @@ abstract class ApplicationStartState with _$ApplicationStartState {
     // Persisted settings
     String? locale,
     @Default(ThemeMode.system) ThemeMode themeMode,
+    @Default(false) bool onboardingCompleted,
 
     // Transient application state
     @Default(false) bool isLoadingLanguage,
