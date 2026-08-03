@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
+import 'package:scouting_hub/core/router/app_router.gr.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
 import 'package:scouting_hub/core/ui/widgets/widgets.dart';
 import 'package:scouting_hub/features/auth/application/session/session_cubit.dart';
@@ -35,6 +37,7 @@ class QuickAccessGrid extends StatelessWidget {
         icon: Icons.people_alt_rounded,
         label: strings.members,
         permissions: const [AppPermission.membersView],
+        onPressed: () => context.router.push(const PeopleRoute()),
       ),
       QuickAccessItem(
         icon: Icons.music_note_rounded,
@@ -70,7 +73,7 @@ class QuickAccessGrid extends StatelessWidget {
         return QuickAccessTile(
           icon: item.icon,
           label: item.label,
-          onPressed: onItemPressed,
+          onPressed: item.onPressed ?? onItemPressed,
         );
       },
     );
@@ -140,9 +143,11 @@ final class QuickAccessItem {
     required this.icon,
     required this.label,
     required this.permissions,
+    this.onPressed,
   });
 
   final IconData icon;
   final String label;
   final List<AppPermission> permissions;
+  final VoidCallback? onPressed;
 }
