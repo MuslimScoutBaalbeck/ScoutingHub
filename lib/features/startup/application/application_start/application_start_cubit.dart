@@ -28,6 +28,14 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
     emit(state.copyWith(themeMode: themeMode));
   }
 
+  void completeOnboarding() {
+    if (state.onboardingCompleted) {
+      return;
+    }
+
+    emit(state.copyWith(onboardingCompleted: true));
+  }
+
   Future<void> start() async {
     emit(
       state.copyWith(
@@ -38,11 +46,11 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
     );
 
     try {
-      // Keep the Flutter setup screen visible while startup services initialize.
-      // Replace this minimum delay gradually with real initialization tasks.
       await Future<void>.delayed(const Duration(milliseconds: 1750));
 
-      const destination = AppLaunchDestination.login;
+      final destination = state.onboardingCompleted
+          ? AppLaunchDestination.login
+          : AppLaunchDestination.setup;
 
       emit(
         state.copyWith(
@@ -66,6 +74,7 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
     return ApplicationStartState(
       themeMode: _decodeThemeMode(json['themeMode']),
       locale: json['locale'] as String?,
+      onboardingCompleted: json['onboardingCompleted'] as bool? ?? false,
     );
   }
 
@@ -74,6 +83,7 @@ class ApplicationStartCubit extends HydratedCubit<ApplicationStartState> {
     return <String, dynamic>{
       'themeMode': state.themeMode.name,
       'locale': state.locale,
+      'onboardingCompleted': state.onboardingCompleted,
     };
   }
 
