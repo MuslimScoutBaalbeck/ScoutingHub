@@ -74,54 +74,60 @@ class WelcomePage extends StatelessWidget {
                           ListTile(
                             leading: const Icon(Icons.language_rounded),
                             title: Text(strings.language),
-                            trailing: DropdownButton<AppLocale>(
-                              value: LocaleSettings.currentLocale,
-                              underline: const SizedBox.shrink(),
-                              items: [
-                                DropdownMenuItem(
-                                  value: AppLocale.en,
-                                  child: Text(strings.english),
-                                ),
-                                DropdownMenuItem(
-                                  value: AppLocale.ar,
-                                  child: Text(strings.arabic),
-                                ),
-                              ],
-                              onChanged: (locale) async {
-                                if (locale != null) {
-                                  await _changeLocale(context, locale);
-                                }
-                              },
+                            trailing: Container(
+                              color: Colors.red,
+                              child: DropdownButton<AppLocale>(
+                                value: LocaleSettings.currentLocale,
+                                underline: const SizedBox.shrink(),
+                                items: [
+                                  DropdownMenuItem(
+                                    value: AppLocale.en,
+                                    child: Text(strings.english),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: AppLocale.ar,
+                                    child: Text(strings.arabic),
+                                  ),
+                                ],
+                                onChanged: (locale) async {
+                                  if (locale != null) {
+                                    await _changeLocale(context, locale);
+                                  }
+                                },
+                              ),
                             ),
                           ),
                           const Divider(height: 1),
                           ListTile(
                             leading: const Icon(Icons.palette_outlined),
                             title: Text(strings.appearance),
-                            trailing: DropdownButton<ThemeMode>(
-                              value: state.themeMode,
-                              underline: const SizedBox.shrink(),
-                              items: [
-                                DropdownMenuItem(
-                                  value: ThemeMode.system,
-                                  child: Text(strings.theme_system),
-                                ),
-                                DropdownMenuItem(
-                                  value: ThemeMode.light,
-                                  child: Text(strings.theme_light),
-                                ),
-                                DropdownMenuItem(
-                                  value: ThemeMode.dark,
-                                  child: Text(strings.theme_dark),
-                                ),
-                              ],
-                              onChanged: (mode) {
-                                if (mode != null) {
-                                  context
-                                      .read<ApplicationStartCubit>()
-                                      .updateThemeMode(mode);
-                                }
-                              },
+                            trailing: Container(
+                              color: Colors.red,
+                              child: DropdownButton<ThemeMode>(
+                                value: state.themeMode,
+                                underline: const SizedBox.shrink(),
+                                items: [
+                                  DropdownMenuItem(
+                                    value: ThemeMode.system,
+                                    child: Text(strings.theme_system),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: ThemeMode.light,
+                                    child: Text(strings.theme_light),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: ThemeMode.dark,
+                                    child: Text(strings.theme_dark),
+                                  ),
+                                ],
+                                onChanged: (mode) {
+                                  if (mode != null) {
+                                    context
+                                        .read<ApplicationStartCubit>()
+                                        .updateThemeMode(mode);
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         ],
