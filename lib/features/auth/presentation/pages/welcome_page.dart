@@ -149,24 +149,24 @@ class WelcomePage extends StatelessWidget {
       showDragHandle: true,
       useSafeArea: true,
       builder: (sheetContext) {
-        return _SelectionSheet<ThemeMode>(
+        return _ThemeSelectionSheet(
           title: strings.appearance,
           selectedValue: selectedMode,
-          options: [
-            _SelectionOption(
+          segments: [
+            ButtonSegment<ThemeMode>(
               value: ThemeMode.system,
-              label: strings.theme_system,
-              icon: Icons.settings_suggest_outlined,
+              icon: const Icon(Icons.settings_suggest_outlined),
+              label: Text(strings.theme_system),
             ),
-            _SelectionOption(
+            ButtonSegment<ThemeMode>(
               value: ThemeMode.light,
-              label: strings.theme_light,
-              icon: Icons.light_mode_outlined,
+              icon: const Icon(Icons.light_mode_outlined),
+              label: Text(strings.theme_light),
             ),
-            _SelectionOption(
+            ButtonSegment<ThemeMode>(
               value: ThemeMode.dark,
-              label: strings.theme_dark,
-              icon: Icons.dark_mode_outlined,
+              icon: const Icon(Icons.dark_mode_outlined),
+              label: Text(strings.theme_dark),
             ),
           ],
         );
@@ -305,6 +305,47 @@ class _SelectionSheet<T> extends StatelessWidget {
                   ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ThemeSelectionSheet extends StatelessWidget {
+  const _ThemeSelectionSheet({
+    required this.title,
+    required this.selectedValue,
+    required this.segments,
+  });
+
+  final String title;
+  final ThemeMode selectedValue;
+  final List<ButtonSegment<ThemeMode>> segments;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.xl,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          AppText.heading(title, fontWeight: FontWeight.w700),
+          AppGap.verticalLg,
+          SegmentedButton<ThemeMode>(
+            segments: segments,
+            selected: {selectedValue},
+            showSelectedIcon: false,
+            expandedInsets: EdgeInsets.zero,
+            onSelectionChanged: (selection) {
+              Navigator.of(context).pop(selection.first);
+            },
           ),
         ],
       ),
