@@ -31,5 +31,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: MoreRoute.page, path: 'more'),
       ],
     ),
+
+    /** Troop management **/
+    AutoRoute(page: PeopleRoute.page, path: '/people'),
   ];
 }
