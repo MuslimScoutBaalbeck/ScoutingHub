@@ -9,6 +9,7 @@ import 'package:scouting_hub/features/auth/application/session/session_cubit.dar
 import 'package:scouting_hub/features/auth/domain/entities/app_permission.dart';
 import 'package:scouting_hub/features/startup/application/application_start/application_start_cubit.dart';
 
+@RoutePage()
 class MorePage extends StatelessWidget {
   const MorePage({super.key});
 
@@ -17,10 +18,7 @@ class MorePage extends StatelessWidget {
     final strings = context.t.home.more;
     final user = context.watch<SessionCubit>().state.user;
     final items = <_MoreItem>[
-      _MoreItem(
-        icon: Icons.person_outline_rounded,
-        label: strings.profile,
-      ),
+      _MoreItem(icon: Icons.person_outline_rounded, label: strings.profile),
       _MoreItem(
         icon: Icons.notifications_outlined,
         label: strings.notifications,
@@ -60,14 +58,8 @@ class MorePage extends StatelessWidget {
         label: strings.camps,
         permission: AppPermission.campsView,
       ),
-      _MoreItem(
-        icon: Icons.support_agent_rounded,
-        label: strings.support,
-      ),
-      _MoreItem(
-        icon: Icons.help_outline_rounded,
-        label: strings.help,
-      ),
+      _MoreItem(icon: Icons.support_agent_rounded, label: strings.support),
+      _MoreItem(icon: Icons.help_outline_rounded, label: strings.help),
     ];
     final visibleItems = items.where((item) {
       final permission = item.permission;
@@ -85,7 +77,11 @@ class MorePage extends StatelessWidget {
               child: ListTile(
                 leading: Icon(item.icon),
                 title: AppText.paragraph(item.label),
-                trailing: const Icon(Icons.chevron_right_rounded),
+                trailing: Icon(
+                  Directionality.of(context) == TextDirection.rtl
+                      ? Icons.chevron_left_rounded
+                      : Icons.chevron_right_rounded,
+                ),
                 onTap: item.onTap ?? () => _showComingSoon(context),
               ),
             ),
