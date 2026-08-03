@@ -1,0 +1,48 @@
+{
+  "people": [
+    {
+      "id": "person-001",
+      "membershipNumber": "MSB-0001",
+      "fullName": "Mostafa Khazaal",
+      "phone": "+961 70 000 001",
+      "stage": "rover",
+      "unit": "Rover Clan",
+      "status": "active",
+      "profileComplete": true,
+      "joinedAt": "2024-09-15"
+    },
+    {
+      "id": "person-002",
+      "membershipNumber": "MSB-0002",
+      "fullName": "Ahmad Ali",
+      "phone": "+961 70 000 002",
+      "stage": "scout",
+      "unit": "Scout Troop",
+      "status": "active",
+      "profileComplete": false,
+      "joinedAt": "2025-02-10"
+    },
+    {
+      "id": "person-003",
+      "membershipNumber": "MSB-0003",
+      "fullName": "Omar Hassan",
+      "phone": "+961 70 000 003",
+      "stage": "cub",
+      "unit": "Cub Pack",
+      "status": "pending",
+      "profileComplete": false,
+      "joinedAt": "2026-07-22"
+    },
+    {
+      "id": "person-004",
+      "membershipNumber": "MSB-0004",
+      "fullName": "Bilal Mahmoud",
+      "phone": "+961 70 000 004",
+      "stage": "rover",
+      "unit": "Rover Clan",
+      "status": "inactive",
+      "profileComplete": true,
+      "joinedAt": "2023-11-04"
+    }
+  ]
+}
