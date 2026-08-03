@@ -22,12 +22,14 @@ final class MembershipCadaster {
     required this.id,
     required this.districtId,
     required this.name,
+    required this.commissionId,
     required this.commissionName,
   });
 
   final int id;
   final int districtId;
   final String name;
+  final int commissionId;
   final String commissionName;
 }
 
