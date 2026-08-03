@@ -1,0 +1,22 @@
+{
+  "title": "People",
+  "subtitle": "Manage troop members and membership records",
+  "search": "Search by name, membership number, or phone",
+  "add": "Add member",
+  "active": "Active",
+  "pending": "Pending",
+  "inactive": "Inactive",
+  "archived": "Archived",
+  "complete": "Profile complete",
+  "incomplete": "Profile incomplete",
+  "empty": "No members match your search.",
+  "unexpected_error": "Unable to load members. Please try again.",
+  "retry": "Retry",
+  "membership_number": "Membership #",
+  "stages": {
+    "cub": "Cub",
+    "scout": "Scout",
+    "rover": "Rover",
+    "leader": "Leader"
+  }
+}
