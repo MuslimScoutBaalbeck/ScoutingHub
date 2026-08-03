@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:scouting_hub/features/auth/domain/entities/app_permission.dart';
 import 'package:scouting_hub/features/auth/domain/entities/auth_session.dart';
+import 'package:scouting_hub/features/auth/domain/entities/auth_user.dart';
 import 'package:scouting_hub/features/auth/domain/entities/scout_assignment.dart';
 import 'package:scouting_hub/features/auth/domain/usecases/logout.dart';
 import 'package:scouting_hub/features/auth/domain/usecases/restore_session.dart';
@@ -33,11 +34,9 @@ final class SessionCubit extends Cubit<SessionState> {
         ),
       ),
       (session) => emit(
-        state.copyWith(
-          isLoading: false,
+        SessionState(
           session: session,
           activeAssignmentId: _resolveInitialAssignmentId(session),
-          clearError: true,
         ),
       ),
     );
@@ -45,10 +44,9 @@ final class SessionCubit extends Cubit<SessionState> {
 
   void setSession(AuthSession session) {
     emit(
-      state.copyWith(
+      SessionState(
         session: session,
         activeAssignmentId: _resolveInitialAssignmentId(session),
-        clearError: true,
       ),
     );
   }
