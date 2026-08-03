@@ -32,7 +32,15 @@ class AppRouter extends RootStackRouter {
       ],
     ),
 
-    /** Troop management **/
-    AutoRoute(page: PeopleRoute.page, path: '/people'),
+    /** Troop member management **/
+    AutoRoute(page: MembersDashboardRoute.page, path: '/members'),
+    AutoRoute(page: MembersListRoute.page, path: '/members/list'),
+    AutoRoute(page: MemberDetailsRoute.page, path: '/members/details'),
+    AutoRoute(page: MemberFormRoute.page, path: '/members/form'),
+    AutoRoute(
+      page: MembershipRequestsRoute.page,
+      path: '/members/requests',
+    ),
+    AutoRoute(page: MemberReportsRoute.page, path: '/members/reports'),
   ];
 }
