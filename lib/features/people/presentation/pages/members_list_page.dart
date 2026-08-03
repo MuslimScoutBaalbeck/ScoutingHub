@@ -6,7 +6,7 @@ import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/router/app_router.gr.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
 import 'package:scouting_hub/core/ui/widgets/widgets.dart';
-import 'package:scouting_hub/features/people/application/people/people_cubit.dart';
+import 'package:scouting_hub/features/people/application/members_list/members_list_cubit.dart';
 import 'package:scouting_hub/features/people/domain/entities/person.dart';
 
 @RoutePage()
@@ -19,7 +19,7 @@ class MembersListPage extends StatefulWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<PeopleCubit>()..load(),
+      create: (_) => getIt<MembersListCubit>()..load(),
       child: this,
     );
   }
@@ -27,144 +27,153 @@ class MembersListPage extends StatefulWidget implements AutoRouteWrapper {
 
 class _MembersListPageState extends State<MembersListPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  ScoutStage? _stage;
-  PersonStatus? _status;
 
   @override
   Widget build(BuildContext context) {
     final strings = context.t.people;
 
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(strings.members_list),
-            Text(strings.subtitle, style: Theme.of(context).textTheme.bodySmall),
-          ],
-        ),
-        actions: [
-          IconButton(
-            tooltip: strings.search,
-            onPressed: _openSearch,
-            icon: const Icon(Icons.search_rounded),
-          ),
-          GestureDetector(
-            onLongPress: _clearFilters,
-            child: Badge(
-              isLabelVisible: _stage != null || _status != null,
-              child: IconButton(
-                tooltip: strings.filter,
-                onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-                icon: const Icon(Icons.filter_list_rounded),
-              ),
+    return BlocBuilder<MembersListCubit, MembersListState>(
+      builder: (context, state) {
+        return Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(strings.members_list),
+                Text(
+                  strings.subtitle,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
             ),
+            actions: [
+              IconButton(
+                tooltip: strings.search,
+                onPressed: () => _openSearch(context),
+                icon: const Icon(Icons.search_rounded),
+              ),
+              GestureDetector(
+                onLongPress: context.read<MembersListCubit>().clearFilters,
+                child: Badge(
+                  isLabelVisible: state.hasActiveFilters,
+                  child: IconButton(
+                    tooltip: strings.filter,
+                    onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
+                    icon: const Icon(Icons.filter_list_rounded),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      endDrawer: _MemberFilterDrawer(
-        initialStage: _stage,
-        initialStatus: _status,
-        onApply: (stage, status) {
-          setState(() {
-            _stage = stage;
-            _status = status;
-          });
-          Navigator.of(context).pop();
-        },
-        onClear: () {
-          _clearFilters();
-          Navigator.of(context).pop();
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: strings.add,
-        onPressed: () => context.router.push(const MemberFormRoute()),
-        child: const Icon(Icons.person_add_alt_1_rounded),
-      ),
-      bottomNavigationBar: BlocBuilder<PeopleCubit, PeopleState>(
-        buildWhen: (previous, current) => previous.people != current.people,
-        builder: (context, state) {
-          final count = _applyFilters(state.people).length;
-          return BottomAppBar(
+          endDrawer: _MemberFilterDrawer(
+            key: ValueKey('${state.stage}-${state.status}'),
+            initialStage: state.stage,
+            initialStatus: state.status,
+            onApply: (stage, status) {
+              context.read<MembersListCubit>().applyFilters(
+                stage: stage,
+                status: status,
+              );
+              Navigator.of(context).pop();
+            },
+            onClear: () {
+              context.read<MembersListCubit>().clearFilters();
+              Navigator.of(context).pop();
+            },
+          ),
+          floatingActionButton: FloatingActionButton(
+            tooltip: strings.add,
+            onPressed: () async {
+              final saved = await context.router.push<bool>(
+                const MemberFormRoute(),
+              );
+              if (saved == true && context.mounted) {
+                await context.read<MembersListCubit>().load();
+              }
+            },
+            child: const Icon(Icons.person_add_alt_1_rounded),
+          ),
+          bottomNavigationBar: BottomAppBar(
             child: Center(
               child: AppText.body(
-                strings.members_count(count: count),
+                strings.members_count(count: state.visibleCount),
                 fontWeight: FontWeight.w700,
               ),
             ),
-          );
-        },
-      ),
-      body: BlocBuilder<PeopleCubit, PeopleState>(
-        builder: (context, state) {
-          if (state.isLoading && state.people.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          ),
+          body: _MembersListBody(state: state),
+        );
+      },
+    );
+  }
 
-          if (state.error != null && state.people.isEmpty) {
-            return Center(
-              child: AppButton.filled(
-                label: strings.retry,
-                onPressed: context.read<PeopleCubit>().load,
-              ),
-            );
-          }
+  Future<void> _openSearch(BuildContext context) async {
+    final cubit = context.read<MembersListCubit>();
+    final member = await showSearch<Person?>(
+      context: context,
+      delegate: _MemberSearchDelegate(cubit.search),
+    );
 
-          final members = _applyFilters(state.people);
-          if (members.isEmpty) {
-            return Center(child: AppText.paragraph(strings.empty));
-          }
+    if (member != null && context.mounted) {
+      await context.router.push(MemberDetailsRoute(person: member));
+    }
+  }
+}
 
-          return ListView.separated(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.sm,
-              AppSpacing.xs,
-              AppSpacing.sm,
-              96,
-            ),
-            itemCount: members.length,
-            separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xxs),
-            itemBuilder: (context, index) {
-              final member = members[index];
-              return _MemberListTile(
-                member: member,
-                onTap: () => context.router.push(
-                  MemberDetailsRoute(person: member),
-                ),
+class _MembersListBody extends StatelessWidget {
+  const _MembersListBody({required this.state});
+
+  final MembersListState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final strings = context.t.people;
+
+    if (state.isLoading && state.members.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state.error != null && state.members.isEmpty) {
+      return Center(
+        child: AppButton.filled(
+          label: strings.retry,
+          onPressed: context.read<MembersListCubit>().load,
+        ),
+      );
+    }
+
+    if (state.visibleMembers.isEmpty) {
+      return Center(child: AppText.paragraph(strings.empty));
+    }
+
+    return RefreshIndicator(
+      onRefresh: context.read<MembersListCubit>().load,
+      child: ListView.separated(
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.sm,
+          AppSpacing.xs,
+          AppSpacing.sm,
+          96,
+        ),
+        itemCount: state.visibleMembers.length,
+        separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xxs),
+        itemBuilder: (context, index) {
+          final member = state.visibleMembers[index];
+          return _MemberListTile(
+            member: member,
+            onTap: () async {
+              final updated = await context.router.push<bool>(
+                MemberDetailsRoute(person: member),
               );
+              if (updated == true && context.mounted) {
+                await context.read<MembersListCubit>().load();
+              }
             },
           );
         },
       ),
     );
-  }
-
-  List<Person> _applyFilters(List<Person> people) {
-    return people.where((person) {
-      return (_stage == null || person.stage == _stage) &&
-          (_status == null || person.status == _status);
-    }).toList(growable: false);
-  }
-
-  Future<void> _openSearch() async {
-    final people = context.read<PeopleCubit>().state.people;
-    final member = await showSearch<Person?>(
-      context: context,
-      delegate: _MemberSearchDelegate(people),
-    );
-
-    if (member != null && mounted) {
-      await context.router.push(MemberDetailsRoute(person: member));
-    }
-  }
-
-  void _clearFilters() {
-    setState(() {
-      _stage = null;
-      _status = null;
-    });
   }
 }
 
@@ -198,7 +207,11 @@ class _MemberListTile extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: const Icon(Icons.chevron_right_rounded),
+        trailing: Icon(
+          Directionality.of(context) == TextDirection.rtl
+              ? Icons.chevron_left_rounded
+              : Icons.chevron_right_rounded,
+        ),
         onTap: onTap,
       ),
     );
@@ -206,9 +219,9 @@ class _MemberListTile extends StatelessWidget {
 }
 
 class _MemberSearchDelegate extends SearchDelegate<Person?> {
-  _MemberSearchDelegate(this.people);
+  _MemberSearchDelegate(this.searchMembers);
 
-  final List<Person> people;
+  final List<Person> Function(String query) searchMembers;
 
   @override
   String get searchFieldLabel => 'Search';
@@ -216,7 +229,10 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
   @override
   List<Widget>? buildActions(BuildContext context) => [
     if (query.isNotEmpty)
-      IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear)),
+      IconButton(
+        onPressed: () => query = '',
+        icon: const Icon(Icons.clear_rounded),
+      ),
   ];
 
   @override
@@ -230,29 +246,23 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
   );
 
   @override
-  Widget buildResults(BuildContext context) => _results(context);
+  Widget buildResults(BuildContext context) => _results();
 
   @override
-  Widget buildSuggestions(BuildContext context) => _results(context);
+  Widget buildSuggestions(BuildContext context) => _results();
 
-  Widget _results(BuildContext context) {
-    final normalized = query.trim().toLowerCase();
-    final results = people.where((person) {
-      return normalized.isEmpty ||
-          person.fullName.toLowerCase().contains(normalized) ||
-          person.membershipNumber.toLowerCase().contains(normalized) ||
-          person.phone.contains(normalized);
-    }).toList(growable: false);
+  Widget _results() {
+    final results = searchMembers(query);
 
     return ListView.builder(
       itemCount: results.length,
       itemBuilder: (context, index) {
-        final person = results[index];
+        final member = results[index];
         return ListTile(
           leading: const Icon(Icons.person_outline_rounded),
-          title: Text(person.fullName),
-          subtitle: Text('${person.membershipNumber} · ${person.phone}'),
-          onTap: () => close(context, person),
+          title: Text(member.fullName),
+          subtitle: Text('${member.membershipNumber} · ${member.phone}'),
+          onTap: () => close(context, member),
         );
       },
     );
@@ -265,6 +275,7 @@ class _MemberFilterDrawer extends StatefulWidget {
     required this.initialStatus,
     required this.onApply,
     required this.onClear,
+    super.key,
   });
 
   final ScoutStage? initialStage;
@@ -319,7 +330,10 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 initialValue: _status,
                 decoration: InputDecoration(labelText: strings.status),
                 items: [
-                  DropdownMenuItem(value: null, child: Text(strings.all_statuses)),
+                  DropdownMenuItem(
+                    value: null,
+                    child: Text(strings.all_statuses),
+                  ),
                   ...PersonStatus.values.map(
                     (value) => DropdownMenuItem(
                       value: value,
