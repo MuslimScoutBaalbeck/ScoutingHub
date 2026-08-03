@@ -286,21 +286,26 @@ class _SelectionSheet<T> extends StatelessWidget {
         children: [
           AppText.heading(title, fontWeight: FontWeight.w700),
           AppGap.verticalMd,
-          for (final option in options)
-            RadioListTile<T>(
-              value: option.value,
-              groupValue: selectedValue,
-              secondary: Icon(option.icon),
-              title: AppText.body(option.label),
-              shape: const RoundedRectangleBorder(
-                borderRadius: AppRadius.medium,
-              ),
-              onChanged: (value) {
-                if (value != null) {
-                  Navigator.of(context).pop(value);
-                }
-              },
+          RadioGroup<T>(
+            groupValue: selectedValue,
+            onChanged: (value) {
+              Navigator.of(context).pop(value);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (final option in options)
+                  RadioListTile<T>(
+                    value: option.value,
+                    secondary: Icon(option.icon),
+                    title: AppText.body(option.label),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: AppRadius.medium,
+                    ),
+                  ),
+              ],
             ),
+          ),
         ],
       ),
     );
