@@ -1,0 +1,23 @@
+{
+  "governorates": [
+    {"id": 1, "name": "Baalbek-Hermel"},
+    {"id": 2, "name": "Bekaa"}
+  ],
+  "districts": [
+    {"id": 11, "governorateId": 1, "name": "Baalbek"},
+    {"id": 12, "governorateId": 1, "name": "Hermel"},
+    {"id": 21, "governorateId": 2, "name": "Zahle"}
+  ],
+  "cadasters": [
+    {"id": 111, "districtId": 11, "name": "Baalbek", "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 112, "districtId": 11, "name": "Douris", "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 113, "districtId": 11, "name": "Arsal", "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 121, "districtId": 12, "name": "Hermel", "commissionName": "Baalbek-Hermel Commission"},
+    {"id": 211, "districtId": 21, "name": "Zahle", "commissionName": "Bekaa Commission"}
+  ],
+  "troops": [
+    {"id": 1001, "cadasterId": 111, "name": "Baalbek Troop", "address": "Baalbek", "acceptingMembers": true},
+    {"id": 1002, "cadasterId": 112, "name": "Douris Troop", "address": "Douris", "acceptingMembers": true},
+    {"id": 1003, "cadasterId": 211, "name": "Zahle Troop", "address": "Zahle", "acceptingMembers": false}
+  ]
+}
