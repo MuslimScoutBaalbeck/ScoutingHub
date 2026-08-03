@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final strings = context.t.home.navigation;
-
+    final colors = Theme.of(context).colorScheme;
     return AutoTabsRouter(
       routes: const [
         DashboardRoute(),
@@ -32,8 +32,6 @@ class HomePage extends StatelessWidget {
         return Scaffold(
           extendBody: true,
           body: child,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
             heroTag: 'home_quick_create',
             tooltip: context.t.home.create.tooltip,
@@ -43,6 +41,9 @@ class HomePage extends StatelessWidget {
           bottomNavigationBar: NavigationBar(
             selectedIndex: tabsRouter.activeIndex,
             onDestinationSelected: tabsRouter.setActiveIndex,
+            elevation: 3,
+            shadowColor: Colors.black,
+            backgroundColor:colors.surface,
             destinations: [
               NavigationDestination(
                 icon: const Icon(Icons.home_outlined),
