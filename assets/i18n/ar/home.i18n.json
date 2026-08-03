@@ -7,7 +7,6 @@
   },
   "dashboard": {
     "welcome_back": "مرحباً بعودتك",
-    "user_name": "الكشاف التجريبي",
     "notifications": "الإشعارات",
     "upcoming_title": "نشاط قادم",
     "upcoming_name": "الاجتماع الأسبوعي للفوج",
@@ -18,7 +17,12 @@
     "teams": "الفرق",
     "members": "الأعضاء",
     "chants": "الأناشيد",
-    "games": "الألعاب"
+    "games": "الألعاب",
+    "inventory": "المخزون",
+    "assignments": "مسؤولياتك",
+    "active_assignment": "المسؤولية الحالية",
+    "no_assignment": "لا توجد مسؤولية مسندة إليك",
+    "no_access": "لا توجد وحدات وصول سريع متاحة ضمن صلاحياتك الحالية."
   },
   "tasks": {
     "title": "المهام",
@@ -30,14 +34,16 @@
     "camp_inventory_1": "إحصاء الخيم",
     "camp_inventory_2": "فحص مستلزمات الإسعاف",
     "done": "مكتملة",
-    "pending": "قيد التنفيذ"
+    "pending": "قيد التنفيذ",
+    "access_denied": "لا تملك صلاحية عرض المهام."
   },
   "calendar": {
     "title": "التقويم",
     "subtitle": "أنشطة هذا الشهر",
     "meeting": "اجتماع الفوج",
     "training": "تدريب قيادي",
-    "camp": "مخيم نهاية الأسبوع"
+    "camp": "مخيم نهاية الأسبوع",
+    "access_denied": "لا تملك صلاحية عرض الأنشطة."
   },
   "more": {
     "title": "المزيد",
@@ -55,6 +61,7 @@
     "logout": "تسجيل الخروج"
   },
   "common": {
-    "coming_soon": "قريباً"
+    "coming_soon": "قريباً",
+    "access_denied": "لا تملك صلاحية الوصول إلى هذا القسم."
   }
 }
