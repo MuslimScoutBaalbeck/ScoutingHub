@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
@@ -6,6 +7,7 @@ import 'package:scouting_hub/features/auth/domain/entities/app_permission.dart';
 import 'package:scouting_hub/features/calendar/presentation/widgets/calendar_event_tile.dart';
 import 'package:scouting_hub/features/calendar/presentation/widgets/calendar_month_view.dart';
 
+@RoutePage()
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});
 
