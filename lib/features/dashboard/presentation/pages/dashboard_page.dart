@@ -22,8 +22,7 @@ class DashboardPage extends StatelessWidget {
             floating: true,
             titleSpacing: AppSpacing.lg,
             title: BlocBuilder<SessionCubit, SessionState>(
-              buildWhen: (previous, current) =>
-                  previous.user != current.user,
+              buildWhen: (previous, current) => previous.user != current.user,
               builder: (context, state) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

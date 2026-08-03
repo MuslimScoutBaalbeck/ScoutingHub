@@ -44,7 +44,10 @@ class AppPageTemplate extends StatelessWidget {
           ? SafeArea(child: content)
           : Stack(
               fit: StackFit.expand,
-              children: [background!, SafeArea(child: content)],
+              children: [
+                background!,
+                SafeArea(child: content),
+              ],
             ),
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,

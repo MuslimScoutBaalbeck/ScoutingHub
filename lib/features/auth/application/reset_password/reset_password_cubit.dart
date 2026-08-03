@@ -11,7 +11,7 @@ part 'reset_password_state.dart';
 @injectable
 final class ResetPasswordCubit extends Cubit<ResetPasswordState> {
   ResetPasswordCubit(this._resetPasswordUseCase)
-      : super(const ResetPasswordState());
+    : super(const ResetPasswordState());
 
   final ResetPasswordUseCase _resetPasswordUseCase;
 
@@ -37,10 +37,12 @@ final class ResetPasswordCubit extends Cubit<ResetPasswordState> {
       password: password,
     );
     result.match(
-      (failure) => emit(state.copyWith(
-        isLoading: false,
-        error: _mapFailure(failure),
-      )),
+      (failure) => emit(
+        state.copyWith(
+          isLoading: false,
+          error: _mapFailure(failure),
+        ),
+      ),
       (_) => emit(state.copyWith(isLoading: false, isSuccess: true)),
     );
   }

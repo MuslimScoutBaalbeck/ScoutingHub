@@ -13,6 +13,13 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/auth/application/cubit/auth_cubit.dart' as _i795;
+import '../../features/auth/application/forgot_password/forgot_password_cubit.dart'
+    as _i259;
+import '../../features/auth/application/login/login_cubit.dart' as _i99;
+import '../../features/auth/application/register/register_cubit.dart' as _i777;
+import '../../features/auth/application/reset_password/reset_password_cubit.dart'
+    as _i1054;
+import '../../features/auth/application/session/session_cubit.dart' as _i329;
 import '../../features/auth/data/datasources/auth_remote_data_source.dart'
     as _i107;
 import '../../features/auth/data/datasources/fake_auth_remote_data_source.dart'
@@ -51,28 +58,48 @@ _i174.GetIt $initGetIt(
   gh.factory<_i787.AuthRepository>(
     () => _i153.AuthRepositoryImpl(gh<_i107.AuthRemoteDataSource>()),
   );
-  gh.singleton<_i510.ForgotPassword>(
-    () => _i510.ForgotPassword(gh<_i787.AuthRepository>()),
+  gh.singleton<_i510.ForgotPasswordUseCase>(
+    () => _i510.ForgotPasswordUseCase(gh<_i787.AuthRepository>()),
   );
-  gh.singleton<_i428.Login>(() => _i428.Login(gh<_i787.AuthRepository>()));
-  gh.singleton<_i597.Logout>(() => _i597.Logout(gh<_i787.AuthRepository>()));
-  gh.singleton<_i480.Register>(
-    () => _i480.Register(gh<_i787.AuthRepository>()),
+  gh.singleton<_i428.LoginUseCase>(
+    () => _i428.LoginUseCase(gh<_i787.AuthRepository>()),
   );
-  gh.singleton<_i1066.ResetPassword>(
-    () => _i1066.ResetPassword(gh<_i787.AuthRepository>()),
+  gh.singleton<_i597.LogoutUseCase>(
+    () => _i597.LogoutUseCase(gh<_i787.AuthRepository>()),
   );
-  gh.singleton<_i456.RestoreSession>(
-    () => _i456.RestoreSession(gh<_i787.AuthRepository>()),
+  gh.singleton<_i480.RegisterUseCase>(
+    () => _i480.RegisterUseCase(gh<_i787.AuthRepository>()),
+  );
+  gh.singleton<_i1066.ResetPasswordUseCase>(
+    () => _i1066.ResetPasswordUseCase(gh<_i787.AuthRepository>()),
+  );
+  gh.singleton<_i456.RestoreSessionUseCase>(
+    () => _i456.RestoreSessionUseCase(gh<_i787.AuthRepository>()),
+  );
+  gh.factory<_i99.LoginCubit>(() => _i99.LoginCubit(gh<_i428.LoginUseCase>()));
+  gh.factory<_i777.RegisterCubit>(
+    () => _i777.RegisterCubit(gh<_i480.RegisterUseCase>()),
   );
   gh.factory<_i795.AuthCubit>(
     () => _i795.AuthCubit(
-      login: gh<_i428.Login>(),
-      register: gh<_i480.Register>(),
-      restoreSession: gh<_i456.RestoreSession>(),
-      logout: gh<_i597.Logout>(),
-      forgotPassword: gh<_i510.ForgotPassword>(),
-      resetPassword: gh<_i1066.ResetPassword>(),
+      loginUseCase: gh<_i428.LoginUseCase>(),
+      registerUseCase: gh<_i480.RegisterUseCase>(),
+      restoreSessionUseCase: gh<_i456.RestoreSessionUseCase>(),
+      logoutUseCase: gh<_i597.LogoutUseCase>(),
+      forgotPasswordUseCase: gh<_i510.ForgotPasswordUseCase>(),
+      resetPasswordUseCase: gh<_i1066.ResetPasswordUseCase>(),
+    ),
+  );
+  gh.factory<_i1054.ResetPasswordCubit>(
+    () => _i1054.ResetPasswordCubit(gh<_i1066.ResetPasswordUseCase>()),
+  );
+  gh.factory<_i259.ForgotPasswordCubit>(
+    () => _i259.ForgotPasswordCubit(gh<_i510.ForgotPasswordUseCase>()),
+  );
+  gh.singleton<_i329.SessionCubit>(
+    () => _i329.SessionCubit(
+      gh<_i456.RestoreSessionUseCase>(),
+      gh<_i597.LogoutUseCase>(),
     ),
   );
   return getIt;

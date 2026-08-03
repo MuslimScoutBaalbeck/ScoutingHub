@@ -15,7 +15,12 @@ final class RegisterCubit extends Cubit<RegisterState> {
 
   final RegisterUseCase _registerUseCase;
 
-  Future<void> submit({required String name, required String email, required String password, required String confirmation}) async {
+  Future<void> submit({
+    required String name,
+    required String email,
+    required String password,
+    required String confirmation,
+  }) async {
     if (password != confirmation) {
       emit(state.copyWith(error: AuthErrorKey.passwordMismatch));
       return;
@@ -25,9 +30,14 @@ final class RegisterCubit extends Cubit<RegisterState> {
       return;
     }
     emit(state.copyWith(isLoading: true, error: null));
-    final result = await _registerUseCase(name: name, email: email, password: password);
+    final result = await _registerUseCase(
+      name: name,
+      email: email,
+      password: password,
+    );
     result.match(
-      (failure) => emit(state.copyWith(isLoading: false, error: _mapFailure(failure))),
+      (failure) =>
+          emit(state.copyWith(isLoading: false, error: _mapFailure(failure))),
       (session) => emit(state.copyWith(isLoading: false, session: session)),
     );
   }

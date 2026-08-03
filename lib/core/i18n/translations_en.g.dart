@@ -14,8 +14,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   ///
   /// Usage:
   /// final t = Translations.of(context);
-  static Translations of(BuildContext context) =>
-      InheritedLocaleData.of<AppLocale, Translations>(context).translations;
+  static Translations of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context).translations;
 
   /// You can call this constructor and build your own translation instance of this locale.
   /// Constructing via the enum [AppLocale.build] is preferred.
@@ -24,10 +23,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
     PluralResolver? cardinalResolver,
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
-  }) : assert(
-         overrides == null,
-         'Set "translation_overrides: true" in order to enable this feature.',
-       ),
+  }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
        $meta =
            meta ??
            TranslationMetadata(
@@ -43,18 +39,15 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   late final Translations _root = this; // ignore: unused_field
 
-  Translations $copyWith({
-    TranslationMetadata<AppLocale, Translations>? meta,
-  }) => Translations(meta: meta ?? this.$meta);
+  Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) =>
+      Translations(meta: meta ?? this.$meta);
 
   // Translations
   late final Translations$app$en app = Translations$app$en.internal(_root);
   late final Translations$auth$en auth = Translations$auth$en.internal(_root);
-  late final Translations$language$en language =
-      Translations$language$en.internal(_root);
-  late final Translations$startup$en startup = Translations$startup$en.internal(
-    _root,
-  );
+  late final Translations$home$en home = Translations$home$en.internal(_root);
+  late final Translations$language$en language = Translations$language$en.internal(_root);
+  late final Translations$startup$en startup = Translations$startup$en.internal(_root);
 }
 
 // Path: app
@@ -73,8 +66,7 @@ class Translations$app$en {
   /// en: 'Manage your scout group and everything you need for your adventure'
   ///
   /// ar: 'إدارة فوجك وكل ما تحتاجه في مغامرتك الكشفية'
-  String get tagline =>
-      'Manage your scout group and everything you need for your adventure';
+  String get tagline => 'Manage your scout group and everything you need for your adventure';
 
   /// en: 'A complete app for managing scout groups, members, activities, tasks, chants, and everything you need throughout your scouting journey.'
   ///
@@ -90,18 +82,29 @@ class Translations$auth$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$auth$forgot_password$en forgot_password =
-      Translations$auth$forgot_password$en.internal(
-        _root,
-      );
-  late final Translations$auth$login$en login =
-      Translations$auth$login$en.internal(_root);
-  late final Translations$auth$register$en register =
-      Translations$auth$register$en.internal(_root);
-  late final Translations$auth$reset_password$en reset_password =
-      Translations$auth$reset_password$en.internal(_root);
-  late final Translations$auth$welcome$en welcome =
-      Translations$auth$welcome$en.internal(_root);
+  late final Translations$auth$errors$en errors = Translations$auth$errors$en.internal(_root);
+  late final Translations$auth$forgot_password$en forgot_password = Translations$auth$forgot_password$en.internal(
+    _root,
+  );
+  late final Translations$auth$login$en login = Translations$auth$login$en.internal(_root);
+  late final Translations$auth$register$en register = Translations$auth$register$en.internal(_root);
+  late final Translations$auth$reset_password$en reset_password = Translations$auth$reset_password$en.internal(_root);
+  late final Translations$auth$welcome$en welcome = Translations$auth$welcome$en.internal(_root);
+}
+
+// Path: home
+class Translations$home$en {
+  Translations$home$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+  late final Translations$home$navigation$en navigation = Translations$home$navigation$en.internal(_root);
+  late final Translations$home$dashboard$en dashboard = Translations$home$dashboard$en.internal(_root);
+  late final Translations$home$tasks$en tasks = Translations$home$tasks$en.internal(_root);
+  late final Translations$home$calendar$en calendar = Translations$home$calendar$en.internal(_root);
+  late final Translations$home$more$en more = Translations$home$more$en.internal(_root);
+  late final Translations$home$common$en common = Translations$home$common$en.internal(_root);
 }
 
 // Path: language
@@ -154,8 +157,67 @@ class Translations$startup$en {
   /// en: 'Please wait while we prepare your scouting experience'
   ///
   /// ar: 'يرجى الانتظار ريثما نجهّز تجربتك الكشفية'
-  String get please_wait =>
-      'Please wait while we prepare your scouting experience';
+  String get please_wait => 'Please wait while we prepare your scouting experience';
+}
+
+// Path: auth.errors
+class Translations$auth$errors$en {
+  Translations$auth$errors$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Email is required.'
+  ///
+  /// ar: 'البريد الإلكتروني مطلوب.'
+  String get email_required => 'Email is required.';
+
+  /// en: 'Email and password are required.'
+  ///
+  /// ar: 'البريد الإلكتروني وكلمة المرور مطلوبان.'
+  String get email_password_required => 'Email and password are required.';
+
+  /// en: 'Enter a name and valid email, and use a password with at least 8 characters.'
+  ///
+  /// ar: 'أدخل الاسم والبريد الإلكتروني بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.'
+  String get registration_fields_invalid =>
+      'Enter a name and valid email, and use a password with at least 8 characters.';
+
+  /// en: 'The password confirmation does not match.'
+  ///
+  /// ar: 'تأكيد كلمة المرور غير مطابق.'
+  String get password_mismatch => 'The password confirmation does not match.';
+
+  /// en: 'Complete all fields correctly and use a password with at least 8 characters.'
+  ///
+  /// ar: 'أكمل جميع الحقول بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.'
+  String get reset_fields_invalid => 'Complete all fields correctly and use a password with at least 8 characters.';
+
+  /// en: 'The email or password is incorrect.'
+  ///
+  /// ar: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.'
+  String get invalid_credentials => 'The email or password is incorrect.';
+
+  /// en: 'An account already exists for this email address.'
+  ///
+  /// ar: 'يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني.'
+  String get email_already_exists => 'An account already exists for this email address.';
+
+  /// en: 'The password reset code is invalid.'
+  ///
+  /// ar: 'رمز إعادة تعيين كلمة المرور غير صحيح.'
+  String get invalid_reset_code => 'The password reset code is invalid.';
+
+  /// en: 'No authenticated session exists.'
+  ///
+  /// ar: 'لا توجد جلسة مستخدم مسجلة.'
+  String get unauthenticated => 'No authenticated session exists.';
+
+  /// en: 'An unexpected error occurred. Please try again.'
+  ///
+  /// ar: 'حدث خطأ غير متوقع. حاول مرة أخرى.'
+  String get unexpected => 'An unexpected error occurred. Please try again.';
 }
 
 // Path: auth.forgot_password
@@ -174,8 +236,7 @@ class Translations$auth$forgot_password$en {
   /// en: 'Enter your email and we will send a fake reset code for this demo.'
   ///
   /// ar: 'أدخل بريدك الإلكتروني وسنرسل رمز إعادة تعيين تجريبي.'
-  String get subtitle =>
-      'Enter your email and we will send a fake reset code for this demo.';
+  String get subtitle => 'Enter your email and we will send a fake reset code for this demo.';
 
   /// en: 'Email address'
   ///
@@ -331,8 +392,7 @@ class Translations$auth$register$en {
   /// en: 'Join Scouting Hub and keep your scouting resources together.'
   ///
   /// ar: 'انضم إلى منصة الكشاف واحتفظ بمواردك الكشفية في مكان واحد.'
-  String get subtitle =>
-      'Join Scouting Hub and keep your scouting resources together.';
+  String get subtitle => 'Join Scouting Hub and keep your scouting resources together.';
 
   /// en: 'Full name'
   ///
@@ -436,8 +496,7 @@ class Translations$auth$reset_password$en {
   /// en: 'The reset code is invalid. Use 123456 for the demo.'
   ///
   /// ar: 'رمز إعادة التعيين غير صحيح. استخدم 123456 للتجربة.'
-  String get invalid_code =>
-      'The reset code is invalid. Use 123456 for the demo.';
+  String get invalid_code => 'The reset code is invalid. Use 123456 for the demo.';
 
   /// en: 'Complete all fields correctly.'
   ///
@@ -461,8 +520,7 @@ class Translations$auth$welcome$en {
   /// en: 'Discover scout chants, activities, learning resources, and community tools in one place.'
   ///
   /// ar: 'اكتشف الأناشيد والأنشطة والموارد التعليمية والأدوات الكشفية في مكان واحد.'
-  String get subtitle =>
-      'Discover scout chants, activities, learning resources, and community tools in one place.';
+  String get subtitle => 'Discover scout chants, activities, learning resources, and community tools in one place.';
 
   /// en: 'Sign in'
   ///
@@ -478,6 +536,325 @@ class Translations$auth$welcome$en {
   ///
   /// ar: 'الاستكشاف كزائر'
   String get continue_as_guest => 'Explore as guest';
+}
+
+// Path: home.navigation
+class Translations$home$navigation$en {
+  Translations$home$navigation$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Dashboard'
+  ///
+  /// ar: 'الرئيسية'
+  String get dashboard => 'Dashboard';
+
+  /// en: 'Tasks'
+  ///
+  /// ar: 'المهام'
+  String get tasks => 'Tasks';
+
+  /// en: 'Calendar'
+  ///
+  /// ar: 'التقويم'
+  String get calendar => 'Calendar';
+
+  /// en: 'More'
+  ///
+  /// ar: 'المزيد'
+  String get more => 'More';
+}
+
+// Path: home.dashboard
+class Translations$home$dashboard$en {
+  Translations$home$dashboard$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Welcome back'
+  ///
+  /// ar: 'مرحباً بعودتك'
+  String get welcome_back => 'Welcome back';
+
+  /// en: 'Notifications'
+  ///
+  /// ar: 'الإشعارات'
+  String get notifications => 'Notifications';
+
+  /// en: 'Upcoming event'
+  ///
+  /// ar: 'نشاط قادم'
+  String get upcoming_title => 'Upcoming event';
+
+  /// en: 'Weekly troop meeting'
+  ///
+  /// ar: 'الاجتماع الأسبوعي للفوج'
+  String get upcoming_name => 'Weekly troop meeting';
+
+  /// en: 'Tomorrow at 5:00 PM · Scout hall'
+  ///
+  /// ar: 'غداً الساعة 5:00 مساءً · مقر الفوج'
+  String get upcoming_details => 'Tomorrow at 5:00 PM · Scout hall';
+
+  /// en: 'Quick access'
+  ///
+  /// ar: 'وصول سريع'
+  String get quick_access => 'Quick access';
+
+  /// en: 'Events'
+  ///
+  /// ar: 'الأنشطة'
+  String get events => 'Events';
+
+  /// en: 'Tasks'
+  ///
+  /// ar: 'المهام'
+  String get tasks => 'Tasks';
+
+  /// en: 'Teams'
+  ///
+  /// ar: 'الفرق'
+  String get teams => 'Teams';
+
+  /// en: 'Members'
+  ///
+  /// ar: 'الأعضاء'
+  String get members => 'Members';
+
+  /// en: 'Chants'
+  ///
+  /// ar: 'الأناشيد'
+  String get chants => 'Chants';
+
+  /// en: 'Games'
+  ///
+  /// ar: 'الألعاب'
+  String get games => 'Games';
+
+  /// en: 'Inventory'
+  ///
+  /// ar: 'المخزون'
+  String get inventory => 'Inventory';
+
+  /// en: 'Your responsibilities'
+  ///
+  /// ar: 'مسؤولياتك'
+  String get assignments => 'Your responsibilities';
+
+  /// en: 'Active responsibility'
+  ///
+  /// ar: 'المسؤولية الحالية'
+  String get active_assignment => 'Active responsibility';
+
+  /// en: 'No responsibility assigned'
+  ///
+  /// ar: 'لا توجد مسؤولية مسندة إليك'
+  String get no_assignment => 'No responsibility assigned';
+
+  /// en: 'No quick-access modules are available for your permissions.'
+  ///
+  /// ar: 'لا توجد وحدات وصول سريع متاحة ضمن صلاحياتك الحالية.'
+  String get no_access => 'No quick-access modules are available for your permissions.';
+}
+
+// Path: home.tasks
+class Translations$home$tasks$en {
+  Translations$home$tasks$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Tasks'
+  ///
+  /// ar: 'المهام'
+  String get title => 'Tasks';
+
+  /// en: 'Track assignments and subtasks'
+  ///
+  /// ar: 'تابع المهام والمهام الفرعية'
+  String get subtitle => 'Track assignments and subtasks';
+
+  /// en: 'Prepare the weekly meeting'
+  ///
+  /// ar: 'تحضير الاجتماع الأسبوعي'
+  String get prepare_meeting => 'Prepare the weekly meeting';
+
+  /// en: 'Confirm attendance'
+  ///
+  /// ar: 'تأكيد الحضور'
+  String get prepare_meeting_1 => 'Confirm attendance';
+
+  /// en: 'Prepare the activity plan'
+  ///
+  /// ar: 'تحضير خطة النشاط'
+  String get prepare_meeting_2 => 'Prepare the activity plan';
+
+  /// en: 'Review camp inventory'
+  ///
+  /// ar: 'مراجعة مخزون المخيم'
+  String get camp_inventory => 'Review camp inventory';
+
+  /// en: 'Count tents'
+  ///
+  /// ar: 'إحصاء الخيم'
+  String get camp_inventory_1 => 'Count tents';
+
+  /// en: 'Check first-aid supplies'
+  ///
+  /// ar: 'فحص مستلزمات الإسعاف'
+  String get camp_inventory_2 => 'Check first-aid supplies';
+
+  /// en: 'Completed'
+  ///
+  /// ar: 'مكتملة'
+  String get done => 'Completed';
+
+  /// en: 'Pending'
+  ///
+  /// ar: 'قيد التنفيذ'
+  String get pending => 'Pending';
+
+  /// en: 'You do not have permission to view tasks.'
+  ///
+  /// ar: 'لا تملك صلاحية عرض المهام.'
+  String get access_denied => 'You do not have permission to view tasks.';
+}
+
+// Path: home.calendar
+class Translations$home$calendar$en {
+  Translations$home$calendar$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Calendar'
+  ///
+  /// ar: 'التقويم'
+  String get title => 'Calendar';
+
+  /// en: 'Events for this month'
+  ///
+  /// ar: 'أنشطة هذا الشهر'
+  String get subtitle => 'Events for this month';
+
+  /// en: 'Troop meeting'
+  ///
+  /// ar: 'اجتماع الفوج'
+  String get meeting => 'Troop meeting';
+
+  /// en: 'Leadership training'
+  ///
+  /// ar: 'تدريب قيادي'
+  String get training => 'Leadership training';
+
+  /// en: 'Weekend camp'
+  ///
+  /// ar: 'مخيم نهاية الأسبوع'
+  String get camp => 'Weekend camp';
+
+  /// en: 'You do not have permission to view events.'
+  ///
+  /// ar: 'لا تملك صلاحية عرض الأنشطة.'
+  String get access_denied => 'You do not have permission to view events.';
+}
+
+// Path: home.more
+class Translations$home$more$en {
+  Translations$home$more$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'More'
+  ///
+  /// ar: 'المزيد'
+  String get title => 'More';
+
+  /// en: 'Profile'
+  ///
+  /// ar: 'الملف الشخصي'
+  String get profile => 'Profile';
+
+  /// en: 'Notifications'
+  ///
+  /// ar: 'الإشعارات'
+  String get notifications => 'Notifications';
+
+  /// en: 'Language'
+  ///
+  /// ar: 'اللغة'
+  String get language => 'Language';
+
+  /// en: 'Theme mode'
+  ///
+  /// ar: 'وضع المظهر'
+  String get theme => 'Theme mode';
+
+  /// en: 'Support'
+  ///
+  /// ar: 'الدعم'
+  String get support => 'Support';
+
+  /// en: 'Help center'
+  ///
+  /// ar: 'مركز المساعدة'
+  String get help => 'Help center';
+
+  /// en: 'Meeting minutes'
+  ///
+  /// ar: 'محاضر الاجتماعات'
+  String get meeting_minutes => 'Meeting minutes';
+
+  /// en: 'Incoming and outgoing mail'
+  ///
+  /// ar: 'الصادر والوارد'
+  String get incoming_outgoing => 'Incoming and outgoing mail';
+
+  /// en: 'Inventory management'
+  ///
+  /// ar: 'إدارة المخزون'
+  String get inventory => 'Inventory management';
+
+  /// en: 'Activity management'
+  ///
+  /// ar: 'إدارة النشاط'
+  String get activities => 'Activity management';
+
+  /// en: 'Camp management'
+  ///
+  /// ar: 'إدارة المخيم'
+  String get camps => 'Camp management';
+
+  /// en: 'Log out'
+  ///
+  /// ar: 'تسجيل الخروج'
+  String get logout => 'Log out';
+}
+
+// Path: home.common
+class Translations$home$common$en {
+  Translations$home$common$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Coming soon'
+  ///
+  /// ar: 'قريباً'
+  String get coming_soon => 'Coming soon';
+
+  /// en: 'You do not have permission to access this section.'
+  ///
+  /// ar: 'لا تملك صلاحية الوصول إلى هذا القسم.'
+  String get access_denied => 'You do not have permission to access this section.';
 }
 
 // Path: auth.login.adventure_words

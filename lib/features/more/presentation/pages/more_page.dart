@@ -71,8 +71,7 @@ class MorePage extends StatelessWidget {
     ];
     final visibleItems = items.where((item) {
       final permission = item.permission;
-      return permission == null ||
-          (user?.hasPermission(permission) ?? false);
+      return permission == null || (user?.hasPermission(permission) ?? false);
     });
 
     return SafeArea(

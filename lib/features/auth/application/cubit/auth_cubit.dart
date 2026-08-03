@@ -54,9 +54,17 @@ final class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> register({required String name, required String email, required String password}) async {
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     emit(const AuthLoading());
-    final result = await _registerUseCase(name: name, email: email, password: password);
+    final result = await _registerUseCase(
+      name: name,
+      email: email,
+      password: password,
+    );
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (session) => emit(AuthAuthenticated(session)),
@@ -72,9 +80,17 @@ final class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> resetPassword({required String email, required String code, required String password}) async {
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
     emit(const AuthLoading());
-    final result = await _resetPasswordUseCase(email: email, code: code, password: password);
+    final result = await _resetPasswordUseCase(
+      email: email,
+      code: code,
+      password: password,
+    );
     result.match(
       (failure) => emit(AuthError(failure.message)),
       (_) => emit(const AuthActionSuccess(AuthAction.resetPassword)),

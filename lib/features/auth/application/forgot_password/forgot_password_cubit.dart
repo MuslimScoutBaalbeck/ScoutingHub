@@ -11,7 +11,7 @@ part 'forgot_password_state.dart';
 @injectable
 final class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   ForgotPasswordCubit(this._forgotPasswordUseCase)
-      : super(const ForgotPasswordState());
+    : super(const ForgotPasswordState());
 
   final ForgotPasswordUseCase _forgotPasswordUseCase;
 
@@ -24,10 +24,12 @@ final class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     emit(state.copyWith(isLoading: true, error: null, isSuccess: false));
     final result = await _forgotPasswordUseCase(email: email);
     result.match(
-      (failure) => emit(state.copyWith(
-        isLoading: false,
-        error: _mapFailure(failure),
-      )),
+      (failure) => emit(
+        state.copyWith(
+          isLoading: false,
+          error: _mapFailure(failure),
+        ),
+      ),
       (_) => emit(state.copyWith(isLoading: false, isSuccess: true)),
     );
   }

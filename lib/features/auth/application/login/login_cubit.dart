@@ -24,7 +24,8 @@ final class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(isLoading: true, error: null));
     final result = await _loginUseCase(email: email, password: password);
     result.match(
-      (failure) => emit(state.copyWith(isLoading: false, error: _mapFailure(failure))),
+      (failure) =>
+          emit(state.copyWith(isLoading: false, error: _mapFailure(failure))),
       (session) => emit(state.copyWith(isLoading: false, session: session)),
     );
   }

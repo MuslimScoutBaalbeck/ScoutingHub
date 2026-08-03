@@ -38,7 +38,8 @@ class AuthTemplatePage extends StatelessWidget {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final strings = context.t.auth.login;
-    final languageCode = LocaleSettings.currentLocale.languageCode.toUpperCase();
+    final languageCode = LocaleSettings.currentLocale.languageCode
+        .toUpperCase();
     final canPop = context.router.canPop();
     final contentTopPadding =
         MediaQuery.paddingOf(context).top + kToolbarHeight + AppSpacing.xs;

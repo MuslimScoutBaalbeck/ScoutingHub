@@ -24,7 +24,9 @@ class AppAccessDenied extends StatelessWidget {
         child: Padding(
           padding: AppSpacing.page,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: AppSize.contentMaxWidth),
+            constraints: const BoxConstraints(
+              maxWidth: AppSize.contentMaxWidth,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

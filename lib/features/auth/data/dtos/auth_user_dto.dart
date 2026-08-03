@@ -18,8 +18,7 @@ final class ScoutAssignmentDto {
       unitName: json['unit_name'] as String,
       positionCode: json['position_code'] as String,
       positionName: json['position_name'] as String,
-      roleNames: (json['roles'] as List<dynamic>? ?? const [])
-          .cast<String>(),
+      roleNames: (json['roles'] as List<dynamic>? ?? const []).cast<String>(),
       isPrimary: json['is_primary'] as bool? ?? false,
     );
   }
