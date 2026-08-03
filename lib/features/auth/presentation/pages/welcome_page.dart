@@ -150,21 +150,21 @@ class WelcomePage extends StatelessWidget {
         return _ThemeSelectionSheet(
           title: strings.appearance,
           selectedValue: selectedMode,
-          segments: [
-            ButtonSegment<ThemeMode>(
+          options: [
+            _ThemeOption(
               value: ThemeMode.system,
-              icon: const Icon(Icons.settings_suggest_outlined),
-              label: Text(strings.theme_system),
+              label: strings.theme_system,
+              icon: Icons.settings_suggest_outlined,
             ),
-            ButtonSegment<ThemeMode>(
+            _ThemeOption(
               value: ThemeMode.light,
-              icon: const Icon(Icons.light_mode_outlined),
-              label: Text(strings.theme_light),
+              label: strings.theme_light,
+              icon: Icons.light_mode_outlined,
             ),
-            ButtonSegment<ThemeMode>(
+            _ThemeOption(
               value: ThemeMode.dark,
-              icon: const Icon(Icons.dark_mode_outlined),
-              label: Text(strings.theme_dark),
+              label: strings.theme_dark,
+              icon: Icons.dark_mode_outlined,
             ),
           ],
         );
@@ -314,15 +314,17 @@ class _ThemeSelectionSheet extends StatelessWidget {
   const _ThemeSelectionSheet({
     required this.title,
     required this.selectedValue,
-    required this.segments,
+    required this.options,
   });
 
   final String title;
   final ThemeMode selectedValue;
-  final List<ButtonSegment<ThemeMode>> segments;
+  final List<_ThemeOption> options;
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
@@ -335,16 +337,37 @@ class _ThemeSelectionSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           AppText.heading(title, fontWeight: FontWeight.w700),
-          AppGap.verticalLg,
-          SegmentedButton<ThemeMode>(
-            segments: segments,
-            selected: {selectedValue},
-            showSelectedIcon: false,
-            expandedInsets: EdgeInsets.zero,
-            onSelectionChanged: (selection) {
-              Navigator.of(context).pop(selection.first);
-            },
-          ),
+          AppGap.verticalMd,
+          for (final option in options)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+              child: ListTile(
+                selected: option.value == selectedValue,
+                selectedTileColor: colors.primaryContainer,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: AppRadius.medium,
+                ),
+                leading: Icon(
+                  option.icon,
+                  color: option.value == selectedValue
+                      ? colors.primary
+                      : colors.onSurfaceVariant,
+                ),
+                title: AppText.body(
+                  option.label,
+                  fontWeight: option.value == selectedValue
+                      ? FontWeight.w700
+                      : FontWeight.w500,
+                ),
+                trailing: option.value == selectedValue
+                    ? Icon(
+                        Icons.check_circle_rounded,
+                        color: colors.primary,
+                      )
+                    : null,
+                onTap: () => Navigator.of(context).pop(option.value),
+              ),
+            ),
         ],
       ),
     );
@@ -355,10 +378,22 @@ final class _SelectionOption<T> {
   const _SelectionOption({
     required this.value,
     required this.label,
-   this.icon,
+    this.icon,
   });
 
   final T value;
   final String label;
   final IconData? icon;
+}
+
+final class _ThemeOption {
+  const _ThemeOption({
+    required this.value,
+    required this.label,
+    required this.icon,
+  });
+
+  final ThemeMode value;
+  final String label;
+  final IconData icon;
 }
