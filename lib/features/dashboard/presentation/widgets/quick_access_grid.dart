@@ -42,9 +42,9 @@ class QuickAccessGrid extends StatelessWidget {
         permissions: const [AppPermission.chantsView],
       ),
       QuickAccessItem(
-        icon: Icons.inventory_2_outlined,
-        label: strings.inventory,
-        permissions: const [AppPermission.inventoryView],
+        icon: Icons.sports_esports_rounded,
+        label: strings.games,
+        permissions: const [AppPermission.chantsView],
       ),
     ];
     final visibleItems = items
@@ -65,9 +65,9 @@ class QuickAccessGrid extends StatelessWidget {
           itemCount: visibleItems.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: columns,
-            mainAxisExtent: 116,
             mainAxisSpacing: AppSpacing.sm,
             crossAxisSpacing: AppSpacing.sm,
+            mainAxisExtent: 126,
           ),
           itemBuilder: (context, index) {
             final item = visibleItems[index];
@@ -102,20 +102,22 @@ class QuickAccessTile extends StatelessWidget {
 
     return Card(
       margin: EdgeInsets.zero,
-      clipBehavior: Clip.antiAlias,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: AppRadius.large,
+        side: BorderSide(color: colors.outlineVariant),
+      ),
       child: InkWell(
+        borderRadius: AppRadius.large,
         onTap: onPressed,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.sm,
-            vertical: AppSpacing.md,
-          ),
+          padding: const EdgeInsets.all(AppSpacing.sm),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 44,
-                height: 44,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
                   color: colors.primaryContainer,
                   shape: BoxShape.circle,
@@ -128,15 +130,13 @@ class QuickAccessTile extends StatelessWidget {
                 ),
               ),
               AppGap.verticalSm,
-              Expanded(
-                child: Center(
-                  child: AppText.caption(
-                    label,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    fontWeight: FontWeight.w600,
-                  ),
+              Flexible(
+                child: AppText.body(
+                  label,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w600,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
