@@ -102,6 +102,7 @@ flutter:
     - assets/data/auth/
     - assets/data/chants/
     - assets/data/chants/collections/
+    - assets/data/people/
 
   fonts:
     - family: IBM Plex Sans Arabic
