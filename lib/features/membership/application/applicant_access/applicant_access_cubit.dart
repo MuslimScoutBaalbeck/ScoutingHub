@@ -21,6 +21,11 @@ enum ApplicantRequestStatus {
   rejected,
 }
 
+enum ApplicantRequestType {
+  troopMembership,
+  commissionInterest,
+}
+
 @singleton
 final class ApplicantAccessCubit extends HydratedCubit<ApplicantAccessState> {
   ApplicantAccessCubit() : super(const ApplicantAccessState());
@@ -37,11 +42,27 @@ final class ApplicantAccessCubit extends HydratedCubit<ApplicantAccessState> {
     emit(state.copyWith(emailVerified: true));
   }
 
-  void submitMembershipRequest({required String requestId}) {
+  void submitMembershipRequest({
+    required String requestId,
+    ApplicantRequestType? requestType,
+    int? governorateId,
+    int? districtId,
+    int? cadasterId,
+    int? troopId,
+    int? commissionId,
+    String? destinationName,
+  }) {
     emit(
       state.copyWith(
         requestId: requestId,
         requestStatus: ApplicantRequestStatus.submitted,
+        requestType: requestType,
+        governorateId: governorateId,
+        districtId: districtId,
+        cadasterId: cadasterId,
+        troopId: troopId,
+        commissionId: commissionId,
+        destinationName: destinationName,
       ),
     );
   }
@@ -61,6 +82,13 @@ final class ApplicantAccessCubit extends HydratedCubit<ApplicantAccessState> {
       requestStatus: ApplicantRequestStatus.values.byName(
         json['requestStatus'] as String? ?? ApplicantRequestStatus.none.name,
       ),
+      requestType: _decodeRequestType(json['requestType']),
+      governorateId: json['governorateId'] as int?,
+      districtId: json['districtId'] as int?,
+      cadasterId: json['cadasterId'] as int?,
+      troopId: json['troopId'] as int?,
+      commissionId: json['commissionId'] as int?,
+      destinationName: json['destinationName'] as String?,
     );
   }
 
@@ -70,5 +98,26 @@ final class ApplicantAccessCubit extends HydratedCubit<ApplicantAccessState> {
     'emailVerified': state.emailVerified,
     'requestId': state.requestId,
     'requestStatus': state.requestStatus.name,
+    'requestType': state.requestType?.name,
+    'governorateId': state.governorateId,
+    'districtId': state.districtId,
+    'cadasterId': state.cadasterId,
+    'troopId': state.troopId,
+    'commissionId': state.commissionId,
+    'destinationName': state.destinationName,
   };
+
+  ApplicantRequestType? _decodeRequestType(Object? value) {
+    if (value is! String) {
+      return null;
+    }
+
+    for (final type in ApplicantRequestType.values) {
+      if (type.name == value) {
+        return type;
+      }
+    }
+
+    return null;
+  }
 }
