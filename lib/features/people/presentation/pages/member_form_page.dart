@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:scouting_hub/core/di/injection.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
 import 'package:scouting_hub/features/people/domain/entities/person.dart';
+import 'package:scouting_hub/features/people/domain/usecases/save_person_use_case.dart';
 
 @RoutePage()
 class MemberFormPage extends StatefulWidget {
@@ -27,6 +29,7 @@ class _MemberFormPageState extends State<MemberFormPage> {
   late ScoutStage _stage;
   late PersonStatus _status;
   int _step = 0;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -66,21 +69,30 @@ class _MemberFormPageState extends State<MemberFormPage> {
     final strings = context.t.people;
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.person == null ? strings.add : strings.edit)),
+      appBar: AppBar(
+        title: Text(widget.person == null ? strings.add : strings.edit),
+      ),
       body: Form(
         key: _formKey,
         child: Stepper(
           currentStep: _step,
-          onStepTapped: (value) => setState(() => _step = value),
-          onStepCancel: _step == 0 ? null : () => setState(() => _step--),
-          onStepContinue: _continue,
+          onStepTapped: _isSaving ? null : (value) => setState(() => _step = value),
+          onStepCancel: _step == 0 || _isSaving
+              ? null
+              : () => setState(() => _step--),
+          onStepContinue: _isSaving ? null : _continue,
           controlsBuilder: (context, details) => Padding(
             padding: const EdgeInsets.only(top: AppSpacing.md),
             child: Row(
               children: [
                 FilledButton(
                   onPressed: details.onStepContinue,
-                  child: Text(_step == 3 ? strings.save : strings.next),
+                  child: _isSaving
+                      ? const SizedBox.square(
+                          dimension: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(_step == 3 ? strings.save : strings.next),
                 ),
                 if (_step > 0) ...[
                   const SizedBox(width: AppSpacing.sm),
@@ -100,7 +112,11 @@ class _MemberFormPageState extends State<MemberFormPage> {
                 children: [
                   _requiredField(_name, strings.full_name),
                   const SizedBox(height: AppSpacing.sm),
-                  _requiredField(_phone, strings.phone, keyboard: TextInputType.phone),
+                  _requiredField(
+                    _phone,
+                    strings.phone,
+                    keyboard: TextInputType.phone,
+                  ),
                   const SizedBox(height: AppSpacing.sm),
                   TextFormField(
                     controller: _email,
@@ -120,7 +136,9 @@ class _MemberFormPageState extends State<MemberFormPage> {
               isActive: _step >= 1,
               content: TextFormField(
                 controller: _emergency,
-                decoration: InputDecoration(labelText: strings.emergency_contact),
+                decoration: InputDecoration(
+                  labelText: strings.emergency_contact,
+                ),
               ),
             ),
             Step(
@@ -136,18 +154,30 @@ class _MemberFormPageState extends State<MemberFormPage> {
                     initialValue: _stage,
                     decoration: InputDecoration(labelText: strings.stage),
                     items: ScoutStage.values
-                        .map((value) => DropdownMenuItem(value: value, child: Text(value.name)))
+                        .map(
+                          (value) => DropdownMenuItem(
+                            value: value,
+                            child: Text(value.name),
+                          ),
+                        )
                         .toList(),
-                    onChanged: (value) => setState(() => _stage = value ?? _stage),
+                    onChanged: (value) =>
+                        setState(() => _stage = value ?? _stage),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   DropdownButtonFormField<PersonStatus>(
                     initialValue: _status,
                     decoration: InputDecoration(labelText: strings.status),
                     items: PersonStatus.values
-                        .map((value) => DropdownMenuItem(value: value, child: Text(value.name)))
+                        .map(
+                          (value) => DropdownMenuItem(
+                            value: value,
+                            child: Text(value.name),
+                          ),
+                        )
                         .toList(),
-                    onChanged: (value) => setState(() => _status = value ?? _status),
+                    onChanged: (value) =>
+                        setState(() => _status = value ?? _status),
                   ),
                 ],
               ),
@@ -180,7 +210,7 @@ class _MemberFormPageState extends State<MemberFormPage> {
     );
   }
 
-  void _continue() {
+  Future<void> _continue() async {
     if (_step < 3) {
       setState(() => _step++);
       return;
@@ -190,9 +220,37 @@ class _MemberFormPageState extends State<MemberFormPage> {
       return;
     }
 
+    setState(() => _isSaving = true);
+    final previous = widget.person;
+    final person = Person(
+      id: previous?.id ?? DateTime.now().microsecondsSinceEpoch.toString(),
+      membershipNumber: _membership.text.trim(),
+      fullName: _name.text.trim(),
+      phone: _phone.text.trim(),
+      email: _email.text.trim(),
+      address: _address.text.trim(),
+      emergencyContact: _emergency.text.trim(),
+      notes: _notes.text.trim(),
+      stage: _stage,
+      unit: _unit.text.trim(),
+      status: _status,
+      profileComplete: _name.text.trim().isNotEmpty &&
+          _phone.text.trim().isNotEmpty &&
+          _membership.text.trim().isNotEmpty &&
+          _unit.text.trim().isNotEmpty,
+      joinedAt: previous?.joinedAt ?? DateTime.now(),
+      dateOfBirth: previous?.dateOfBirth,
+    );
+
+    await getIt<SavePersonUseCase>()(person);
+
+    if (!mounted) {
+      return;
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(context.t.people.saved)),
     );
-    context.router.maybePop();
+    context.router.pop(true);
   }
 }
