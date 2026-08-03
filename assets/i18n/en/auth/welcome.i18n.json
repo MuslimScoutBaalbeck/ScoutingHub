@@ -1,6 +1,15 @@
 {
   "title": "Welcome to Muslim Scout APP",
-  "subtitle": "Discover scout chants, activities, learning resources, and community tools in one place.",
+  "subtitle": "Manage your scout group and everything you need for your scouting adventure.",
+  "get_started": "Get started",
+  "preferences": "Preferences",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "appearance": "Appearance",
+  "theme_system": "System",
+  "theme_light": "Light",
+  "theme_dark": "Dark",
   "login": "Sign in",
   "register": "Create account",
   "continue_as_guest": "Explore as guest"
