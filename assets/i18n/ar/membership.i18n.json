@@ -1,0 +1,52 @@
+{
+  "verify_email": {
+    "title": "تحقق من بريدك الإلكتروني",
+    "description": "أرسلنا رابط التحقق إلى $email. لا يمكنك الدخول إلى الصفحة الرئيسية قبل التحقق.",
+    "verified_action": "تحققت من بريدي الإلكتروني",
+    "resend_action": "إعادة إرسال رسالة التحقق",
+    "resent": "تم إرسال رسالة التحقق."
+  },
+  "request": {
+    "title": "طلب الانتساب",
+    "subtitle": "أكمل طلب الانتساب قبل الدخول إلى التطبيق.",
+    "steps": {
+      "personal": "المعلومات الشخصية",
+      "location": "الموقع",
+      "troop": "اختيار الفوج",
+      "review": "المراجعة"
+    },
+    "full_name": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "address": "العنوان التفصيلي",
+    "notes": "ملاحظات",
+    "governorate": "المحافظة",
+    "district": "القضاء",
+    "cadaster": "العقار / البلدة",
+    "choose_troop": "اختر فوجاً",
+    "no_troop_title": "لا يوجد فوج متاح حالياً في هذه المنطقة",
+    "no_troop_description": "سيتم إرسال طلبك إلى $commission. قد تتواصل معك المفوضية عند توفر فوج قريب أو عند وجود عدد كافٍ لدراسة إنشاء فوج جديد.",
+    "review_title": "مراجعة الطلب",
+    "name": "الاسم",
+    "destination": "الجهة المستلمة",
+    "request_type": "نوع الطلب",
+    "troop_membership": "طلب انتساب إلى فوج",
+    "commission_interest": "طلب اهتمام لدى المفوضية",
+    "commission_notice": "ستراجع المفوضية المسؤولة هذا الطلب.",
+    "required": "هذا الحقل مطلوب",
+    "select_location_error": "اختر المحافظة والقضاء والعقار أو البلدة.",
+    "select_troop_error": "اختر فوجاً.",
+    "back": "السابق",
+    "next": "التالي",
+    "submit": "إرسال الطلب"
+  },
+  "status": {
+    "title": "حالة الطلب",
+    "under_review": "طلبك قيد المراجعة",
+    "request_number": "رقم الطلب: $number",
+    "destination": "أرسل إلى: $destination",
+    "notification_notice": "سيصلك إشعار عند قبول طلب الانتساب.",
+    "approved_notification": "تم قبول طلب الانتساب الخاص بك.",
+    "debug_approve": "تجربة: قبول الطلب"
+  }
+}
