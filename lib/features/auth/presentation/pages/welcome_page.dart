@@ -324,6 +324,7 @@ class _ThemeSelectionSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness==.dark;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -343,26 +344,29 @@ class _ThemeSelectionSheet extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: AppSpacing.xs),
               child: ListTile(
                 selected: option.value == selectedValue,
-                selectedTileColor: colors.primaryContainer,
+                selectedTileColor: colors.primary,
                 shape: const RoundedRectangleBorder(
                   borderRadius: AppRadius.medium,
                 ),
                 leading: Icon(
                   option.icon,
-                  color: option.value == selectedValue
-                      ? colors.primary
-                      : colors.onSurfaceVariant,
+                  color: option.value == selectedValue? colors.onPrimary:
+                  isDark?
+                  colors.onPrimary:colors.primary
                 ),
                 title: AppText.body(
                   option.label,
                   fontWeight: option.value == selectedValue
                       ? FontWeight.w700
                       : FontWeight.w500,
+                  color:option.value == selectedValue? colors.onPrimary:
+                  isDark?
+                  colors.onPrimary:colors.primary
                 ),
                 trailing: option.value == selectedValue
                     ? Icon(
                         Icons.check_circle_rounded,
-                        color: colors.primary,
+                        color: colors.onPrimary,
                       )
                     : null,
                 onTap: () => Navigator.of(context).pop(option.value),
