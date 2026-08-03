@@ -11,7 +11,7 @@ final class FakePeopleDataSource {
   Future<List<Person>> loadPeople() async {
     final cached = _cache;
     if (cached != null) {
-      return cached;
+      return List<Person>.unmodifiable(cached);
     }
 
     final source = await rootBundle.loadString(
@@ -21,10 +21,24 @@ final class FakePeopleDataSource {
     final records = decoded['people'] as List<dynamic>? ?? const [];
     final people = records
         .map((record) => _mapPerson(record as Map<String, dynamic>))
-        .toList(growable: false);
+        .toList(growable: true);
 
     _cache = people;
-    return people;
+    return List<Person>.unmodifiable(people);
+  }
+
+  Future<Person> savePerson(Person person) async {
+    final people = List<Person>.of(await loadPeople());
+    final index = people.indexWhere((item) => item.id == person.id);
+
+    if (index == -1) {
+      people.insert(0, person);
+    } else {
+      people[index] = person;
+    }
+
+    _cache = people;
+    return person;
   }
 
   Person _mapPerson(Map<String, dynamic> json) {
@@ -33,6 +47,13 @@ final class FakePeopleDataSource {
       membershipNumber: json['membershipNumber'] as String,
       fullName: json['fullName'] as String,
       phone: json['phone'] as String,
+      email: json['email'] as String? ?? '',
+      address: json['address'] as String? ?? '',
+      emergencyContact: json['emergencyContact'] as String? ?? '',
+      notes: json['notes'] as String? ?? '',
+      dateOfBirth: json['dateOfBirth'] == null
+          ? null
+          : DateTime.parse(json['dateOfBirth'] as String),
       stage: ScoutStage.values.byName(json['stage'] as String),
       unit: json['unit'] as String,
       status: PersonStatus.values.byName(json['status'] as String),
