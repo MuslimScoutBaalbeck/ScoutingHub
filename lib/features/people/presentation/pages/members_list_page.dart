@@ -41,10 +41,7 @@ class _MembersListPageState extends State<MembersListPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(strings.members_list),
-                Text(
-                  strings.subtitle,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                Text(strings.subtitle, style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
             actions: [
@@ -71,10 +68,7 @@ class _MembersListPageState extends State<MembersListPage> {
             initialStage: state.stage,
             initialStatus: state.status,
             onApply: (stage, status) {
-              context.read<MembersListCubit>().applyFilters(
-                stage: stage,
-                status: status,
-              );
+              context.read<MembersListCubit>().applyFilters(stage: stage, status: status);
               Navigator.of(context).pop();
             },
             onClear: () {
@@ -86,7 +80,7 @@ class _MembersListPageState extends State<MembersListPage> {
             tooltip: strings.add,
             onPressed: () async {
               final saved = await context.router.push<bool>(
-                const MemberFormRoute(),
+                const MemberCreateWizardRoute(),
               );
               if (saved == true && context.mounted) {
                 await context.read<MembersListCubit>().load();
@@ -94,15 +88,34 @@ class _MembersListPageState extends State<MembersListPage> {
             },
             child: const Icon(Icons.person_add_alt_1_rounded),
           ),
-          bottomNavigationBar: BottomAppBar(
-            child: Center(
-              child: AppText.body(
-                strings.members_count(count: state.visibleCount),
-                fontWeight: FontWeight.w700,
+          body: Column(
+            children: [
+              Expanded(child: _MembersListBody(state: state)),
+              SafeArea(
+                top: false,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md,
+                    vertical: AppSpacing.sm,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    border: Border(
+                      top: BorderSide(
+                        color: Theme.of(context).colorScheme.outlineVariant,
+                      ),
+                    ),
+                  ),
+                  child: AppText.body(
+                    strings.members_count(count: state.visibleCount),
+                    textAlign: TextAlign.center,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-          body: _MembersListBody(state: state),
         );
       },
     );
@@ -116,14 +129,16 @@ class _MembersListPageState extends State<MembersListPage> {
     );
 
     if (member != null && context.mounted) {
-      await context.router.push(MemberDetailsRoute(person: member));
+      final updated = await context.router.push<bool>(
+        MemberDetailsRoute(person: member),
+      );
+      if (updated == true && context.mounted) await cubit.load();
     }
   }
 }
 
 class _MembersListBody extends StatelessWidget {
   const _MembersListBody({required this.state});
-
   final MembersListState state;
 
   @override
@@ -133,7 +148,6 @@ class _MembersListBody extends StatelessWidget {
     if (state.isLoading && state.members.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
-
     if (state.error != null && state.members.isEmpty) {
       return Center(
         child: AppButton.filled(
@@ -142,7 +156,6 @@ class _MembersListBody extends StatelessWidget {
         ),
       );
     }
-
     if (state.visibleMembers.isEmpty) {
       return Center(child: AppText.paragraph(strings.empty));
     }
@@ -151,25 +164,44 @@ class _MembersListBody extends StatelessWidget {
       onRefresh: context.read<MembersListCubit>().load,
       child: ListView.separated(
         padding: const EdgeInsets.fromLTRB(
-          AppSpacing.sm,
           AppSpacing.xs,
-          AppSpacing.sm,
-          96,
+          AppSpacing.xs,
+          AppSpacing.xs,
+          AppSpacing.xl,
         ),
         itemCount: state.visibleMembers.length,
         separatorBuilder: (_, __) => const SizedBox(height: AppSpacing.xxs),
         itemBuilder: (context, index) {
           final member = state.visibleMembers[index];
-          return _MemberListTile(
-            member: member,
-            onTap: () async {
-              final updated = await context.router.push<bool>(
-                MemberDetailsRoute(person: member),
-              );
-              if (updated == true && context.mounted) {
-                await context.read<MembersListCubit>().load();
-              }
-            },
+          return Card(
+            margin: EdgeInsets.zero,
+            child: ListTile(
+              dense: true,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.xxs,
+              ),
+              leading: CircleAvatar(child: Text(member.fullName.characters.first)),
+              title: AppText.body(member.fullName, fontWeight: FontWeight.w700),
+              subtitle: AppText.caption(
+                '${member.unit} · ${strings.membership_number}: ${member.membershipNumber}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: Icon(
+                Directionality.of(context) == TextDirection.rtl
+                    ? Icons.chevron_left_rounded
+                    : Icons.chevron_right_rounded,
+              ),
+              onTap: () async {
+                final updated = await context.router.push<bool>(
+                  MemberDetailsRoute(person: member),
+                );
+                if (updated == true && context.mounted) {
+                  await context.read<MembersListCubit>().load();
+                }
+              },
+            ),
           );
         },
       ),
@@ -177,50 +209,8 @@ class _MembersListBody extends StatelessWidget {
   }
 }
 
-class _MemberListTile extends StatelessWidget {
-  const _MemberListTile({required this.member, required this.onTap});
-
-  final Person member;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final strings = context.t.people;
-    final colors = Theme.of(context).colorScheme;
-
-    return Card(
-      margin: EdgeInsets.zero,
-      child: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.xxs,
-        ),
-        leading: CircleAvatar(
-          backgroundColor: colors.primaryContainer,
-          foregroundColor: colors.primary,
-          child: Text(member.fullName.characters.first),
-        ),
-        title: AppText.body(member.fullName, fontWeight: FontWeight.w700),
-        subtitle: AppText.caption(
-          '${member.unit} · ${strings.membership_number}: ${member.membershipNumber}',
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: Icon(
-          Directionality.of(context) == TextDirection.rtl
-              ? Icons.chevron_left_rounded
-              : Icons.chevron_right_rounded,
-        ),
-        onTap: onTap,
-      ),
-    );
-  }
-}
-
 class _MemberSearchDelegate extends SearchDelegate<Person?> {
   _MemberSearchDelegate(this.searchMembers);
-
   final List<Person> Function(String query) searchMembers;
 
   @override
@@ -229,10 +219,7 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
   @override
   List<Widget>? buildActions(BuildContext context) => [
     if (query.isNotEmpty)
-      IconButton(
-        onPressed: () => query = '',
-        icon: const Icon(Icons.clear_rounded),
-      ),
+      IconButton(onPressed: () => query = '', icon: const Icon(Icons.clear_rounded)),
   ];
 
   @override
@@ -253,7 +240,6 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
 
   Widget _results() {
     final results = searchMembers(query);
-
     return ListView.builder(
       itemCount: results.length,
       itemBuilder: (context, index) {
@@ -301,7 +287,6 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
   @override
   Widget build(BuildContext context) {
     final strings = context.t.people;
-
     return Drawer(
       child: SafeArea(
         child: Padding(
@@ -317,10 +302,7 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 items: [
                   DropdownMenuItem(value: null, child: Text(strings.all_stages)),
                   ...ScoutStage.values.map(
-                    (value) => DropdownMenuItem(
-                      value: value,
-                      child: Text(value.name),
-                    ),
+                    (value) => DropdownMenuItem(value: value, child: Text(value.name)),
                   ),
                 ],
                 onChanged: (value) => setState(() => _stage = value),
@@ -330,24 +312,15 @@ class _MemberFilterDrawerState extends State<_MemberFilterDrawer> {
                 initialValue: _status,
                 decoration: InputDecoration(labelText: strings.status),
                 items: [
-                  DropdownMenuItem(
-                    value: null,
-                    child: Text(strings.all_statuses),
-                  ),
+                  DropdownMenuItem(value: null, child: Text(strings.all_statuses)),
                   ...PersonStatus.values.map(
-                    (value) => DropdownMenuItem(
-                      value: value,
-                      child: Text(value.name),
-                    ),
+                    (value) => DropdownMenuItem(value: value, child: Text(value.name)),
                   ),
                 ],
                 onChanged: (value) => setState(() => _status = value),
               ),
               const Spacer(),
-              AppButton.outline(
-                label: strings.clear_filters,
-                onPressed: widget.onClear,
-              ),
+              AppButton.outline(label: strings.clear_filters, onPressed: widget.onClear),
               AppGap.verticalSm,
               AppButton.filled(
                 label: strings.apply_filters,
