@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:scouting_hub/core/i18n/translations.g.dart';
 import 'package:scouting_hub/core/theme/tokens/tokens.dart';
+import 'package:scouting_hub/core/ui/widgets/widgets.dart';
 import 'package:scouting_hub/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:scouting_hub/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:scouting_hub/features/more/presentation/pages/more_page.dart';
@@ -95,8 +96,8 @@ class _AppBottomNavigationBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(AppRadius.extraLargeValue),
-          topRight: Radius.circular(AppRadius.extraLargeValue),
+          topLeft: Radius.circular(AppRadius.xl),
+          topRight: Radius.circular(AppRadius.xl),
         ),
         boxShadow: [
           BoxShadow(
