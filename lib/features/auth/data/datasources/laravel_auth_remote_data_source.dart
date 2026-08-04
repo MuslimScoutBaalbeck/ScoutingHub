@@ -36,13 +36,14 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
       'password': password,
       'device_name': 'scouting-hub-mobile',
     });
+    final body = _asJsonMap(response.data);
 
     if (response.response.statusCode == 401 ||
         response.response.statusCode == 422) {
       throw InvalidCredentialsException();
     }
 
-    final dto = _parseAuthResponse(response.data, response.response.statusCode);
+    final dto = _parseAuthResponse(body, response.response.statusCode);
     await _tokenStorage.writeAccessToken(dto.token);
     return dto;
   }
@@ -60,13 +61,14 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
       'password_confirmation': password,
       'device_name': 'scouting-hub-mobile',
     });
+    final body = _asJsonMap(response.data);
 
     if (response.response.statusCode == 422 &&
-        _hasEmailValidationError(response.data)) {
+        _hasEmailValidationError(body)) {
       throw EmailAlreadyExistsException();
     }
 
-    final dto = _parseAuthResponse(response.data, response.response.statusCode);
+    final dto = _parseAuthResponse(body, response.response.statusCode);
     await _tokenStorage.writeAccessToken(dto.token);
     return dto;
   }
@@ -76,7 +78,10 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
     final response = await _api.forgotPassword({
       'email': email.trim().toLowerCase(),
     });
-    _ensureSuccess(response.response.statusCode, response.data);
+    _ensureSuccess(
+      response.response.statusCode,
+      _asJsonMap(response.data),
+    );
   }
 
   @override
@@ -91,12 +96,13 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
       'password': password,
       'password_confirmation': password,
     });
+    final body = _asJsonMap(response.data);
 
     if (response.response.statusCode == 422) {
       throw InvalidResetCodeException();
     }
 
-    _ensureSuccess(response.response.statusCode, response.data);
+    _ensureSuccess(response.response.statusCode, body);
   }
 
   @override
@@ -112,10 +118,12 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
       return null;
     }
 
-    _ensureSuccess(response.response.statusCode, response.data);
-    final data = _unwrapData(response.data);
-    final user = data['user'] is Map<String, dynamic>
-        ? data['user'] as Map<String, dynamic>
+    final body = _asJsonMap(response.data);
+    _ensureSuccess(response.response.statusCode, body);
+    final data = _unwrapData(body);
+    final userValue = data['user'];
+    final user = userValue is Map
+        ? Map<String, Object?>.from(userValue)
         : data;
 
     return AuthResponseDto.fromJson({
@@ -129,31 +137,48 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
   Future<void> logout() async {
     try {
       final response = await _api.logout();
-      _ensureSuccess(response.response.statusCode, response.data);
+      _ensureSuccess(
+        response.response.statusCode,
+        _asJsonMap(response.data),
+      );
     } finally {
       await _tokenStorage.clearAccessToken();
     }
   }
 
   AuthResponseDto _parseAuthResponse(
-    Map<String, dynamic> body,
+    Map<String, Object?> body,
     int? statusCode,
   ) {
     _ensureSuccess(statusCode, body);
-    return AuthResponseDto.fromJson(_unwrapData(body));
+    return AuthResponseDto.fromJson(
+      Map<String, dynamic>.from(_unwrapData(body)),
+    );
   }
 
-  Map<String, dynamic> _unwrapData(Map<String, dynamic> body) {
+  Map<String, Object?> _asJsonMap(Object? value) {
+    if (value is Map<String, Object?>) {
+      return value;
+    }
+
+    if (value is Map) {
+      return Map<String, Object?>.from(value);
+    }
+
+    return const <String, Object?>{};
+  }
+
+  Map<String, Object?> _unwrapData(Map<String, Object?> body) {
     final data = body['data'];
-    return data is Map<String, dynamic> ? data : body;
+    return data is Map ? Map<String, Object?>.from(data) : body;
   }
 
-  bool _hasEmailValidationError(Map<String, dynamic> body) {
+  bool _hasEmailValidationError(Map<String, Object?> body) {
     final errors = body['errors'];
-    return errors is Map<String, dynamic> && errors.containsKey('email');
+    return errors is Map && errors.containsKey('email');
   }
 
-  void _ensureSuccess(int? statusCode, Map<String, dynamic> body) {
+  void _ensureSuccess(int? statusCode, Map<String, Object?> body) {
     if (statusCode != null && statusCode >= 200 && statusCode < 300) {
       return;
     }
