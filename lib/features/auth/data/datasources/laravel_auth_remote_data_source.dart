@@ -45,13 +45,18 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AuthResponseDto> register({required String name, required String email, required String password}) async {
+  Future<AuthResponseDto> register({
+    required String name,
+    required String email,
+    required String password,
+    required String passwordConfirmation
+  }) async {
     try {
       final response = await _api.register(RegisterRequestModel(
         name: name.trim(),
         email: email.trim().toLowerCase(),
         password: password,
-        passwordConfirmation: password,
+        passwordConfirmation: passwordConfirmation,
         deviceName: _deviceName,
       ));
       final dto = response.data.data;

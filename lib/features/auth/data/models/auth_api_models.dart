@@ -13,10 +13,10 @@ final class LoginRequestModel {
   final String deviceName;
 
   Map<String, Object?> toJson() => {
-        'email': email,
-        'password': password,
-        'device_name': deviceName,
-      };
+    'email': email,
+    'password': password,
+    'device_name': deviceName,
+  };
 }
 
 final class RegisterRequestModel {
@@ -35,12 +35,12 @@ final class RegisterRequestModel {
   final String deviceName;
 
   Map<String, Object?> toJson() => {
-        'name': name,
-        'email': email,
-        'password': password,
-        'password_confirmation': passwordConfirmation,
-        'device_name': deviceName,
-      };
+    'name': name,
+    'email': email,
+    'password': password,
+    'password_confirmation': passwordConfirmation,
+    'device_name': deviceName,
+  };
 }
 
 final class ForgotPasswordRequestModel {
@@ -65,11 +65,11 @@ final class ResetPasswordRequestModel {
   final String passwordConfirmation;
 
   Map<String, Object?> toJson() => {
-        'email': email,
-        'token': token,
-        'password': password,
-        'password_confirmation': passwordConfirmation,
-      };
+    'email': email,
+    'token': token,
+    'password': password,
+    'password_confirmation': passwordConfirmation,
+  };
 }
 
 final class AuthSessionResponseModel {

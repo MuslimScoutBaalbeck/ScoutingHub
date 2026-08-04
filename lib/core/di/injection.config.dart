@@ -14,7 +14,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../features/auth/application/cubit/auth_cubit.dart' as _i795;
 import '../../features/auth/application/forgot_password/forgot_password_cubit.dart'
     as _i259;
 import '../../features/auth/application/login/login_cubit.dart' as _i99;
@@ -204,16 +203,6 @@ _i174.GetIt $initGetIt(
   gh.factory<_i99.LoginCubit>(() => _i99.LoginCubit(gh<_i428.LoginUseCase>()));
   gh.factory<_i777.RegisterCubit>(
     () => _i777.RegisterCubit(gh<_i480.RegisterUseCase>()),
-  );
-  gh.factory<_i795.AuthCubit>(
-    () => _i795.AuthCubit(
-      loginUseCase: gh<_i428.LoginUseCase>(),
-      registerUseCase: gh<_i480.RegisterUseCase>(),
-      restoreSessionUseCase: gh<_i456.RestoreSessionUseCase>(),
-      logoutUseCase: gh<_i597.LogoutUseCase>(),
-      forgotPasswordUseCase: gh<_i510.ForgotPasswordUseCase>(),
-      resetPasswordUseCase: gh<_i1066.ResetPasswordUseCase>(),
-    ),
   );
   gh.factory<_i1054.ResetPasswordCubit>(
     () => _i1054.ResetPasswordCubit(gh<_i1066.ResetPasswordUseCase>()),

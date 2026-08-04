@@ -20,13 +20,15 @@ class _AuthApiService implements AuthApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<Object?>> login(Map<String, Object?> body) async {
+  Future<HttpResponse<AuthSessionResponseModel>> login(
+    LoginRequestModel body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<HttpResponse<AuthSessionResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -36,10 +38,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AuthSessionResponseModel _value;
     try {
-      _value = _result.data;
+      _value = AuthSessionResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -49,13 +51,15 @@ class _AuthApiService implements AuthApiService {
   }
 
   @override
-  Future<HttpResponse<Object?>> register(Map<String, Object?> body) async {
+  Future<HttpResponse<AuthSessionResponseModel>> register(
+    RegisterRequestModel body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<HttpResponse<AuthSessionResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -65,10 +69,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AuthSessionResponseModel _value;
     try {
-      _value = _result.data;
+      _value = AuthSessionResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -78,15 +82,15 @@ class _AuthApiService implements AuthApiService {
   }
 
   @override
-  Future<HttpResponse<Object?>> forgotPassword(
-    Map<String, Object?> body,
+  Future<HttpResponse<MessageResponseModel>> forgotPassword(
+    ForgotPasswordRequestModel body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<HttpResponse<MessageResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -96,10 +100,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MessageResponseModel _value;
     try {
-      _value = _result.data;
+      _value = MessageResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -109,13 +113,15 @@ class _AuthApiService implements AuthApiService {
   }
 
   @override
-  Future<HttpResponse<Object?>> resetPassword(Map<String, Object?> body) async {
+  Future<HttpResponse<MessageResponseModel>> resetPassword(
+    ResetPasswordRequestModel body,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<HttpResponse<MessageResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -125,10 +131,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MessageResponseModel _value;
     try {
-      _value = _result.data;
+      _value = MessageResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -138,12 +144,12 @@ class _AuthApiService implements AuthApiService {
   }
 
   @override
-  Future<HttpResponse<Object?>> me() async {
+  Future<HttpResponse<AuthUserResponseModel>> me() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    final _options = _setStreamType<HttpResponse<AuthUserResponseModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -153,10 +159,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AuthUserResponseModel _value;
     try {
-      _value = _result.data;
+      _value = AuthUserResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -166,12 +172,12 @@ class _AuthApiService implements AuthApiService {
   }
 
   @override
-  Future<HttpResponse<Object?>> logout() async {
+  Future<HttpResponse<MessageResponseModel>> logout() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    final _options = _setStreamType<HttpResponse<MessageResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -181,10 +187,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MessageResponseModel _value;
     try {
-      _value = _result.data;
+      _value = MessageResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -194,12 +200,12 @@ class _AuthApiService implements AuthApiService {
   }
 
   @override
-  Future<HttpResponse<Object?>> verificationStatus() async {
+  Future<HttpResponse<VerificationResponseModel>> verificationStatus() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    final _options = _setStreamType<HttpResponse<VerificationResponseModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -209,10 +215,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late VerificationResponseModel _value;
     try {
-      _value = _result.data;
+      _value = VerificationResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -222,12 +228,12 @@ class _AuthApiService implements AuthApiService {
   }
 
   @override
-  Future<HttpResponse<Object?>> resendVerification() async {
+  Future<HttpResponse<VerificationResponseModel>> resendVerification() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<Object?>>(
+    final _options = _setStreamType<HttpResponse<VerificationResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -237,10 +243,10 @@ class _AuthApiService implements AuthApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Object>(_options);
-    late Object? _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late VerificationResponseModel _value;
     try {
-      _value = _result.data;
+      _value = VerificationResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
