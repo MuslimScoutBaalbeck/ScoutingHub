@@ -44,6 +44,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   dio: ^5.9.2
   retrofit: ^4.9.2
+  flutter_secure_storage: ^9.2.4
   just_audio: ^0.10.6
   audio_session: ^0.2.4
   cached_network_image: ^3.4.1
@@ -71,7 +72,6 @@ flutter:
 
   assets:
     - assets/branding/
-    - assets/data/auth/
     - assets/data/chants/
     - assets/data/chants/collections/
     - assets/data/people/
