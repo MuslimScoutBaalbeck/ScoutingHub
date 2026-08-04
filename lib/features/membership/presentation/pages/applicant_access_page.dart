@@ -53,10 +53,7 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
       },
       builder: (context, state) {
         return switch (state.destination) {
-          ApplicantDestination.verifyEmail => _VerifyEmailView(
-              email: email,
-              onVerified: cubit.markEmailVerified,
-            ),
+          ApplicantDestination.verifyEmail => _VerifyEmailView(email: email),
           ApplicantDestination.membershipRequest => _MembershipRequestWizard(
               name: user?.name ?? '',
               email: email,
@@ -78,11 +75,18 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
   }
 }
 
-class _VerifyEmailView extends StatelessWidget {
-  const _VerifyEmailView({required this.email, required this.onVerified});
+class _VerifyEmailView extends StatefulWidget {
+  const _VerifyEmailView({required this.email});
 
   final String email;
-  final VoidCallback onVerified;
+
+  @override
+  State<_VerifyEmailView> createState() => _VerifyEmailViewState();
+}
+
+class _VerifyEmailViewState extends State<_VerifyEmailView> {
+  bool _isChecking = false;
+  bool _isResending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -114,22 +118,20 @@ class _VerifyEmailView extends StatelessWidget {
                 ),
                 AppGap.verticalSm,
                 AppText.paragraph(
-                  strings.description(email: email),
+                  strings.description(email: widget.email),
                   textAlign: TextAlign.center,
                 ),
                 AppGap.verticalXl,
                 AppButton.filled(
                   label: strings.verified_action,
-                  onPressed: onVerified,
+                  isLoading: _isChecking,
+                  onPressed: _isChecking ? null : _checkVerification,
                 ),
                 AppGap.verticalSm,
                 AppButton.outline(
                   label: strings.resend_action,
-                  onPressed: () {
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(SnackBar(content: Text(strings.resent)));
-                  },
+                  isLoading: _isResending,
+                  onPressed: _isResending ? null : _resendVerification,
                 ),
               ],
             ),
@@ -137,6 +139,44 @@ class _VerifyEmailView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _checkVerification() async {
+    setState(() => _isChecking = true);
+    final verified = await context
+        .read<ApplicantAccessCubit>()
+        .refreshEmailVerificationStatus();
+    if (!mounted) return;
+    setState(() => _isChecking = false);
+
+    if (!verified) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text(context.t.membership.verify_email.not_verified)),
+        );
+    }
+  }
+
+  Future<void> _resendVerification() async {
+    setState(() => _isResending = true);
+    final sent = await context
+        .read<ApplicantAccessCubit>()
+        .resendEmailVerification();
+    if (!mounted) return;
+    setState(() => _isResending = false);
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            sent
+                ? context.t.membership.verify_email.resent
+                : context.t.membership.verify_email.resend_failed,
+          ),
+        ),
+      );
   }
 }
 
