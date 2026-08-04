@@ -4,7 +4,9 @@
     "description": "We sent a verification link to $email. You cannot access the home page before verification.",
     "verified_action": "I verified my email",
     "resend_action": "Resend verification email",
-    "resent": "Verification email sent."
+    "resent": "Verification email sent.",
+    "not_verified": "Your email is not verified yet. Open the verification link, then try again.",
+    "resend_failed": "Unable to resend the verification email. Please try again."
   },
   "request": {
     "title": "Membership request",
