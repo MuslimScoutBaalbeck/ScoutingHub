@@ -12,8 +12,7 @@ part 'membership_request_wizard_state.dart';
 @injectable
 final class MembershipRequestWizardCubit
     extends Cubit<MembershipRequestWizardState> {
-  MembershipRequestWizardCubit()
-      : super(const MembershipRequestWizardState());
+  MembershipRequestWizardCubit() : super(const MembershipRequestWizardState());
 
   Future<void> load() async {
     emit(state.copyWith(isLoading: true, error: null));

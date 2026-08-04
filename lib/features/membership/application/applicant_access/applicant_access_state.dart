@@ -6,8 +6,7 @@ abstract class ApplicantAccessState with _$ApplicantAccessState {
     String? email,
     @Default(false) bool emailVerified,
     String? requestId,
-    @Default(ApplicantRequestStatus.none)
-    ApplicantRequestStatus requestStatus,
+    @Default(ApplicantRequestStatus.none) ApplicantRequestStatus requestStatus,
     ApplicantRequestType? requestType,
     int? governorateId,
     int? districtId,

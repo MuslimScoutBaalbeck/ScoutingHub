@@ -11,7 +11,7 @@ part 'membership_requests_state.dart';
 @injectable
 final class MembershipRequestsCubit extends Cubit<MembershipRequestsState> {
   MembershipRequestsCubit(this._loadUseCase, this._saveUseCase)
-      : super(const MembershipRequestsState());
+    : super(const MembershipRequestsState());
 
   final LoadMembershipRequestsUseCase _loadUseCase;
   final SaveMembershipRequestUseCase _saveUseCase;
@@ -44,12 +44,14 @@ final class MembershipRequestsCubit extends Cubit<MembershipRequestsState> {
 
   List<MembershipRequest> search(String query) {
     final value = query.trim().toLowerCase();
-    return state.visibleRequests.where((request) {
-      return value.isEmpty ||
-          request.fullName.toLowerCase().contains(value) ||
-          request.phone.contains(value) ||
-          request.id.toLowerCase().contains(value);
-    }).toList(growable: false);
+    return state.visibleRequests
+        .where((request) {
+          return value.isEmpty ||
+              request.fullName.toLowerCase().contains(value) ||
+              request.phone.contains(value) ||
+              request.id.toLowerCase().contains(value);
+        })
+        .toList(growable: false);
   }
 
   Future<bool> create({

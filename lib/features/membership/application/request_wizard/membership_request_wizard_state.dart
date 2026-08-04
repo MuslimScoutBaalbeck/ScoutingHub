@@ -17,20 +17,22 @@ abstract class MembershipRequestWizardState
 
   const MembershipRequestWizardState._();
 
-  List<MembershipDistrict> get availableDistricts => data?.districts
+  List<MembershipDistrict> get availableDistricts =>
+      data?.districts
           .where((item) => item.governorateId == governorateId)
           .toList(growable: false) ??
       const [];
 
-  List<MembershipCadaster> get availableCadasters => data?.cadasters
+  List<MembershipCadaster> get availableCadasters =>
+      data?.cadasters
           .where((item) => item.districtId == districtId)
           .toList(growable: false) ??
       const [];
 
-  List<MembershipTroop> get availableTroops => data?.troops
+  List<MembershipTroop> get availableTroops =>
+      data?.troops
           .where(
-            (item) =>
-                item.cadasterId == cadasterId && item.acceptingMembers,
+            (item) => item.cadasterId == cadasterId && item.acceptingMembers,
           )
           .toList(growable: false) ??
       const [];

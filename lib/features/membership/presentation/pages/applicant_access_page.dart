@@ -17,7 +17,10 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider.value(value: getIt<ApplicantAccessCubit>(), child: this);
+    return BlocProvider.value(
+      value: getIt<ApplicantAccessCubit>(),
+      child: this,
+    );
   }
 
   @override
@@ -32,7 +35,7 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
 
     return BlocConsumer<ApplicantAccessCubit, ApplicantAccessState>(
       listenWhen: (previous, current) =>
-          previous.requestStatus != current.requestStatus ||
+      previous.requestStatus != current.requestStatus ||
           previous.destination != current.destination,
       listener: (context, state) async {
         if (state.requestStatus == ApplicantRequestStatus.approved) {
@@ -54,24 +57,24 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
       builder: (context, state) {
         return switch (state.destination) {
           ApplicantDestination.verifyEmail => _VerifyEmailView(
-              email: email,
-              onVerified: cubit.markEmailVerified,
-            ),
+            email: email,
+            onVerified: cubit.markEmailVerified,
+          ),
           ApplicantDestination.membershipRequest => _MembershipRequestWizard(
-              name: user?.name ?? '',
-              email: email,
-            ),
+            name: user?.name ?? '',
+            email: email,
+          ),
           ApplicantDestination.requestStatus => _RequestStatusView(
-              state: state,
-              onDebugApprove: kDebugMode
-                  ? () => cubit.updateRequestStatus(
-                        ApplicantRequestStatus.approved,
-                      )
-                  : null,
-            ),
+            state: state,
+            onDebugApprove: kDebugMode
+                ? () => cubit.updateRequestStatus(
+              ApplicantRequestStatus.approved,
+            )
+                : null,
+          ),
           ApplicantDestination.home => const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            ),
+            body: Center(child: CircularProgressIndicator()),
+          ),
         };
       },
     );
@@ -193,8 +196,10 @@ class _MembershipRequestWizardBodyState
   Widget build(BuildContext context) {
     final strings = context.t.membership.request;
 
-    return BlocBuilder<MembershipRequestWizardCubit,
-        MembershipRequestWizardState>(
+    return BlocBuilder<
+        MembershipRequestWizardCubit,
+        MembershipRequestWizardState
+    >(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -202,7 +207,7 @@ class _MembershipRequestWizardBodyState
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(strings.title),
+                Text(strings.title, style: Theme.of(context).textTheme.titleMedium),
                 Text(
                   '${state.currentStep + 1}/${state.lastStep + 1}',
                   style: Theme.of(context).textTheme.bodySmall,
@@ -213,50 +218,50 @@ class _MembershipRequestWizardBodyState
           body: state.isLoading
               ? const Center(child: CircularProgressIndicator())
               : state.error != null
-                  ? Center(
-                      child: AppButton.filled(
-                        label: context.t.people.retry,
-                        onPressed: context
-                            .read<MembershipRequestWizardCubit>()
-                            .load,
-                      ),
-                    )
-                  : Column(
-                      children: [
-                        LinearProgressIndicator(
-                          value:
-                              (state.currentStep + 1) / (state.lastStep + 1),
-                        ),
-                        Expanded(
-                          child: IndexedStack(
-                            index: state.currentStep,
-                            children: [
-                              _personalStep(strings),
-                              _locationStep(state, strings),
-                              _troopStep(state, strings),
-                              _reviewStep(state, strings),
-                            ],
-                          ),
-                        ),
-                        _WizardControls(
-                          canGoBack: state.currentStep > 0,
-                          isLastStep: state.currentStep == state.lastStep,
-                          backLabel: strings.back,
-                          nextLabel: strings.next,
-                          submitLabel: strings.submit,
-                          onBack: context
-                              .read<MembershipRequestWizardCubit>()
-                              .previousStep,
-                          onNext: () => _next(state, strings),
-                        ),
-                      ],
-                    ),
+              ? Center(
+            child: AppButton.filled(
+              label: context.t.people.retry,
+              onPressed: context
+                  .read<MembershipRequestWizardCubit>()
+                  .load,
+            ),
+          )
+              : Column(
+            children: [
+              LinearProgressIndicator(
+                value: (state.currentStep + 1) / (state.lastStep + 1),
+              ),
+              AppGap.verticalLg,
+              Expanded(
+                child: IndexedStack(
+                  index: state.currentStep,
+                  children: [
+                    _personalStep(strings),
+                    _locationStep(state, strings),
+                    _troopStep(state, strings),
+                    _reviewStep(state, strings),
+                  ],
+                ),
+              ),
+              _WizardControls(
+                canGoBack: state.currentStep > 0,
+                isLastStep: state.currentStep == state.lastStep,
+                backLabel: strings.back,
+                nextLabel: strings.next,
+                submitLabel: strings.submit,
+                onBack: context
+                    .read<MembershipRequestWizardCubit>()
+                    .previousStep,
+                onNext: () => _next(state, strings),
+              ),
+            ],
+          ),
         );
       },
     );
   }
 
-  Widget _personalStep(dynamic strings) {
+  Widget _personalStep(Translations$membership$request$en strings) {
     return Form(
       key: _personalFormKey,
       child: ListView(
@@ -297,9 +302,9 @@ class _MembershipRequestWizardBodyState
   }
 
   Widget _locationStep(
-    MembershipRequestWizardState state,
-    dynamic strings,
-  ) {
+      MembershipRequestWizardState state,
+      Translations$membership$request$en strings,
+      ) {
     final cubit = context.read<MembershipRequestWizardCubit>();
 
     return ListView(
@@ -316,10 +321,10 @@ class _MembershipRequestWizardBodyState
           items: state.data?.governorates
               .map(
                 (item) => DropdownMenuItem(
-                  value: item.id,
-                  child: Text(item.name),
-                ),
-              )
+              value: item.id,
+              child: Text(item.name),
+            ),
+          )
               .toList(growable: false),
           onChanged: cubit.selectGovernorate,
         ),
@@ -330,10 +335,10 @@ class _MembershipRequestWizardBodyState
           items: state.availableDistricts
               .map(
                 (item) => DropdownMenuItem(
-                  value: item.id,
-                  child: Text(item.name),
-                ),
-              )
+              value: item.id,
+              child: Text(item.name),
+            ),
+          )
               .toList(growable: false),
           onChanged: state.governorateId == null ? null : cubit.selectDistrict,
         ),
@@ -344,10 +349,10 @@ class _MembershipRequestWizardBodyState
           items: state.availableCadasters
               .map(
                 (item) => DropdownMenuItem(
-                  value: item.id,
-                  child: Text(item.name),
-                ),
-              )
+              value: item.id,
+              child: Text(item.name),
+            ),
+          )
               .toList(growable: false),
           onChanged: state.districtId == null ? null : cubit.selectCadaster,
         ),
@@ -356,9 +361,9 @@ class _MembershipRequestWizardBodyState
   }
 
   Widget _troopStep(
-    MembershipRequestWizardState state,
-    dynamic strings,
-  ) {
+      MembershipRequestWizardState state,
+      Translations$membership$request$en strings,
+      ) {
     final cubit = context.read<MembershipRequestWizardCubit>();
 
     return ListView(
@@ -436,9 +441,9 @@ class _MembershipRequestWizardBodyState
   }
 
   Widget _reviewStep(
-    MembershipRequestWizardState state,
-    dynamic strings,
-  ) {
+      MembershipRequestWizardState state,
+      Translations$membership$request$en strings,
+      ) {
     final typeLabel = state.sendsToCommission
         ? strings.commission_interest
         : strings.troop_membership;
@@ -479,22 +484,21 @@ class _MembershipRequestWizardBodyState
   }
 
   TextFormField _requiredField(
-    TextEditingController controller,
-    String label,
-    String requiredMessage, {
-    TextInputType? keyboardType,
-  }) {
+      TextEditingController controller,
+      String label,
+      String requiredMessage, {
+        TextInputType? keyboardType,
+      }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(labelText: label),
-      validator: (value) => value == null || value.trim().isEmpty
-          ? requiredMessage
-          : null,
+      validator: (value) =>
+      value == null || value.trim().isEmpty ? requiredMessage : null,
     );
   }
 
-  void _next(MembershipRequestWizardState state, dynamic strings) {
+  void _next(MembershipRequestWizardState state, Translations$membership$request$en strings) {
     if (state.currentStep == 0 &&
         !(_personalFormKey.currentState?.validate() ?? false)) {
       return;
@@ -514,17 +518,17 @@ class _MembershipRequestWizardBodyState
 
     if (state.currentStep == state.lastStep) {
       context.read<ApplicantAccessCubit>().submitMembershipRequest(
-            requestId: 'REQ-${DateTime.now().millisecondsSinceEpoch}',
-            requestType: state.sendsToCommission
-                ? ApplicantRequestType.commissionInterest
-                : ApplicantRequestType.troopMembership,
-            governorateId: state.governorateId,
-            districtId: state.districtId,
-            cadasterId: state.cadasterId,
-            troopId: state.troopId,
-            commissionId: state.commissionId,
-            destinationName: state.destinationName,
-          );
+        requestId: 'REQ-${DateTime.now().millisecondsSinceEpoch}',
+        requestType: state.sendsToCommission
+            ? ApplicantRequestType.commissionInterest
+            : ApplicantRequestType.troopMembership,
+        governorateId: state.governorateId,
+        districtId: state.districtId,
+        cadasterId: state.cadasterId,
+        troopId: state.troopId,
+        commissionId: state.commissionId,
+        destinationName: state.destinationName,
+      );
       return;
     }
 
@@ -563,23 +567,29 @@ class _WizardControls extends StatelessWidget {
       top: false,
       child: Padding(
         padding: AppSpacing.page,
-        child: Row(
+        child: Column(
           children: [
-            if (canGoBack) ...[
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: onBack,
-                  child: Text(backLabel),
+            Row(
+              children: [
+                if (canGoBack) ...[
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: onBack,
+                      child: Text(backLabel),
+                    ),
+                  ),
+                  AppGap.horizontalSm,
+                ],
+                Expanded(
+                  child: FilledButton(
+                    onPressed: onNext,
+                    child: Text(isLastStep ? submitLabel : nextLabel),
+                  ),
                 ),
-              ),
-              AppGap.horizontalSm,
-            ],
-            Expanded(
-              child: FilledButton(
-                onPressed: onNext,
-                child: Text(isLastStep ? submitLabel : nextLabel),
-              ),
+
+              ],
             ),
+            AppGap.verticalSm,
           ],
         ),
       ),
@@ -665,12 +675,14 @@ class _RequestStatusView extends StatelessWidget {
                     ),
                     _StatusStep(
                       label: strings.under_review,
-                      complete: state.requestStatus !=
+                      complete:
+                      state.requestStatus !=
                           ApplicantRequestStatus.submitted,
                     ),
                     _StatusStep(
                       label: strings.approved_notification,
-                      complete: state.requestStatus ==
+                      complete:
+                      state.requestStatus ==
                           ApplicantRequestStatus.approved,
                       isLast: true,
                     ),

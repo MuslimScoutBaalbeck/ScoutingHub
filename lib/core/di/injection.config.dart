@@ -33,6 +33,10 @@ import '../../features/auth/domain/usecases/logout.dart' as _i597;
 import '../../features/auth/domain/usecases/register.dart' as _i480;
 import '../../features/auth/domain/usecases/reset_password.dart' as _i1066;
 import '../../features/auth/domain/usecases/restore_session.dart' as _i456;
+import '../../features/membership/application/applicant_access/applicant_access_cubit.dart'
+    as _i516;
+import '../../features/membership/application/request_wizard/membership_request_wizard_cubit.dart'
+    as _i538;
 import '../../features/organizations/data/datasources/fake_organizations_data_source.dart'
     as _i63;
 import '../../features/organizations/data/datasources/organizations_data_source.dart'
@@ -45,14 +49,26 @@ import '../../features/people/application/members_dashboard/members_dashboard_cu
     as _i112;
 import '../../features/people/application/members_list/members_list_cubit.dart'
     as _i79;
+import '../../features/people/application/membership_requests/membership_requests_cubit.dart'
+    as _i424;
+import '../../features/people/data/datasources/fake_membership_requests_data_source.dart'
+    as _i1002;
 import '../../features/people/data/datasources/fake_people_data_source.dart'
     as _i957;
+import '../../features/people/data/repositories/fake_membership_requests_repository.dart'
+    as _i647;
 import '../../features/people/data/repositories/fake_people_repository.dart'
     as _i606;
+import '../../features/people/domain/repositories/membership_requests_repository.dart'
+    as _i523;
 import '../../features/people/domain/repositories/people_repository.dart'
     as _i646;
+import '../../features/people/domain/usecases/load_membership_requests_use_case.dart'
+    as _i645;
 import '../../features/people/domain/usecases/load_people_use_case.dart'
     as _i181;
+import '../../features/people/domain/usecases/save_membership_request_use_case.dart'
+    as _i18;
 import '../../features/people/domain/usecases/save_person_use_case.dart'
     as _i535;
 import '../../features/startup/application/application_start/application_start_cubit.dart'
@@ -69,16 +85,28 @@ _i174.GetIt $initGetIt(
 }) {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final appModule = _$AppModule();
+  gh.factory<_i538.MembershipRequestWizardCubit>(
+    () => _i538.MembershipRequestWizardCubit(),
+  );
   gh.singleton<_i660.AppDatabase>(() => appModule.myDb);
   gh.singleton<_i81.AppRouter>(() => appModule.appRouter);
+  gh.singleton<_i516.ApplicantAccessCubit>(() => _i516.ApplicantAccessCubit());
   gh.singleton<_i123.ApplicationStartCubit>(
     () => _i123.ApplicationStartCubit(),
+  );
+  gh.lazySingleton<_i1002.FakeMembershipRequestsDataSource>(
+    () => _i1002.FakeMembershipRequestsDataSource(),
   );
   gh.lazySingleton<_i957.FakePeopleDataSource>(
     () => _i957.FakePeopleDataSource(),
   );
   gh.lazySingleton<_i664.OrganizationsDataSource>(
     () => _i63.FakeOrganizationsDataSource(),
+  );
+  gh.lazySingleton<_i523.MembershipRequestsRepository>(
+    () => _i647.FakeMembershipRequestsRepository(
+      gh<_i1002.FakeMembershipRequestsDataSource>(),
+    ),
   );
   gh.lazySingleton<_i107.AuthRemoteDataSource>(
     () => _i305.FakeAuthRemoteDataSource(),
@@ -88,6 +116,22 @@ _i174.GetIt $initGetIt(
   );
   gh.lazySingleton<_i646.PeopleRepository>(
     () => _i606.FakePeopleRepository(gh<_i957.FakePeopleDataSource>()),
+  );
+  gh.factory<_i645.LoadMembershipRequestsUseCase>(
+    () => _i645.LoadMembershipRequestsUseCase(
+      gh<_i523.MembershipRequestsRepository>(),
+    ),
+  );
+  gh.factory<_i18.SaveMembershipRequestUseCase>(
+    () => _i18.SaveMembershipRequestUseCase(
+      gh<_i523.MembershipRequestsRepository>(),
+    ),
+  );
+  gh.factory<_i424.MembershipRequestsCubit>(
+    () => _i424.MembershipRequestsCubit(
+      gh<_i645.LoadMembershipRequestsUseCase>(),
+      gh<_i18.SaveMembershipRequestUseCase>(),
+    ),
   );
   gh.factory<_i181.LoadPeopleUseCase>(
     () => _i181.LoadPeopleUseCase(gh<_i646.PeopleRepository>()),

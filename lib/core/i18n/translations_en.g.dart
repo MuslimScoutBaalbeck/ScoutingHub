@@ -53,6 +53,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   late final Translations$home$en home = Translations$home$en.internal(_root);
   late final Translations$language$en language =
       Translations$language$en.internal(_root);
+  late final Translations$membership$en membership =
+      Translations$membership$en.internal(_root);
   late final Translations$people$en people = Translations$people$en.internal(
     _root,
   );
@@ -150,6 +152,23 @@ class Translations$language$en {
   ///
   /// ar: 'جاري تجهيز اللغة...'
   String get wait => 'Preparing your language...';
+}
+
+// Path: membership
+class Translations$membership$en {
+  Translations$membership$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+  late final Translations$membership$verify_email$en verify_email =
+      Translations$membership$verify_email$en.internal(
+        _root,
+      );
+  late final Translations$membership$request$en request =
+      Translations$membership$request$en.internal(_root);
+  late final Translations$membership$status$en status =
+      Translations$membership$status$en.internal(_root);
 }
 
 // Path: people
@@ -335,6 +354,102 @@ class Translations$people$en {
   /// ar: 'طلبات الانتساب'
   String get membership_requests => 'Membership requests';
 
+  /// en: 'Review and process new troop membership applications'
+  ///
+  /// ar: 'مراجعة ومعالجة طلبات الانتساب الجديدة إلى الفوج'
+  String get request_subtitle =>
+      'Review and process new troop membership applications';
+
+  /// en: 'New membership request'
+  ///
+  /// ar: 'طلب انتساب جديد'
+  String get new_request => 'New membership request';
+
+  /// en: 'Request details'
+  ///
+  /// ar: 'تفاصيل الطلب'
+  String get request_details => 'Request details';
+
+  /// en: 'Request number'
+  ///
+  /// ar: 'رقم الطلب'
+  String get request_id => 'Request number';
+
+  /// en: 'Submitted at'
+  ///
+  /// ar: 'تاريخ التقديم'
+  String get submitted_at => 'Submitted at';
+
+  /// en: 'Membership request saved successfully.'
+  ///
+  /// ar: 'تم حفظ طلب الانتساب بنجاح.'
+  String get request_saved => 'Membership request saved successfully.';
+
+  /// en: 'Request status updated successfully.'
+  ///
+  /// ar: 'تم تحديث حالة الطلب بنجاح.'
+  String get request_updated => 'Request status updated successfully.';
+
+  /// en: 'No membership requests match this filter.'
+  ///
+  /// ar: 'لا توجد طلبات انتساب مطابقة لهذا الفلتر.'
+  String get request_empty => 'No membership requests match this filter.';
+
+  /// en: 'All requests'
+  ///
+  /// ar: 'جميع الطلبات'
+  String get request_all => 'All requests';
+
+  /// en: 'Submitted'
+  ///
+  /// ar: 'مقدّم'
+  String get request_new => 'Submitted';
+
+  /// en: 'Under review'
+  ///
+  /// ar: 'قيد التدقيق'
+  String get request_review => 'Under review';
+
+  /// en: 'Needs information'
+  ///
+  /// ar: 'يحتاج معلومات'
+  String get request_needs_info => 'Needs information';
+
+  /// en: 'Approved'
+  ///
+  /// ar: 'مقبول'
+  String get request_approved => 'Approved';
+
+  /// en: 'Rejected'
+  ///
+  /// ar: 'مرفوض'
+  String get request_rejected => 'Rejected';
+
+  /// en: 'Start review'
+  ///
+  /// ar: 'بدء التدقيق'
+  String get start_review => 'Start review';
+
+  /// en: 'Request information'
+  ///
+  /// ar: 'طلب معلومات إضافية'
+  String get request_information => 'Request information';
+
+  /// en: 'Approve'
+  ///
+  /// ar: 'قبول'
+  String get approve => 'Approve';
+
+  /// en: 'Reject'
+  ///
+  /// ar: 'رفض'
+  String get reject => 'Reject';
+
+  /// en: 'Create request'
+  ///
+  /// ar: 'إنشاء الطلب'
+  String get create_request => 'Create request';
+
   /// en: 'Reports'
   ///
   /// ar: 'التقارير'
@@ -414,26 +529,6 @@ class Translations$people$en {
   ///
   /// ar: 'ملاحظات'
   String get notes => 'Notes';
-
-  /// en: 'New'
-  ///
-  /// ar: 'جديد'
-  String get request_new => 'New';
-
-  /// en: 'Under review'
-  ///
-  /// ar: 'قيد التدقيق'
-  String get request_review => 'Under review';
-
-  /// en: 'Needs information'
-  ///
-  /// ar: 'يحتاج معلومات'
-  String get request_needs_info => 'Needs information';
-
-  /// en: 'Approved'
-  ///
-  /// ar: 'مقبول'
-  String get request_approved => 'Approved';
 
   /// en: 'Members by stage'
   ///
@@ -1325,6 +1420,235 @@ class Translations$home$common$en {
       'You do not have permission to access this section.';
 }
 
+// Path: membership.verify_email
+class Translations$membership$verify_email$en {
+  Translations$membership$verify_email$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Verify your email'
+  ///
+  /// ar: 'تحقق من بريدك الإلكتروني'
+  String get title => 'Verify your email';
+
+  /// en: 'We sent a verification link to $email. You cannot access the home page before verification.'
+  ///
+  /// ar: 'أرسلنا رابط التحقق إلى $email. لا يمكنك الدخول إلى الصفحة الرئيسية قبل التحقق.'
+  String description({required Object email}) =>
+      'We sent a verification link to ${email}. You cannot access the home page before verification.';
+
+  /// en: 'I verified my email'
+  ///
+  /// ar: 'تحققت من بريدي الإلكتروني'
+  String get verified_action => 'I verified my email';
+
+  /// en: 'Resend verification email'
+  ///
+  /// ar: 'إعادة إرسال رسالة التحقق'
+  String get resend_action => 'Resend verification email';
+
+  /// en: 'Verification email sent.'
+  ///
+  /// ar: 'تم إرسال رسالة التحقق.'
+  String get resent => 'Verification email sent.';
+}
+
+// Path: membership.request
+class Translations$membership$request$en {
+  Translations$membership$request$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Membership request'
+  ///
+  /// ar: 'طلب الانتساب'
+  String get title => 'Membership request';
+
+  /// en: 'Complete your membership request before accessing the application.'
+  ///
+  /// ar: 'أكمل طلب الانتساب قبل الدخول إلى التطبيق.'
+  String get subtitle =>
+      'Complete your membership request before accessing the application.';
+
+  late final Translations$membership$request$steps$en steps =
+      Translations$membership$request$steps$en.internal(_root);
+
+  /// en: 'Full name'
+  ///
+  /// ar: 'الاسم الكامل'
+  String get full_name => 'Full name';
+
+  /// en: 'Email'
+  ///
+  /// ar: 'البريد الإلكتروني'
+  String get email => 'Email';
+
+  /// en: 'Phone'
+  ///
+  /// ar: 'رقم الهاتف'
+  String get phone => 'Phone';
+
+  /// en: 'Detailed address'
+  ///
+  /// ar: 'العنوان التفصيلي'
+  String get address => 'Detailed address';
+
+  /// en: 'Notes'
+  ///
+  /// ar: 'ملاحظات'
+  String get notes => 'Notes';
+
+  /// en: 'Governorate'
+  ///
+  /// ar: 'المحافظة'
+  String get governorate => 'Governorate';
+
+  /// en: 'District'
+  ///
+  /// ar: 'القضاء'
+  String get district => 'District';
+
+  /// en: 'Cadaster / town'
+  ///
+  /// ar: 'العقار / البلدة'
+  String get cadaster => 'Cadaster / town';
+
+  /// en: 'Choose a troop'
+  ///
+  /// ar: 'اختر فوجاً'
+  String get choose_troop => 'Choose a troop';
+
+  /// en: 'No troop is currently available in this area'
+  ///
+  /// ar: 'لا يوجد فوج متاح حالياً في هذه المنطقة'
+  String get no_troop_title => 'No troop is currently available in this area';
+
+  /// en: 'Your request will be sent to $commission. They may contact you when a nearby troop becomes available or when there is enough interest to establish a new troop.'
+  ///
+  /// ar: 'سيتم إرسال طلبك إلى $commission. قد تتواصل معك المفوضية عند توفر فوج قريب أو عند وجود عدد كافٍ لدراسة إنشاء فوج جديد.'
+  String no_troop_description({required Object commission}) =>
+      'Your request will be sent to ${commission}. They may contact you when a nearby troop becomes available or when there is enough interest to establish a new troop.';
+
+  /// en: 'Review request'
+  ///
+  /// ar: 'مراجعة الطلب'
+  String get review_title => 'Review request';
+
+  /// en: 'Name'
+  ///
+  /// ar: 'الاسم'
+  String get name => 'Name';
+
+  /// en: 'Destination'
+  ///
+  /// ar: 'الجهة المستلمة'
+  String get destination => 'Destination';
+
+  /// en: 'Request type'
+  ///
+  /// ar: 'نوع الطلب'
+  String get request_type => 'Request type';
+
+  /// en: 'Troop membership'
+  ///
+  /// ar: 'طلب انتساب إلى فوج'
+  String get troop_membership => 'Troop membership';
+
+  /// en: 'Commission interest request'
+  ///
+  /// ar: 'طلب اهتمام لدى المفوضية'
+  String get commission_interest => 'Commission interest request';
+
+  /// en: 'This request will be reviewed by the responsible commission.'
+  ///
+  /// ar: 'ستراجع المفوضية المسؤولة هذا الطلب.'
+  String get commission_notice =>
+      'This request will be reviewed by the responsible commission.';
+
+  /// en: 'Required'
+  ///
+  /// ar: 'هذا الحقل مطلوب'
+  String get required => 'Required';
+
+  /// en: 'Select governorate, district, and cadaster.'
+  ///
+  /// ar: 'اختر المحافظة والقضاء والعقار أو البلدة.'
+  String get select_location_error =>
+      'Select governorate, district, and cadaster.';
+
+  /// en: 'Select a troop.'
+  ///
+  /// ar: 'اختر فوجاً.'
+  String get select_troop_error => 'Select a troop.';
+
+  /// en: 'Back'
+  ///
+  /// ar: 'السابق'
+  String get back => 'Back';
+
+  /// en: 'Next'
+  ///
+  /// ar: 'التالي'
+  String get next => 'Next';
+
+  /// en: 'Submit request'
+  ///
+  /// ar: 'إرسال الطلب'
+  String get submit => 'Submit request';
+}
+
+// Path: membership.status
+class Translations$membership$status$en {
+  Translations$membership$status$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Request status'
+  ///
+  /// ar: 'حالة الطلب'
+  String get title => 'Request status';
+
+  /// en: 'Your request is under review'
+  ///
+  /// ar: 'طلبك قيد المراجعة'
+  String get under_review => 'Your request is under review';
+
+  /// en: 'Request number: $number'
+  ///
+  /// ar: 'رقم الطلب: $number'
+  String request_number({required Object number}) =>
+      'Request number: ${number}';
+
+  /// en: 'Sent to: $destination'
+  ///
+  /// ar: 'أرسل إلى: $destination'
+  String destination({required Object destination}) =>
+      'Sent to: ${destination}';
+
+  /// en: 'You will receive a notification when your request is approved.'
+  ///
+  /// ar: 'سيصلك إشعار عند قبول طلب الانتساب.'
+  String get notification_notice =>
+      'You will receive a notification when your request is approved.';
+
+  /// en: 'Your membership request has been approved.'
+  ///
+  /// ar: 'تم قبول طلب الانتساب الخاص بك.'
+  String get approved_notification =>
+      'Your membership request has been approved.';
+
+  /// en: 'Debug: approve request'
+  ///
+  /// ar: 'تجربة: قبول الطلب'
+  String get debug_approve => 'Debug: approve request';
+}
+
 // Path: people.stages
 class Translations$people$stages$en {
   Translations$people$stages$en.internal(this._root);
@@ -1386,4 +1710,33 @@ class Translations$auth$login$adventure_words$en {
   ///
   /// ar: 'والمزيد'
   String get more => 'and more';
+}
+
+// Path: membership.request.steps
+class Translations$membership$request$steps$en {
+  Translations$membership$request$steps$en.internal(this._root);
+
+  final Translations _root; // ignore: unused_field
+
+  // Translations
+
+  /// en: 'Personal information'
+  ///
+  /// ar: 'المعلومات الشخصية'
+  String get personal => 'Personal information';
+
+  /// en: 'Location'
+  ///
+  /// ar: 'الموقع'
+  String get location => 'Location';
+
+  /// en: 'Troop selection'
+  ///
+  /// ar: 'اختيار الفوج'
+  String get troop => 'Troop selection';
+
+  /// en: 'Review'
+  ///
+  /// ar: 'المراجعة'
+  String get review => 'Review';
 }

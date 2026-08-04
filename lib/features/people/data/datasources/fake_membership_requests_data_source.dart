@@ -18,20 +18,24 @@ final class FakeMembershipRequestsDataSource {
     );
     final decoded = jsonDecode(source) as Map<String, dynamic>;
     final records = decoded['requests'] as List<dynamic>? ?? const [];
-    final requests = records.map((record) {
-      final json = record as Map<String, dynamic>;
-      return MembershipRequest(
-        id: json['id'] as String,
-        fullName: json['fullName'] as String,
-        phone: json['phone'] as String,
-        email: json['email'] as String? ?? '',
-        address: json['address'] as String? ?? '',
-        stage: json['stage'] as String,
-        notes: json['notes'] as String? ?? '',
-        status: MembershipRequestStatus.values.byName(json['status'] as String),
-        submittedAt: DateTime.parse(json['submittedAt'] as String),
-      );
-    }).toList(growable: true);
+    final requests = records
+        .map((record) {
+          final json = record as Map<String, dynamic>;
+          return MembershipRequest(
+            id: json['id'] as String,
+            fullName: json['fullName'] as String,
+            phone: json['phone'] as String,
+            email: json['email'] as String? ?? '',
+            address: json['address'] as String? ?? '',
+            stage: json['stage'] as String,
+            notes: json['notes'] as String? ?? '',
+            status: MembershipRequestStatus.values.byName(
+              json['status'] as String,
+            ),
+            submittedAt: DateTime.parse(json['submittedAt'] as String),
+          );
+        })
+        .toList(growable: true);
 
     _cache = requests;
     return List.unmodifiable(requests);

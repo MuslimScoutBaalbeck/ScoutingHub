@@ -59,6 +59,9 @@ class TranslationsAr extends Translations
     _root,
   );
   @override
+  late final _Translations$membership$ar membership =
+      _Translations$membership$ar._(_root);
+  @override
   late final _Translations$people$ar people = _Translations$people$ar._(_root);
   @override
   late final _Translations$startup$ar startup = _Translations$startup$ar._(
@@ -163,6 +166,26 @@ class _Translations$language$ar extends Translations$language$en {
   String get wait => 'جاري تجهيز اللغة...';
 }
 
+// Path: membership
+class _Translations$membership$ar extends Translations$membership$en {
+  _Translations$membership$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
+
+  final TranslationsAr _root; // ignore: unused_field
+
+  // Translations
+  @override
+  late final _Translations$membership$verify_email$ar verify_email =
+      _Translations$membership$verify_email$ar._(_root);
+  @override
+  late final _Translations$membership$request$ar request =
+      _Translations$membership$request$ar._(_root);
+  @override
+  late final _Translations$membership$status$ar status =
+      _Translations$membership$status$ar._(_root);
+}
+
 // Path: people
 class _Translations$people$ar extends Translations$people$en {
   _Translations$people$ar._(TranslationsAr root)
@@ -243,6 +266,45 @@ class _Translations$people$ar extends Translations$people$en {
   @override
   String get membership_requests => 'طلبات الانتساب';
   @override
+  String get request_subtitle =>
+      'مراجعة ومعالجة طلبات الانتساب الجديدة إلى الفوج';
+  @override
+  String get new_request => 'طلب انتساب جديد';
+  @override
+  String get request_details => 'تفاصيل الطلب';
+  @override
+  String get request_id => 'رقم الطلب';
+  @override
+  String get submitted_at => 'تاريخ التقديم';
+  @override
+  String get request_saved => 'تم حفظ طلب الانتساب بنجاح.';
+  @override
+  String get request_updated => 'تم تحديث حالة الطلب بنجاح.';
+  @override
+  String get request_empty => 'لا توجد طلبات انتساب مطابقة لهذا الفلتر.';
+  @override
+  String get request_all => 'جميع الطلبات';
+  @override
+  String get request_new => 'مقدّم';
+  @override
+  String get request_review => 'قيد التدقيق';
+  @override
+  String get request_needs_info => 'يحتاج معلومات';
+  @override
+  String get request_approved => 'مقبول';
+  @override
+  String get request_rejected => 'مرفوض';
+  @override
+  String get start_review => 'بدء التدقيق';
+  @override
+  String get request_information => 'طلب معلومات إضافية';
+  @override
+  String get approve => 'قبول';
+  @override
+  String get reject => 'رفض';
+  @override
+  String get create_request => 'إنشاء الطلب';
+  @override
   String get reports => 'التقارير';
   @override
   String get recent_members => 'أحدث الأعضاء';
@@ -274,14 +336,6 @@ class _Translations$people$ar extends Translations$people$en {
   String get joined_at => 'تاريخ الانتساب';
   @override
   String get notes => 'ملاحظات';
-  @override
-  String get request_new => 'جديد';
-  @override
-  String get request_review => 'قيد التدقيق';
-  @override
-  String get request_needs_info => 'يحتاج معلومات';
-  @override
-  String get request_approved => 'مقبول';
   @override
   String get report_by_stage => 'الأعضاء حسب المرحلة';
   @override
@@ -753,6 +807,125 @@ class _Translations$home$common$ar extends Translations$home$common$en {
   String get access_denied => 'لا تملك صلاحية الوصول إلى هذا القسم.';
 }
 
+// Path: membership.verify_email
+class _Translations$membership$verify_email$ar
+    extends Translations$membership$verify_email$en {
+  _Translations$membership$verify_email$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
+
+  final TranslationsAr _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'تحقق من بريدك الإلكتروني';
+  @override
+  String description({required Object email}) =>
+      'أرسلنا رابط التحقق إلى ${email}. لا يمكنك الدخول إلى الصفحة الرئيسية قبل التحقق.';
+  @override
+  String get verified_action => 'تحققت من بريدي الإلكتروني';
+  @override
+  String get resend_action => 'إعادة إرسال رسالة التحقق';
+  @override
+  String get resent => 'تم إرسال رسالة التحقق.';
+}
+
+// Path: membership.request
+class _Translations$membership$request$ar
+    extends Translations$membership$request$en {
+  _Translations$membership$request$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
+
+  final TranslationsAr _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'طلب الانتساب';
+  @override
+  String get subtitle => 'أكمل طلب الانتساب قبل الدخول إلى التطبيق.';
+  @override
+  late final _Translations$membership$request$steps$ar steps =
+      _Translations$membership$request$steps$ar._(_root);
+  @override
+  String get full_name => 'الاسم الكامل';
+  @override
+  String get email => 'البريد الإلكتروني';
+  @override
+  String get phone => 'رقم الهاتف';
+  @override
+  String get address => 'العنوان التفصيلي';
+  @override
+  String get notes => 'ملاحظات';
+  @override
+  String get governorate => 'المحافظة';
+  @override
+  String get district => 'القضاء';
+  @override
+  String get cadaster => 'العقار / البلدة';
+  @override
+  String get choose_troop => 'اختر فوجاً';
+  @override
+  String get no_troop_title => 'لا يوجد فوج متاح حالياً في هذه المنطقة';
+  @override
+  String no_troop_description({required Object commission}) =>
+      'سيتم إرسال طلبك إلى ${commission}. قد تتواصل معك المفوضية عند توفر فوج قريب أو عند وجود عدد كافٍ لدراسة إنشاء فوج جديد.';
+  @override
+  String get review_title => 'مراجعة الطلب';
+  @override
+  String get name => 'الاسم';
+  @override
+  String get destination => 'الجهة المستلمة';
+  @override
+  String get request_type => 'نوع الطلب';
+  @override
+  String get troop_membership => 'طلب انتساب إلى فوج';
+  @override
+  String get commission_interest => 'طلب اهتمام لدى المفوضية';
+  @override
+  String get commission_notice => 'ستراجع المفوضية المسؤولة هذا الطلب.';
+  @override
+  String get required => 'هذا الحقل مطلوب';
+  @override
+  String get select_location_error =>
+      'اختر المحافظة والقضاء والعقار أو البلدة.';
+  @override
+  String get select_troop_error => 'اختر فوجاً.';
+  @override
+  String get back => 'السابق';
+  @override
+  String get next => 'التالي';
+  @override
+  String get submit => 'إرسال الطلب';
+}
+
+// Path: membership.status
+class _Translations$membership$status$ar
+    extends Translations$membership$status$en {
+  _Translations$membership$status$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
+
+  final TranslationsAr _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get title => 'حالة الطلب';
+  @override
+  String get under_review => 'طلبك قيد المراجعة';
+  @override
+  String request_number({required Object number}) => 'رقم الطلب: ${number}';
+  @override
+  String destination({required Object destination}) =>
+      'أرسل إلى: ${destination}';
+  @override
+  String get notification_notice => 'سيصلك إشعار عند قبول طلب الانتساب.';
+  @override
+  String get approved_notification => 'تم قبول طلب الانتساب الخاص بك.';
+  @override
+  String get debug_approve => 'تجربة: قبول الطلب';
+}
+
 // Path: people.stages
 class _Translations$people$stages$ar extends Translations$people$stages$en {
   _Translations$people$stages$ar._(TranslationsAr root)
@@ -792,4 +965,24 @@ class _Translations$auth$login$adventure_words$ar
   String get lead => 'القيادة';
   @override
   String get more => 'والمزيد';
+}
+
+// Path: membership.request.steps
+class _Translations$membership$request$steps$ar
+    extends Translations$membership$request$steps$en {
+  _Translations$membership$request$steps$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
+
+  final TranslationsAr _root; // ignore: unused_field
+
+  // Translations
+  @override
+  String get personal => 'المعلومات الشخصية';
+  @override
+  String get location => 'الموقع';
+  @override
+  String get troop => 'اختيار الفوج';
+  @override
+  String get review => 'المراجعة';
 }

@@ -96,9 +96,9 @@ class _MembersListPageState extends State<MembersListPage> {
             initialStatus: state.status,
             onApply: (stage, status) {
               context.read<MembersListCubit>().applyFilters(
-                    stage: stage,
-                    status: status,
-                  );
+                stage: stage,
+                status: status,
+              );
               Navigator.of(context).pop();
             },
             onClear: () {
@@ -254,22 +254,22 @@ class _MemberSearchDelegate extends SearchDelegate<Person?> {
 
   @override
   List<Widget>? buildActions(BuildContext context) => [
-        if (query.isNotEmpty)
-          IconButton(
-            onPressed: () => query = '',
-            icon: const Icon(Icons.clear_rounded),
-          ),
-      ];
+    if (query.isNotEmpty)
+      IconButton(
+        onPressed: () => query = '',
+        icon: const Icon(Icons.clear_rounded),
+      ),
+  ];
 
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
-        onPressed: () => close(context, null),
-        icon: Icon(
-          Directionality.of(context) == TextDirection.rtl
-              ? Icons.chevron_right_rounded
-              : Icons.chevron_left_rounded,
-        ),
-      );
+    onPressed: () => close(context, null),
+    icon: Icon(
+      Directionality.of(context) == TextDirection.rtl
+          ? Icons.chevron_right_rounded
+          : Icons.chevron_left_rounded,
+    ),
+  );
 
   @override
   Widget buildResults(BuildContext context) => _results();

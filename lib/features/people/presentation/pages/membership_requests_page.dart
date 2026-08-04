@@ -290,9 +290,10 @@ Future<void> _changeStatus(
   MembershipRequestStatus status,
 ) async {
   final rootContext = sheetContext;
-  final saved = await rootContext
-      .read<MembershipRequestsCubit>()
-      .updateStatus(request, status);
+  final saved = await rootContext.read<MembershipRequestsCubit>().updateStatus(
+    request,
+    status,
+  );
   if (!sheetContext.mounted) return;
   if (saved) {
     Navigator.of(sheetContext).pop();
