@@ -35,4 +35,10 @@ abstract class AuthApiService {
 
   @POST('/auth/logout')
   Future<HttpResponse<Map<String, dynamic>>> logout();
+
+  @GET('/auth/email/verification-status')
+  Future<HttpResponse<Map<String, dynamic>>> verificationStatus();
+
+  @POST('/auth/email/verification-notification')
+  Future<HttpResponse<Map<String, dynamic>>> resendVerification();
 }
