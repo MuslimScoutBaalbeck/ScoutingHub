@@ -76,10 +76,14 @@ final class AuthSessionResponseModel {
   const AuthSessionResponseModel({required this.data});
 
   factory AuthSessionResponseModel.fromJson(Map<String, dynamic> json) {
+    final rawData = json['data'];
+
+    if (rawData is! Map) {
+      throw const FormatException('Missing authentication payload.');
+    }
+
     return AuthSessionResponseModel(
-      data: AuthResponseDto.fromJson(
-        Map<String, dynamic>.from(json['data'] as Map),
-      ),
+      data: AuthResponseDto.fromJson(Map<String, dynamic>.from(rawData)),
     );
   }
 
@@ -90,10 +94,14 @@ final class AuthUserResponseModel {
   const AuthUserResponseModel({required this.data});
 
   factory AuthUserResponseModel.fromJson(Map<String, dynamic> json) {
+    final rawData = json['data'];
+
+    if (rawData is! Map) {
+      throw const FormatException('Missing user payload.');
+    }
+
     return AuthUserResponseModel(
-      data: AuthUserDto.fromJson(
-        Map<String, dynamic>.from(json['data'] as Map),
-      ),
+      data: AuthUserDto.fromJson(Map<String, dynamic>.from(rawData)),
     );
   }
 
@@ -124,10 +132,14 @@ final class VerificationResponseModel {
   });
 
   factory VerificationResponseModel.fromJson(Map<String, dynamic> json) {
+    final rawData = json['data'];
+
     return VerificationResponseModel(
-      data: VerificationStatusModel.fromJson(
-        Map<String, dynamic>.from(json['data'] as Map),
-      ),
+      data: rawData is Map
+          ? VerificationStatusModel.fromJson(
+              Map<String, dynamic>.from(rawData),
+            )
+          : const VerificationStatusModel(verified: false),
       message: json['message'] as String?,
     );
   }
