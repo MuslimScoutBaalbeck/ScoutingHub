@@ -24,8 +24,8 @@ class LoginPage extends StatefulWidget implements AutoRouteWrapper {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController(text: 'demo@example.com');
-  final _passwordController = TextEditingController(text: 'password');
+  final _emailController = TextEditingController(text: 'admin@gmail.com');
+  final _passwordController = TextEditingController(text: '123456789');
   bool _obscurePassword = true;
 
   @override
