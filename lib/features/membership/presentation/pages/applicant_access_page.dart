@@ -296,7 +296,7 @@ class _MembershipRequestWizardBodyState
     );
   }
 
-  Widget _personalStep(dynamic strings) {
+  Widget _personalStep(Translations$membership$request$en strings) {
     return Form(
       key: _personalFormKey,
       child: ListView(
@@ -338,7 +338,7 @@ class _MembershipRequestWizardBodyState
 
   Widget _locationStep(
       MembershipRequestWizardState state,
-      dynamic strings,
+      Translations$membership$request$en strings,
       ) {
     final cubit = context.read<MembershipRequestWizardCubit>();
 
@@ -397,7 +397,7 @@ class _MembershipRequestWizardBodyState
 
   Widget _troopStep(
       MembershipRequestWizardState state,
-      dynamic strings,
+      Translations$membership$request$en strings,
       ) {
     final cubit = context.read<MembershipRequestWizardCubit>();
 
@@ -477,7 +477,7 @@ class _MembershipRequestWizardBodyState
 
   Widget _reviewStep(
       MembershipRequestWizardState state,
-      dynamic strings,
+      Translations$membership$request$en strings,
       ) {
     final typeLabel = state.sendsToCommission
         ? strings.commission_interest
@@ -534,7 +534,7 @@ class _MembershipRequestWizardBodyState
     );
   }
 
-  void _next(MembershipRequestWizardState state, dynamic strings) {
+  void _next(MembershipRequestWizardState state, Translations$membership$request$en strings) {
     if (state.currentStep == 0 &&
         !(_personalFormKey.currentState?.validate() ?? false)) {
       return;

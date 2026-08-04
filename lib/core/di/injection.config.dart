@@ -9,6 +9,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -22,10 +24,11 @@ import '../../features/auth/application/reset_password/reset_password_cubit.dart
 import '../../features/auth/application/session/session_cubit.dart' as _i329;
 import '../../features/auth/data/datasources/auth_remote_data_source.dart'
     as _i107;
-import '../../features/auth/data/datasources/fake_auth_remote_data_source.dart'
-    as _i305;
+import '../../features/auth/data/datasources/laravel_auth_remote_data_source.dart'
+    as _i978;
 import '../../features/auth/data/repositories/auth_repository_impl.dart'
     as _i153;
+import '../../features/auth/data/services/auth_api_service.dart' as _i698;
 import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
 import '../../features/auth/domain/usecases/forgot_password.dart' as _i510;
 import '../../features/auth/domain/usecases/login.dart' as _i428;
@@ -37,6 +40,8 @@ import '../../features/membership/application/applicant_access/applicant_access_
     as _i516;
 import '../../features/membership/application/request_wizard/membership_request_wizard_cubit.dart'
     as _i538;
+import '../../features/membership/data/services/email_verification_service.dart'
+    as _i339;
 import '../../features/organizations/data/datasources/fake_organizations_data_source.dart'
     as _i63;
 import '../../features/organizations/data/datasources/organizations_data_source.dart'
@@ -74,6 +79,9 @@ import '../../features/people/domain/usecases/save_person_use_case.dart'
 import '../../features/startup/application/application_start/application_start_cubit.dart'
     as _i123;
 import '../database/database.dart' as _i660;
+import '../network/auth_interceptor.dart' as _i908;
+import '../network/network_module.dart' as _i200;
+import '../network/token_storage.dart' as _i964;
 import '../router/app_router.dart' as _i81;
 import 'app_module.dart' as _i460;
 
@@ -85,14 +93,17 @@ _i174.GetIt $initGetIt(
 }) {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final appModule = _$AppModule();
+  final networkModule = _$NetworkModule();
   gh.factory<_i538.MembershipRequestWizardCubit>(
     () => _i538.MembershipRequestWizardCubit(),
   );
   gh.singleton<_i660.AppDatabase>(() => appModule.myDb);
   gh.singleton<_i81.AppRouter>(() => appModule.appRouter);
-  gh.singleton<_i516.ApplicantAccessCubit>(() => _i516.ApplicantAccessCubit());
   gh.singleton<_i123.ApplicationStartCubit>(
     () => _i123.ApplicationStartCubit(),
+  );
+  gh.lazySingleton<_i558.FlutterSecureStorage>(
+    () => networkModule.secureStorage,
   );
   gh.lazySingleton<_i1002.FakeMembershipRequestsDataSource>(
     () => _i1002.FakeMembershipRequestsDataSource(),
@@ -108,11 +119,8 @@ _i174.GetIt $initGetIt(
       gh<_i1002.FakeMembershipRequestsDataSource>(),
     ),
   );
-  gh.lazySingleton<_i107.AuthRemoteDataSource>(
-    () => _i305.FakeAuthRemoteDataSource(),
-  );
-  gh.factory<_i787.AuthRepository>(
-    () => _i153.AuthRepositoryImpl(gh<_i107.AuthRemoteDataSource>()),
+  gh.lazySingleton<_i964.TokenStorage>(
+    () => _i964.SecureTokenStorage(gh<_i558.FlutterSecureStorage>()),
   );
   gh.lazySingleton<_i646.PeopleRepository>(
     () => _i606.FakePeopleRepository(gh<_i957.FakePeopleDataSource>()),
@@ -133,6 +141,9 @@ _i174.GetIt $initGetIt(
       gh<_i18.SaveMembershipRequestUseCase>(),
     ),
   );
+  gh.lazySingleton<_i908.AuthInterceptor>(
+    () => _i908.AuthInterceptor(gh<_i964.TokenStorage>()),
+  );
   gh.factory<_i181.LoadPeopleUseCase>(
     () => _i181.LoadPeopleUseCase(gh<_i646.PeopleRepository>()),
   );
@@ -144,6 +155,33 @@ _i174.GetIt $initGetIt(
   );
   gh.factory<_i31.MemberEditCubit>(
     () => _i31.MemberEditCubit(gh<_i535.SavePersonUseCase>()),
+  );
+  gh.lazySingleton<_i361.Dio>(
+    () => networkModule.dio(gh<_i908.AuthInterceptor>()),
+  );
+  gh.factory<_i112.MembersDashboardCubit>(
+    () => _i112.MembersDashboardCubit(gh<_i181.LoadPeopleUseCase>()),
+  );
+  gh.factory<_i79.MembersListCubit>(
+    () => _i79.MembersListCubit(gh<_i181.LoadPeopleUseCase>()),
+  );
+  gh.lazySingleton<_i698.AuthApiService>(
+    () => _i698.AuthApiService(gh<_i361.Dio>()),
+  );
+  gh.lazySingleton<_i339.EmailVerificationService>(
+    () => _i339.EmailVerificationService(gh<_i698.AuthApiService>()),
+  );
+  gh.singleton<_i516.ApplicantAccessCubit>(
+    () => _i516.ApplicantAccessCubit(gh<_i339.EmailVerificationService>()),
+  );
+  gh.lazySingleton<_i107.AuthRemoteDataSource>(
+    () => _i978.LaravelAuthRemoteDataSource(
+      gh<_i698.AuthApiService>(),
+      gh<_i964.TokenStorage>(),
+    ),
+  );
+  gh.factory<_i787.AuthRepository>(
+    () => _i153.AuthRepositoryImpl(gh<_i107.AuthRemoteDataSource>()),
   );
   gh.singleton<_i510.ForgotPasswordUseCase>(
     () => _i510.ForgotPasswordUseCase(gh<_i787.AuthRepository>()),
@@ -164,12 +202,6 @@ _i174.GetIt $initGetIt(
     () => _i456.RestoreSessionUseCase(gh<_i787.AuthRepository>()),
   );
   gh.factory<_i99.LoginCubit>(() => _i99.LoginCubit(gh<_i428.LoginUseCase>()));
-  gh.factory<_i112.MembersDashboardCubit>(
-    () => _i112.MembersDashboardCubit(gh<_i181.LoadPeopleUseCase>()),
-  );
-  gh.factory<_i79.MembersListCubit>(
-    () => _i79.MembersListCubit(gh<_i181.LoadPeopleUseCase>()),
-  );
   gh.factory<_i777.RegisterCubit>(
     () => _i777.RegisterCubit(gh<_i480.RegisterUseCase>()),
   );
@@ -199,3 +231,5 @@ _i174.GetIt $initGetIt(
 }
 
 class _$AppModule extends _i460.AppModule {}
+
+class _$NetworkModule extends _i200.NetworkModule {}

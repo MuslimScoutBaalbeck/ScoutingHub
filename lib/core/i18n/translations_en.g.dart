@@ -14,8 +14,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
   ///
   /// Usage:
   /// final t = Translations.of(context);
-  static Translations of(BuildContext context) =>
-      InheritedLocaleData.of<AppLocale, Translations>(context).translations;
+  static Translations of(BuildContext context) => InheritedLocaleData.of<AppLocale, Translations>(context).translations;
 
   /// You can call this constructor and build your own translation instance of this locale.
   /// Constructing via the enum [AppLocale.build] is preferred.
@@ -24,10 +23,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
     PluralResolver? cardinalResolver,
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
-  }) : assert(
-         overrides == null,
-         'Set "translation_overrides: true" in order to enable this feature.',
-       ),
+  }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
        $meta =
            meta ??
            TranslationMetadata(
@@ -43,24 +39,17 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
   late final Translations _root = this; // ignore: unused_field
 
-  Translations $copyWith({
-    TranslationMetadata<AppLocale, Translations>? meta,
-  }) => Translations(meta: meta ?? this.$meta);
+  Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) =>
+      Translations(meta: meta ?? this.$meta);
 
   // Translations
   late final Translations$app$en app = Translations$app$en.internal(_root);
   late final Translations$auth$en auth = Translations$auth$en.internal(_root);
   late final Translations$home$en home = Translations$home$en.internal(_root);
-  late final Translations$language$en language =
-      Translations$language$en.internal(_root);
-  late final Translations$membership$en membership =
-      Translations$membership$en.internal(_root);
-  late final Translations$people$en people = Translations$people$en.internal(
-    _root,
-  );
-  late final Translations$startup$en startup = Translations$startup$en.internal(
-    _root,
-  );
+  late final Translations$language$en language = Translations$language$en.internal(_root);
+  late final Translations$membership$en membership = Translations$membership$en.internal(_root);
+  late final Translations$people$en people = Translations$people$en.internal(_root);
+  late final Translations$startup$en startup = Translations$startup$en.internal(_root);
 }
 
 // Path: app
@@ -79,8 +68,7 @@ class Translations$app$en {
   /// en: 'Manage your scout group and everything you need for your adventure'
   ///
   /// ar: 'إدارة فوجك وكل ما تحتاجه في مغامرتك الكشفية'
-  String get tagline =>
-      'Manage your scout group and everything you need for your adventure';
+  String get tagline => 'Manage your scout group and everything you need for your adventure';
 
   /// en: 'A complete app for managing scout groups, members, activities, tasks, chants, and everything you need throughout your scouting journey.'
   ///
@@ -96,20 +84,14 @@ class Translations$auth$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$auth$errors$en errors =
-      Translations$auth$errors$en.internal(_root);
-  late final Translations$auth$forgot_password$en forgot_password =
-      Translations$auth$forgot_password$en.internal(
-        _root,
-      );
-  late final Translations$auth$login$en login =
-      Translations$auth$login$en.internal(_root);
-  late final Translations$auth$register$en register =
-      Translations$auth$register$en.internal(_root);
-  late final Translations$auth$reset_password$en reset_password =
-      Translations$auth$reset_password$en.internal(_root);
-  late final Translations$auth$welcome$en welcome =
-      Translations$auth$welcome$en.internal(_root);
+  late final Translations$auth$errors$en errors = Translations$auth$errors$en.internal(_root);
+  late final Translations$auth$forgot_password$en forgot_password = Translations$auth$forgot_password$en.internal(
+    _root,
+  );
+  late final Translations$auth$login$en login = Translations$auth$login$en.internal(_root);
+  late final Translations$auth$register$en register = Translations$auth$register$en.internal(_root);
+  late final Translations$auth$reset_password$en reset_password = Translations$auth$reset_password$en.internal(_root);
+  late final Translations$auth$welcome$en welcome = Translations$auth$welcome$en.internal(_root);
 }
 
 // Path: home
@@ -119,20 +101,13 @@ class Translations$home$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$home$navigation$en navigation =
-      Translations$home$navigation$en.internal(_root);
-  late final Translations$home$dashboard$en dashboard =
-      Translations$home$dashboard$en.internal(_root);
-  late final Translations$home$tasks$en tasks =
-      Translations$home$tasks$en.internal(_root);
-  late final Translations$home$calendar$en calendar =
-      Translations$home$calendar$en.internal(_root);
-  late final Translations$home$more$en more =
-      Translations$home$more$en.internal(_root);
-  late final Translations$home$create$en create =
-      Translations$home$create$en.internal(_root);
-  late final Translations$home$common$en common =
-      Translations$home$common$en.internal(_root);
+  late final Translations$home$navigation$en navigation = Translations$home$navigation$en.internal(_root);
+  late final Translations$home$dashboard$en dashboard = Translations$home$dashboard$en.internal(_root);
+  late final Translations$home$tasks$en tasks = Translations$home$tasks$en.internal(_root);
+  late final Translations$home$calendar$en calendar = Translations$home$calendar$en.internal(_root);
+  late final Translations$home$more$en more = Translations$home$more$en.internal(_root);
+  late final Translations$home$create$en create = Translations$home$create$en.internal(_root);
+  late final Translations$home$common$en common = Translations$home$common$en.internal(_root);
 }
 
 // Path: language
@@ -161,14 +136,11 @@ class Translations$membership$en {
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final Translations$membership$verify_email$en verify_email =
-      Translations$membership$verify_email$en.internal(
-        _root,
-      );
-  late final Translations$membership$request$en request =
-      Translations$membership$request$en.internal(_root);
-  late final Translations$membership$status$en status =
-      Translations$membership$status$en.internal(_root);
+  late final Translations$membership$verify_email$en verify_email = Translations$membership$verify_email$en.internal(
+    _root,
+  );
+  late final Translations$membership$request$en request = Translations$membership$request$en.internal(_root);
+  late final Translations$membership$status$en status = Translations$membership$status$en.internal(_root);
 }
 
 // Path: people
@@ -357,8 +329,7 @@ class Translations$people$en {
   /// en: 'Review and process new troop membership applications'
   ///
   /// ar: 'مراجعة ومعالجة طلبات الانتساب الجديدة إلى الفوج'
-  String get request_subtitle =>
-      'Review and process new troop membership applications';
+  String get request_subtitle => 'Review and process new troop membership applications';
 
   /// en: 'New membership request'
   ///
@@ -560,8 +531,7 @@ class Translations$people$en {
   /// ar: 'تم حفظ العضو بنجاح.'
   String get saved => 'Member saved successfully.';
 
-  late final Translations$people$stages$en stages =
-      Translations$people$stages$en.internal(_root);
+  late final Translations$people$stages$en stages = Translations$people$stages$en.internal(_root);
 }
 
 // Path: startup
@@ -595,8 +565,7 @@ class Translations$startup$en {
   /// en: 'Please wait while we prepare your scouting experience'
   ///
   /// ar: 'يرجى الانتظار ريثما نجهّز تجربتك الكشفية'
-  String get please_wait =>
-      'Please wait while we prepare your scouting experience';
+  String get please_wait => 'Please wait while we prepare your scouting experience';
 }
 
 // Path: auth.errors
@@ -631,8 +600,7 @@ class Translations$auth$errors$en {
   /// en: 'Complete all fields correctly and use a password with at least 8 characters.'
   ///
   /// ar: 'أكمل جميع الحقول بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.'
-  String get reset_fields_invalid =>
-      'Complete all fields correctly and use a password with at least 8 characters.';
+  String get reset_fields_invalid => 'Complete all fields correctly and use a password with at least 8 characters.';
 
   /// en: 'The email or password is incorrect.'
   ///
@@ -642,8 +610,7 @@ class Translations$auth$errors$en {
   /// en: 'An account already exists for this email address.'
   ///
   /// ar: 'يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني.'
-  String get email_already_exists =>
-      'An account already exists for this email address.';
+  String get email_already_exists => 'An account already exists for this email address.';
 
   /// en: 'The password reset code is invalid.'
   ///
@@ -677,8 +644,7 @@ class Translations$auth$forgot_password$en {
   /// en: 'Enter your email and we will send a fake reset code for this demo.'
   ///
   /// ar: 'أدخل بريدك الإلكتروني وسنرسل رمز إعادة تعيين تجريبي.'
-  String get subtitle =>
-      'Enter your email and we will send a fake reset code for this demo.';
+  String get subtitle => 'Enter your email and we will send a fake reset code for this demo.';
 
   /// en: 'Email address'
   ///
@@ -834,8 +800,7 @@ class Translations$auth$register$en {
   /// en: 'Join Scouting Hub and keep your scouting resources together.'
   ///
   /// ar: 'انضم إلى منصة الكشاف واحتفظ بمواردك الكشفية في مكان واحد.'
-  String get subtitle =>
-      'Join Scouting Hub and keep your scouting resources together.';
+  String get subtitle => 'Join Scouting Hub and keep your scouting resources together.';
 
   /// en: 'Full name'
   ///
@@ -939,8 +904,7 @@ class Translations$auth$reset_password$en {
   /// en: 'The reset code is invalid. Use 123456 for the demo.'
   ///
   /// ar: 'رمز إعادة التعيين غير صحيح. استخدم 123456 للتجربة.'
-  String get invalid_code =>
-      'The reset code is invalid. Use 123456 for the demo.';
+  String get invalid_code => 'The reset code is invalid. Use 123456 for the demo.';
 
   /// en: 'Complete all fields correctly.'
   ///
@@ -964,8 +928,7 @@ class Translations$auth$welcome$en {
   /// en: 'Manage your scout group and everything you need for your scouting adventure.'
   ///
   /// ar: 'أدِر فوجك وكل ما تحتاجه في مغامرتك الكشفية.'
-  String get subtitle =>
-      'Manage your scout group and everything you need for your scouting adventure.';
+  String get subtitle => 'Manage your scout group and everything you need for your scouting adventure.';
 
   /// en: 'Get started'
   ///
@@ -1153,14 +1116,12 @@ class Translations$home$dashboard$en {
   /// en: 'No quick-access modules are available for your permissions.'
   ///
   /// ar: 'لا توجد وحدات وصول سريع متاحة ضمن صلاحياتك الحالية.'
-  String get no_access =>
-      'No quick-access modules are available for your permissions.';
+  String get no_access => 'No quick-access modules are available for your permissions.';
 
   /// en: 'No modules are available for your current permissions.'
   ///
   /// ar: 'لا توجد وحدات متاحة ضمن صلاحياتك الحالية.'
-  String get no_modules =>
-      'No modules are available for your current permissions.';
+  String get no_modules => 'No modules are available for your current permissions.';
 }
 
 // Path: home.tasks
@@ -1396,8 +1357,7 @@ class Translations$home$create$en {
   /// en: 'No creation actions are available for your permissions.'
   ///
   /// ar: 'لا توجد إجراءات إنشاء متاحة ضمن صلاحياتك الحالية.'
-  String get no_actions =>
-      'No creation actions are available for your permissions.';
+  String get no_actions => 'No creation actions are available for your permissions.';
 }
 
 // Path: home.common
@@ -1416,8 +1376,7 @@ class Translations$home$common$en {
   /// en: 'You do not have permission to access this section.'
   ///
   /// ar: 'لا تملك صلاحية الوصول إلى هذا القسم.'
-  String get access_denied =>
-      'You do not have permission to access this section.';
+  String get access_denied => 'You do not have permission to access this section.';
 }
 
 // Path: membership.verify_email
@@ -1453,6 +1412,16 @@ class Translations$membership$verify_email$en {
   ///
   /// ar: 'تم إرسال رسالة التحقق.'
   String get resent => 'Verification email sent.';
+
+  /// en: 'Your email is not verified yet. Open the verification link, then try again.'
+  ///
+  /// ar: 'لم يتم التحقق من بريدك الإلكتروني بعد. افتح رابط التحقق ثم أعد المحاولة.'
+  String get not_verified => 'Your email is not verified yet. Open the verification link, then try again.';
+
+  /// en: 'Unable to resend the verification email. Please try again.'
+  ///
+  /// ar: 'تعذر إعادة إرسال رسالة التحقق. حاول مجدداً.'
+  String get resend_failed => 'Unable to resend the verification email. Please try again.';
 }
 
 // Path: membership.request
@@ -1471,11 +1440,9 @@ class Translations$membership$request$en {
   /// en: 'Complete your membership request before accessing the application.'
   ///
   /// ar: 'أكمل طلب الانتساب قبل الدخول إلى التطبيق.'
-  String get subtitle =>
-      'Complete your membership request before accessing the application.';
+  String get subtitle => 'Complete your membership request before accessing the application.';
 
-  late final Translations$membership$request$steps$en steps =
-      Translations$membership$request$steps$en.internal(_root);
+  late final Translations$membership$request$steps$en steps = Translations$membership$request$steps$en.internal(_root);
 
   /// en: 'Full name'
   ///
@@ -1533,6 +1500,11 @@ class Translations$membership$request$en {
   String no_troop_description({required Object commission}) =>
       'Your request will be sent to ${commission}. They may contact you when a nearby troop becomes available or when there is enough interest to establish a new troop.';
 
+  /// en: 'the responsible commission'
+  ///
+  /// ar: 'المفوضية المسؤولة'
+  String get responsible_commission => 'the responsible commission';
+
   /// en: 'Review request'
   ///
   /// ar: 'مراجعة الطلب'
@@ -1566,8 +1538,7 @@ class Translations$membership$request$en {
   /// en: 'This request will be reviewed by the responsible commission.'
   ///
   /// ar: 'ستراجع المفوضية المسؤولة هذا الطلب.'
-  String get commission_notice =>
-      'This request will be reviewed by the responsible commission.';
+  String get commission_notice => 'This request will be reviewed by the responsible commission.';
 
   /// en: 'Required'
   ///
@@ -1577,13 +1548,22 @@ class Translations$membership$request$en {
   /// en: 'Select governorate, district, and cadaster.'
   ///
   /// ar: 'اختر المحافظة والقضاء والعقار أو البلدة.'
-  String get select_location_error =>
-      'Select governorate, district, and cadaster.';
+  String get select_location_error => 'Select governorate, district, and cadaster.';
 
   /// en: 'Select a troop.'
   ///
   /// ar: 'اختر فوجاً.'
   String get select_troop_error => 'Select a troop.';
+
+  /// en: 'Unable to load membership data.'
+  ///
+  /// ar: 'تعذر تحميل بيانات الانتساب.'
+  String get load_failed => 'Unable to load membership data.';
+
+  /// en: 'Retry'
+  ///
+  /// ar: 'إعادة المحاولة'
+  String get retry => 'Retry';
 
   /// en: 'Back'
   ///
@@ -1614,34 +1594,55 @@ class Translations$membership$status$en {
   /// ar: 'حالة الطلب'
   String get title => 'Request status';
 
+  /// en: 'Request submitted'
+  ///
+  /// ar: 'تم إرسال الطلب'
+  String get submitted => 'Request submitted';
+
   /// en: 'Your request is under review'
   ///
   /// ar: 'طلبك قيد المراجعة'
   String get under_review => 'Your request is under review';
 
+  /// en: 'Additional information required'
+  ///
+  /// ar: 'مطلوب معلومات إضافية'
+  String get needs_information => 'Additional information required';
+
+  /// en: 'Approved'
+  ///
+  /// ar: 'مقبول'
+  String get approved => 'Approved';
+
+  /// en: 'Rejected'
+  ///
+  /// ar: 'مرفوض'
+  String get rejected => 'Rejected';
+
   /// en: 'Request number: $number'
   ///
   /// ar: 'رقم الطلب: $number'
-  String request_number({required Object number}) =>
-      'Request number: ${number}';
+  String request_number({required Object number}) => 'Request number: ${number}';
 
   /// en: 'Sent to: $destination'
   ///
   /// ar: 'أرسل إلى: $destination'
-  String destination({required Object destination}) =>
-      'Sent to: ${destination}';
+  String destination({required Object destination}) => 'Sent to: ${destination}';
+
+  /// en: 'Current status: $status'
+  ///
+  /// ar: 'الحالة الحالية: $status'
+  String current_status({required Object status}) => 'Current status: ${status}';
 
   /// en: 'You will receive a notification when your request is approved.'
   ///
   /// ar: 'سيصلك إشعار عند قبول طلب الانتساب.'
-  String get notification_notice =>
-      'You will receive a notification when your request is approved.';
+  String get notification_notice => 'You will receive a notification when your request is approved.';
 
   /// en: 'Your membership request has been approved.'
   ///
   /// ar: 'تم قبول طلب الانتساب الخاص بك.'
-  String get approved_notification =>
-      'Your membership request has been approved.';
+  String get approved_notification => 'Your membership request has been approved.';
 
   /// en: 'Debug: approve request'
   ///
