@@ -1,20 +1,18 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:scouting_hub/core/network/token_storage.dart';
 import 'package:scouting_hub/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:scouting_hub/features/auth/data/dtos/auth_response_dto.dart';
+import 'package:scouting_hub/features/auth/data/models/auth_api_models.dart';
 import 'package:scouting_hub/features/auth/data/services/auth_api_service.dart';
 
 final class InvalidCredentialsException implements Exception {}
-
 final class EmailAlreadyExistsException implements Exception {}
-
 final class InvalidResetCodeException implements Exception {}
-
 final class UnauthenticatedException implements Exception {}
 
 final class AuthApiException implements Exception {
   const AuthApiException(this.statusCode, [this.message]);
-
   final int statusCode;
   final String? message;
 }
@@ -23,166 +21,121 @@ final class AuthApiException implements Exception {
 final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
   const LaravelAuthRemoteDataSource(this._api, this._tokenStorage);
 
+  static const _deviceName = 'scouting-hub-mobile';
   final AuthApiService _api;
   final TokenStorage _tokenStorage;
 
   @override
-  Future<AuthResponseDto> login({
-    required String email,
-    required String password,
-  }) async {
-    final response = await _api.login({
-      'email': email.trim().toLowerCase(),
-      'password': password,
-      'device_name': 'scouting-hub-mobile',
-    });
-    final body = _asJsonMap(response.data);
-
-    if (response.response.statusCode == 401 ||
-        response.response.statusCode == 422) {
-      throw InvalidCredentialsException();
+  Future<AuthResponseDto> login({required String email, required String password}) async {
+    try {
+      final response = await _api.login(LoginRequestModel(
+        email: email.trim().toLowerCase(),
+        password: password,
+        deviceName: _deviceName,
+      ));
+      final dto = response.data.data;
+      await _tokenStorage.writeAccessToken(dto.token);
+      return dto;
+    } on DioException catch (error) {
+      if (error.response?.statusCode == 401 || error.response?.statusCode == 422) {
+        throw InvalidCredentialsException();
+      }
+      throw _apiException(error);
     }
-
-    final dto = _parseAuthResponse(body, response.response.statusCode);
-    await _tokenStorage.writeAccessToken(dto.token);
-    return dto;
   }
 
   @override
-  Future<AuthResponseDto> register({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
-    final response = await _api.register({
-      'name': name.trim(),
-      'email': email.trim().toLowerCase(),
-      'password': password,
-      'password_confirmation': password,
-      'device_name': 'scouting-hub-mobile',
-    });
-    final body = _asJsonMap(response.data);
-
-    if (response.response.statusCode == 422 && _hasEmailValidationError(body)) {
-      throw EmailAlreadyExistsException();
+  Future<AuthResponseDto> register({required String name, required String email, required String password}) async {
+    try {
+      final response = await _api.register(RegisterRequestModel(
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        password: password,
+        passwordConfirmation: password,
+        deviceName: _deviceName,
+      ));
+      final dto = response.data.data;
+      await _tokenStorage.writeAccessToken(dto.token);
+      return dto;
+    } on DioException catch (error) {
+      final apiError = _errorModel(error);
+      if (error.response?.statusCode == 422 && apiError.hasError('email')) {
+        throw EmailAlreadyExistsException();
+      }
+      throw AuthApiException(error.response?.statusCode ?? 0, apiError.message);
     }
-
-    final dto = _parseAuthResponse(body, response.response.statusCode);
-    await _tokenStorage.writeAccessToken(dto.token);
-    return dto;
   }
 
   @override
   Future<void> forgotPassword({required String email}) async {
-    final response = await _api.forgotPassword({
-      'email': email.trim().toLowerCase(),
-    });
-    _ensureSuccess(
-      response.response.statusCode,
-      _asJsonMap(response.data),
-    );
+    try {
+      await _api.forgotPassword(ForgotPasswordRequestModel(
+        email: email.trim().toLowerCase(),
+      ));
+    } on DioException catch (error) {
+      throw _apiException(error);
+    }
   }
 
   @override
-  Future<void> resetPassword({
-    required String email,
-    required String code,
-    required String password,
-  }) async {
-    final response = await _api.resetPassword({
-      'email': email.trim().toLowerCase(),
-      'token': code,
-      'password': password,
-      'password_confirmation': password,
-    });
-    final body = _asJsonMap(response.data);
-
-    if (response.response.statusCode == 422) {
-      throw InvalidResetCodeException();
+  Future<void> resetPassword({required String email, required String code, required String password}) async {
+    try {
+      await _api.resetPassword(ResetPasswordRequestModel(
+        email: email.trim().toLowerCase(),
+        token: code,
+        password: password,
+        passwordConfirmation: password,
+      ));
+    } on DioException catch (error) {
+      if (error.response?.statusCode == 422) {
+        throw InvalidResetCodeException();
+      }
+      throw _apiException(error);
     }
-
-    _ensureSuccess(response.response.statusCode, body);
   }
 
   @override
   Future<AuthResponseDto?> restoreSession() async {
     final token = await _tokenStorage.readAccessToken();
-    if (token == null || token.isEmpty) {
-      return null;
+    if (token == null || token.isEmpty) return null;
+
+    try {
+      final response = await _api.me();
+      return AuthResponseDto(
+        token: token,
+        tokenType: 'Bearer',
+        user: response.data.data,
+      );
+    } on DioException catch (error) {
+      if (error.response?.statusCode == 401 || error.response?.statusCode == 403) {
+        await _tokenStorage.clearAccessToken();
+        return null;
+      }
+      throw _apiException(error);
     }
-
-    final response = await _api.me();
-    if (response.response.statusCode == 401) {
-      await _tokenStorage.clearAccessToken();
-      return null;
-    }
-
-    final body = _asJsonMap(response.data);
-    _ensureSuccess(response.response.statusCode, body);
-    final data = _unwrapData(body);
-    final userValue = data['user'];
-    final user = userValue is Map ? Map<String, Object?>.from(userValue) : data;
-
-    return AuthResponseDto.fromJson({
-      'token': token,
-      'token_type': 'Bearer',
-      'user': user,
-    });
   }
 
   @override
   Future<void> logout() async {
     try {
-      final response = await _api.logout();
-      _ensureSuccess(
-        response.response.statusCode,
-        _asJsonMap(response.data),
-      );
+      await _api.logout();
+    } on DioException catch (error) {
+      if (error.response?.statusCode != 401) throw _apiException(error);
     } finally {
       await _tokenStorage.clearAccessToken();
     }
   }
 
-  AuthResponseDto _parseAuthResponse(
-    Map<String, Object?> body,
-    int? statusCode,
-  ) {
-    _ensureSuccess(statusCode, body);
-    return AuthResponseDto.fromJson(
-      Map<String, dynamic>.from(_unwrapData(body)),
-    );
-  }
-
-  Map<String, Object?> _asJsonMap(Object? value) {
-    if (value is Map<String, Object?>) {
-      return value;
+  ApiErrorResponseModel _errorModel(DioException error) {
+    final data = error.response?.data;
+    if (data is Map) {
+      return ApiErrorResponseModel.fromJson(Map<String, dynamic>.from(data));
     }
-
-    if (value is Map) {
-      return Map<String, Object?>.from(value);
-    }
-
-    return const <String, Object?>{};
+    return const ApiErrorResponseModel(message: 'Unable to communicate with the server.');
   }
 
-  Map<String, Object?> _unwrapData(Map<String, Object?> body) {
-    final data = body['data'];
-    return data is Map ? Map<String, Object?>.from(data) : body;
-  }
-
-  bool _hasEmailValidationError(Map<String, Object?> body) {
-    final errors = body['errors'];
-    return errors is Map && errors.containsKey('email');
-  }
-
-  void _ensureSuccess(int? statusCode, Map<String, Object?> body) {
-    if (statusCode != null && statusCode >= 200 && statusCode < 300) {
-      return;
-    }
-
-    throw AuthApiException(
-      statusCode ?? 0,
-      body['message'] as String?,
-    );
+  AuthApiException _apiException(DioException error) {
+    final apiError = _errorModel(error);
+    return AuthApiException(error.response?.statusCode ?? 0, apiError.message);
   }
 }
