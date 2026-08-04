@@ -9,26 +9,10 @@ final class EmailVerificationService {
 
   Future<bool> isVerified() async {
     final response = await _api.verificationStatus();
-    final body = _asJsonMap(response.data);
-    final data = body['data'];
-    final payload = data is Map ? Map<String, Object?>.from(data) : body;
-
-    return payload['verified'] as bool? ?? false;
+    return response.data.data.verified;
   }
 
   Future<void> resend() async {
     await _api.resendVerification();
-  }
-
-  Map<String, Object?> _asJsonMap(Object? value) {
-    if (value is Map<String, Object?>) {
-      return value;
-    }
-
-    if (value is Map) {
-      return Map<String, Object?>.from(value);
-    }
-
-    return const <String, Object?>{};
   }
 }
