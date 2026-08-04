@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:scouting_hub/features/auth/data/models/auth_api_models.dart';
 
 part 'auth_api_service.g.dart';
 
@@ -11,34 +12,34 @@ abstract class AuthApiService {
   factory AuthApiService(Dio dio) = _AuthApiService;
 
   @POST('/auth/login')
-  Future<HttpResponse<Object?>> login(
-    @Body() Map<String, Object?> body,
+  Future<HttpResponse<AuthSessionResponseModel>> login(
+    @Body() LoginRequestModel body,
   );
 
   @POST('/auth/register')
-  Future<HttpResponse<Object?>> register(
-    @Body() Map<String, Object?> body,
+  Future<HttpResponse<AuthSessionResponseModel>> register(
+    @Body() RegisterRequestModel body,
   );
 
   @POST('/auth/forgot-password')
-  Future<HttpResponse<Object?>> forgotPassword(
-    @Body() Map<String, Object?> body,
+  Future<HttpResponse<MessageResponseModel>> forgotPassword(
+    @Body() ForgotPasswordRequestModel body,
   );
 
   @POST('/auth/reset-password')
-  Future<HttpResponse<Object?>> resetPassword(
-    @Body() Map<String, Object?> body,
+  Future<HttpResponse<MessageResponseModel>> resetPassword(
+    @Body() ResetPasswordRequestModel body,
   );
 
   @GET('/auth/me')
-  Future<HttpResponse<Object?>> me();
+  Future<HttpResponse<AuthUserResponseModel>> me();
 
   @POST('/auth/logout')
-  Future<HttpResponse<Object?>> logout();
+  Future<HttpResponse<MessageResponseModel>> logout();
 
   @GET('/auth/email/verification-status')
-  Future<HttpResponse<Object?>> verificationStatus();
+  Future<HttpResponse<VerificationResponseModel>> verificationStatus();
 
   @POST('/auth/email/verification-notification')
-  Future<HttpResponse<Object?>> resendVerification();
+  Future<HttpResponse<VerificationResponseModel>> resendVerification();
 }
