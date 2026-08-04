@@ -53,12 +53,13 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
     required String name,
     required String email,
     required String password,
+    required String passwordConfirmation,
   }) async {
     final response = await _api.register({
       'name': name.trim(),
       'email': email.trim().toLowerCase(),
       'password': password,
-      'password_confirmation': password,
+      'password_confirmation': passwordConfirmation,
       'device_name': 'scouting-hub-mobile',
     });
     final body = _asJsonMap(response.data);

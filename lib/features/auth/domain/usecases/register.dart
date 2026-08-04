@@ -14,11 +14,13 @@ final class RegisterUseCase {
     required String name,
     required String email,
     required String password,
+    required String passwordConfirmation,
   }) {
     return _repository.register(
       name: name.trim(),
       email: email.trim().toLowerCase(),
       password: password,
+      passwordConfirmation: passwordConfirmation,
     );
   }
 }

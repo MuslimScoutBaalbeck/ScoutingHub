@@ -34,6 +34,7 @@ final class RegisterCubit extends Cubit<RegisterState> {
       name: name,
       email: email,
       password: password,
+      passwordConfirmation:confirmation,
     );
     result.match(
       (failure) =>

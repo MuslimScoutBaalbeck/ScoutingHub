@@ -36,12 +36,15 @@ final class AuthRepositoryImpl implements AuthRepository {
     required String name,
     required String email,
     required String password,
+    required String passwordConfirmation,
+
   }) async {
     try {
       final response = await _remoteDataSource.register(
         name: name,
         email: email,
         password: password,
+          passwordConfirmation: passwordConfirmation
       );
       return Right(response.toDomain());
     } on EmailAlreadyExistsException {
