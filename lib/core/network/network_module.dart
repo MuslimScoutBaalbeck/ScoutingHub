@@ -18,7 +18,9 @@ abstract class NetworkModule {
         receiveTimeout: ApiConfig.receiveTimeout,
         sendTimeout: ApiConfig.sendTimeout,
         contentType: Headers.jsonContentType,
-        validateStatus: (status) => status != null && status < 500,
+        responseType: ResponseType.json,
+        validateStatus: (status) =>
+            status != null && status >= 200 && status < 300,
       ),
     )..interceptors.add(authInterceptor);
   }
