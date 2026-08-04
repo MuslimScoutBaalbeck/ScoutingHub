@@ -11,9 +11,7 @@ final class EmailVerificationService {
     final response = await _api.verificationStatus();
     final body = _asJsonMap(response.data);
     final data = body['data'];
-    final payload = data is Map
-        ? Map<String, Object?>.from(data)
-        : body;
+    final payload = data is Map ? Map<String, Object?>.from(data) : body;
 
     return payload['verified'] as bool? ?? false;
   }

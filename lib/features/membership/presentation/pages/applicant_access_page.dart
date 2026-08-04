@@ -197,7 +197,7 @@ class _MembershipRequestWizard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final cubit =getIt<MembershipRequestWizardCubit>();
+        final cubit = getIt<MembershipRequestWizardCubit>();
         unawaited(cubit.load());
         return cubit;
       },

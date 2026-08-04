@@ -63,8 +63,7 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
     });
     final body = _asJsonMap(response.data);
 
-    if (response.response.statusCode == 422 &&
-        _hasEmailValidationError(body)) {
+    if (response.response.statusCode == 422 && _hasEmailValidationError(body)) {
       throw EmailAlreadyExistsException();
     }
 
@@ -122,9 +121,7 @@ final class LaravelAuthRemoteDataSource implements AuthRemoteDataSource {
     _ensureSuccess(response.response.statusCode, body);
     final data = _unwrapData(body);
     final userValue = data['user'];
-    final user = userValue is Map
-        ? Map<String, Object?>.from(userValue)
-        : data;
+    final user = userValue is Map ? Map<String, Object?>.from(userValue) : data;
 
     return AuthResponseDto.fromJson({
       'token': token,
