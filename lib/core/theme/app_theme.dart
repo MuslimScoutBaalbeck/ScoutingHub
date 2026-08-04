@@ -107,6 +107,11 @@ abstract final class AppTheme {
               ),
             );
 
+    final defaultInputBorder = OutlineInputBorder(
+      borderRadius: AppRadius.medium,
+      borderSide: BorderSide(color: colorScheme.outlineVariant),
+    );
+
     return ThemeData(
       useMaterial3: true,
       brightness: colorScheme.brightness,
@@ -148,17 +153,21 @@ abstract final class AppTheme {
         hintStyle: TextStyle(color: colorScheme.onSurfaceVariant),
         prefixIconColor: colorScheme.onSurfaceVariant,
         suffixIconColor: colorScheme.onSurfaceVariant,
-        border: OutlineInputBorder(
-          borderRadius: AppRadius.medium,
-          borderSide: BorderSide(color: colorScheme.outline),
+        border: defaultInputBorder,
+        enabledBorder: defaultInputBorder,
+        disabledBorder: defaultInputBorder.copyWith(
+          borderSide: BorderSide(
+            color: colorScheme.outlineVariant.withValues(alpha: .55),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: AppRadius.medium,
-          borderSide: BorderSide(color: colorScheme.outlineVariant),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: AppRadius.medium,
+        focusedBorder: defaultInputBorder.copyWith(
           borderSide: BorderSide(color: colorScheme.primary, width: 1.8),
+        ),
+        errorBorder: defaultInputBorder.copyWith(
+          borderSide: BorderSide(color: colorScheme.error),
+        ),
+        focusedErrorBorder: defaultInputBorder.copyWith(
+          borderSide: BorderSide(color: colorScheme.error, width: 1.8),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
