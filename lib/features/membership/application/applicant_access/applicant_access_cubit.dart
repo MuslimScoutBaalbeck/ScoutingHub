@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:scouting_hub/features/membership/data/services/email_verification_service.dart';
 
 part 'applicant_access_cubit.freezed.dart';
 part 'applicant_access_state.dart';
@@ -28,18 +29,36 @@ enum ApplicantRequestType {
 
 @singleton
 final class ApplicantAccessCubit extends HydratedCubit<ApplicantAccessState> {
-  ApplicantAccessCubit() : super(const ApplicantAccessState());
+  ApplicantAccessCubit(this._emailVerificationService)
+      : super(const ApplicantAccessState());
 
-  void startSession({required String email}) {
-    if (state.email == email) {
-      return;
+  final EmailVerificationService _emailVerificationService;
+
+  Future<void> startSession({required String email}) async {
+    if (state.email != email) {
+      emit(ApplicantAccessState(email: email));
     }
 
-    emit(ApplicantAccessState(email: email));
+    await refreshEmailVerificationStatus();
   }
 
-  void markEmailVerified() {
-    emit(state.copyWith(emailVerified: true));
+  Future<bool> refreshEmailVerificationStatus() async {
+    try {
+      final verified = await _emailVerificationService.isVerified();
+      emit(state.copyWith(emailVerified: verified));
+      return verified;
+    } on Object {
+      return false;
+    }
+  }
+
+  Future<bool> resendEmailVerification() async {
+    try {
+      await _emailVerificationService.resend();
+      return true;
+    } on Object {
+      return false;
+    }
   }
 
   void submitMembershipRequest({

@@ -1,23 +1,23 @@
 {
   "governorates": [
-    {"id": 1, "name": "Baalbek-Hermel"},
-    {"id": 2, "name": "Bekaa"}
+    {"id": 1, "nameEn": "Baalbek-Hermel", "nameAr": "بعلبك الهرمل"},
+    {"id": 2, "nameEn": "Bekaa", "nameAr": "البقاع"}
   ],
   "districts": [
-    {"id": 11, "governorateId": 1, "name": "Baalbek"},
-    {"id": 12, "governorateId": 1, "name": "Hermel"},
-    {"id": 21, "governorateId": 2, "name": "Zahle"}
+    {"id": 11, "governorateId": 1, "nameEn": "Baalbek", "nameAr": "بعلبك"},
+    {"id": 12, "governorateId": 1, "nameEn": "Hermel", "nameAr": "الهرمل"},
+    {"id": 21, "governorateId": 2, "nameEn": "Zahle", "nameAr": "زحلة"}
   ],
   "cadasters": [
-    {"id": 111, "districtId": 11, "name": "Baalbek", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 112, "districtId": 11, "name": "Douris", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 113, "districtId": 11, "name": "Arsal", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 121, "districtId": 12, "name": "Hermel", "commissionId": 1, "commissionName": "Baalbek-Hermel Commission"},
-    {"id": 211, "districtId": 21, "name": "Zahle", "commissionId": 2, "commissionName": "Bekaa Commission"}
+    {"id": 111, "districtId": 11, "nameEn": "Baalbek", "nameAr": "بعلبك", "commissionId": 1, "commissionNameEn": "Baalbek-Hermel Commission", "commissionNameAr": "مفوضية بعلبك الهرمل"},
+    {"id": 112, "districtId": 11, "nameEn": "Douris", "nameAr": "دورس", "commissionId": 1, "commissionNameEn": "Baalbek-Hermel Commission", "commissionNameAr": "مفوضية بعلبك الهرمل"},
+    {"id": 113, "districtId": 11, "nameEn": "Arsal", "nameAr": "عرسال", "commissionId": 1, "commissionNameEn": "Baalbek-Hermel Commission", "commissionNameAr": "مفوضية بعلبك الهرمل"},
+    {"id": 121, "districtId": 12, "nameEn": "Hermel", "nameAr": "الهرمل", "commissionId": 1, "commissionNameEn": "Baalbek-Hermel Commission", "commissionNameAr": "مفوضية بعلبك الهرمل"},
+    {"id": 211, "districtId": 21, "nameEn": "Zahle", "nameAr": "زحلة", "commissionId": 2, "commissionNameEn": "Bekaa Commission", "commissionNameAr": "مفوضية البقاع"}
   ],
   "troops": [
-    {"id": 1001, "cadasterId": 111, "name": "Baalbek Troop", "address": "Baalbek", "acceptingMembers": true},
-    {"id": 1002, "cadasterId": 112, "name": "Douris Troop", "address": "Douris", "acceptingMembers": true},
-    {"id": 1003, "cadasterId": 211, "name": "Zahle Troop", "address": "Zahle", "acceptingMembers": false}
+    {"id": 1001, "cadasterId": 111, "nameEn": "Baalbek Troop", "nameAr": "فوج بعلبك", "addressEn": "Baalbek", "addressAr": "بعلبك", "acceptingMembers": true},
+    {"id": 1002, "cadasterId": 112, "nameEn": "Douris Troop", "nameAr": "فوج دورس", "addressEn": "Douris", "addressAr": "دورس", "acceptingMembers": true},
+    {"id": 1003, "cadasterId": 211, "nameEn": "Zahle Troop", "nameAr": "فوج زحلة", "addressEn": "Zahle", "addressAr": "زحلة", "acceptingMembers": false}
   ]
 }

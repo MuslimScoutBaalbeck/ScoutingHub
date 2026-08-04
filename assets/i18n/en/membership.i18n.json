@@ -4,7 +4,9 @@
     "description": "We sent a verification link to $email. You cannot access the home page before verification.",
     "verified_action": "I verified my email",
     "resend_action": "Resend verification email",
-    "resent": "Verification email sent."
+    "resent": "Verification email sent.",
+    "not_verified": "Your email is not verified yet. Open the verification link, then try again.",
+    "resend_failed": "Unable to resend the verification email. Please try again."
   },
   "request": {
     "title": "Membership request",
@@ -26,6 +28,7 @@
     "choose_troop": "Choose a troop",
     "no_troop_title": "No troop is currently available in this area",
     "no_troop_description": "Your request will be sent to $commission. They may contact you when a nearby troop becomes available or when there is enough interest to establish a new troop.",
+    "responsible_commission": "the responsible commission",
     "review_title": "Review request",
     "name": "Name",
     "destination": "Destination",
@@ -36,15 +39,22 @@
     "required": "Required",
     "select_location_error": "Select governorate, district, and cadaster.",
     "select_troop_error": "Select a troop.",
+    "load_failed": "Unable to load membership data.",
+    "retry": "Retry",
     "back": "Back",
     "next": "Next",
     "submit": "Submit request"
   },
   "status": {
     "title": "Request status",
+    "submitted": "Request submitted",
     "under_review": "Your request is under review",
+    "needs_information": "Additional information required",
+    "approved": "Approved",
+    "rejected": "Rejected",
     "request_number": "Request number: $number",
     "destination": "Sent to: $destination",
+    "current_status": "Current status: $status",
     "notification_notice": "You will receive a notification when your request is approved.",
     "approved_notification": "Your membership request has been approved.",
     "debug_approve": "Debug: approve request"

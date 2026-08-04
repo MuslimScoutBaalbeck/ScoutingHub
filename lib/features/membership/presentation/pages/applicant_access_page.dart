@@ -17,10 +17,7 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<ApplicantAccessCubit>(),
-      child: this,
-    );
+    return BlocProvider.value(value: getIt<ApplicantAccessCubit>(), child: this);
   }
 
   @override
@@ -56,10 +53,7 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
       },
       builder: (context, state) {
         return switch (state.destination) {
-          ApplicantDestination.verifyEmail => _VerifyEmailView(
-            email: email,
-            onVerified: cubit.markEmailVerified,
-          ),
+          ApplicantDestination.verifyEmail => _VerifyEmailView(email: email),
           ApplicantDestination.membershipRequest => _MembershipRequestWizard(
             name: user?.name ?? '',
             email: email,
@@ -81,11 +75,18 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
   }
 }
 
-class _VerifyEmailView extends StatelessWidget {
-  const _VerifyEmailView({required this.email, required this.onVerified});
+class _VerifyEmailView extends StatefulWidget {
+  const _VerifyEmailView({required this.email});
 
   final String email;
-  final VoidCallback onVerified;
+
+  @override
+  State<_VerifyEmailView> createState() => _VerifyEmailViewState();
+}
+
+class _VerifyEmailViewState extends State<_VerifyEmailView> {
+  bool _isChecking = false;
+  bool _isResending = false;
 
   @override
   Widget build(BuildContext context) {
@@ -117,22 +118,20 @@ class _VerifyEmailView extends StatelessWidget {
                 ),
                 AppGap.verticalSm,
                 AppText.paragraph(
-                  strings.description(email: email),
+                  strings.description(email: widget.email),
                   textAlign: TextAlign.center,
                 ),
                 AppGap.verticalXl,
                 AppButton.filled(
                   label: strings.verified_action,
-                  onPressed: onVerified,
+                  isLoading: _isChecking,
+                  onPressed: _isChecking ? null : _checkVerification,
                 ),
                 AppGap.verticalSm,
                 AppButton.outline(
                   label: strings.resend_action,
-                  onPressed: () {
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(SnackBar(content: Text(strings.resent)));
-                  },
+                  isLoading: _isResending,
+                  onPressed: _isResending ? null : _resendVerification,
                 ),
               ],
             ),
@@ -140,6 +139,44 @@ class _VerifyEmailView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _checkVerification() async {
+    setState(() => _isChecking = true);
+    final verified = await context
+        .read<ApplicantAccessCubit>()
+        .refreshEmailVerificationStatus();
+    if (!mounted) return;
+    setState(() => _isChecking = false);
+
+    if (!verified) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text(context.t.membership.verify_email.not_verified)),
+        );
+    }
+  }
+
+  Future<void> _resendVerification() async {
+    setState(() => _isResending = true);
+    final sent = await context
+        .read<ApplicantAccessCubit>()
+        .resendEmailVerification();
+    if (!mounted) return;
+    setState(() => _isResending = false);
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            sent
+                ? context.t.membership.verify_email.resent
+                : context.t.membership.verify_email.resend_failed,
+          ),
+        ),
+      );
   }
 }
 
@@ -196,10 +233,8 @@ class _MembershipRequestWizardBodyState
   Widget build(BuildContext context) {
     final strings = context.t.membership.request;
 
-    return BlocBuilder<
-        MembershipRequestWizardCubit,
-        MembershipRequestWizardState
-    >(
+    return BlocBuilder<MembershipRequestWizardCubit,
+        MembershipRequestWizardState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -207,7 +242,7 @@ class _MembershipRequestWizardBodyState
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(strings.title, style: Theme.of(context).textTheme.titleMedium),
+                Text(strings.title),
                 Text(
                   '${state.currentStep + 1}/${state.lastStep + 1}',
                   style: Theme.of(context).textTheme.bodySmall,
@@ -229,9 +264,9 @@ class _MembershipRequestWizardBodyState
               : Column(
             children: [
               LinearProgressIndicator(
-                value: (state.currentStep + 1) / (state.lastStep + 1),
+                value:
+                (state.currentStep + 1) / (state.lastStep + 1),
               ),
-              AppGap.verticalLg,
               Expanded(
                 child: IndexedStack(
                   index: state.currentStep,
@@ -261,7 +296,7 @@ class _MembershipRequestWizardBodyState
     );
   }
 
-  Widget _personalStep(Translations$membership$request$en strings) {
+  Widget _personalStep(dynamic strings) {
     return Form(
       key: _personalFormKey,
       child: ListView(
@@ -303,7 +338,7 @@ class _MembershipRequestWizardBodyState
 
   Widget _locationStep(
       MembershipRequestWizardState state,
-      Translations$membership$request$en strings,
+      dynamic strings,
       ) {
     final cubit = context.read<MembershipRequestWizardCubit>();
 
@@ -362,7 +397,7 @@ class _MembershipRequestWizardBodyState
 
   Widget _troopStep(
       MembershipRequestWizardState state,
-      Translations$membership$request$en strings,
+      dynamic strings,
       ) {
     final cubit = context.read<MembershipRequestWizardCubit>();
 
@@ -442,7 +477,7 @@ class _MembershipRequestWizardBodyState
 
   Widget _reviewStep(
       MembershipRequestWizardState state,
-      Translations$membership$request$en strings,
+      dynamic strings,
       ) {
     final typeLabel = state.sendsToCommission
         ? strings.commission_interest
@@ -493,12 +528,13 @@ class _MembershipRequestWizardBodyState
       controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(labelText: label),
-      validator: (value) =>
-      value == null || value.trim().isEmpty ? requiredMessage : null,
+      validator: (value) => value == null || value.trim().isEmpty
+          ? requiredMessage
+          : null,
     );
   }
 
-  void _next(MembershipRequestWizardState state, Translations$membership$request$en strings) {
+  void _next(MembershipRequestWizardState state, dynamic strings) {
     if (state.currentStep == 0 &&
         !(_personalFormKey.currentState?.validate() ?? false)) {
       return;
@@ -567,29 +603,23 @@ class _WizardControls extends StatelessWidget {
       top: false,
       child: Padding(
         padding: AppSpacing.page,
-        child: Column(
+        child: Row(
           children: [
-            Row(
-              children: [
-                if (canGoBack) ...[
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: onBack,
-                      child: Text(backLabel),
-                    ),
-                  ),
-                  AppGap.horizontalSm,
-                ],
-                Expanded(
-                  child: FilledButton(
-                    onPressed: onNext,
-                    child: Text(isLastStep ? submitLabel : nextLabel),
-                  ),
+            if (canGoBack) ...[
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: onBack,
+                  child: Text(backLabel),
                 ),
-
-              ],
+              ),
+              AppGap.horizontalSm,
+            ],
+            Expanded(
+              child: FilledButton(
+                onPressed: onNext,
+                child: Text(isLastStep ? submitLabel : nextLabel),
+              ),
             ),
-            AppGap.verticalSm,
           ],
         ),
       ),
@@ -675,14 +705,12 @@ class _RequestStatusView extends StatelessWidget {
                     ),
                     _StatusStep(
                       label: strings.under_review,
-                      complete:
-                      state.requestStatus !=
+                      complete: state.requestStatus !=
                           ApplicantRequestStatus.submitted,
                     ),
                     _StatusStep(
                       label: strings.approved_notification,
-                      complete:
-                      state.requestStatus ==
+                      complete: state.requestStatus ==
                           ApplicantRequestStatus.approved,
                       isLast: true,
                     ),

@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:scouting_hub/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:scouting_hub/features/auth/data/datasources/fake_auth_remote_data_source.dart';
+import 'package:scouting_hub/features/auth/data/datasources/laravel_auth_remote_data_source.dart';
 import 'package:scouting_hub/features/auth/data/mappers/auth_mapper.dart';
 import 'package:scouting_hub/features/auth/domain/entities/auth_session.dart';
 import 'package:scouting_hub/features/auth/domain/failures/auth_failure.dart';
@@ -24,9 +24,9 @@ final class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       return Right(response.toDomain());
-    } on FakeInvalidCredentialsException {
+    } on InvalidCredentialsException {
       return const Left(InvalidCredentialsFailure());
-    } on Exception catch (_) {
+    } on Exception {
       return const Left(UnexpectedAuthFailure());
     }
   }
@@ -44,9 +44,9 @@ final class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       return Right(response.toDomain());
-    } on FakeEmailAlreadyExistsException {
+    } on EmailAlreadyExistsException {
       return const Left(EmailAlreadyExistsFailure());
-    } on Exception catch (_) {
+    } on Exception {
       return const Left(UnexpectedAuthFailure());
     }
   }
@@ -58,7 +58,7 @@ final class AuthRepositoryImpl implements AuthRepository {
     try {
       await _remoteDataSource.forgotPassword(email: email);
       return const Right(unit);
-    } on Exception catch (_) {
+    } on Exception {
       return const Left(UnexpectedAuthFailure());
     }
   }
@@ -76,9 +76,9 @@ final class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       return const Right(unit);
-    } on FakeInvalidResetCodeException {
+    } on InvalidResetCodeException {
       return const Left(InvalidResetCodeFailure());
-    } on Exception catch (_) {
+    } on Exception {
       return const Left(UnexpectedAuthFailure());
     }
   }
@@ -88,7 +88,7 @@ final class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _remoteDataSource.restoreSession();
       return Right(response?.toDomain());
-    } on Exception catch (_) {
+    } on Exception {
       return const Left(UnexpectedAuthFailure());
     }
   }
@@ -98,7 +98,7 @@ final class AuthRepositoryImpl implements AuthRepository {
     try {
       await _remoteDataSource.logout();
       return const Right(unit);
-    } on Exception catch (_) {
+    } on Exception {
       return const Left(UnexpectedAuthFailure());
     }
   }
