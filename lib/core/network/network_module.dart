@@ -7,9 +7,7 @@ import 'package:scouting_hub/core/network/auth_interceptor.dart';
 @module
 abstract class NetworkModule {
   @lazySingleton
-  FlutterSecureStorage get secureStorage => const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
+  FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
 
   @lazySingleton
   Dio dio(AuthInterceptor authInterceptor) {
