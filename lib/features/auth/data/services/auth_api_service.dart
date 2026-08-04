@@ -11,28 +11,28 @@ abstract class AuthApiService {
   factory AuthApiService(Dio dio) = _AuthApiService;
 
   @POST('/auth/login')
-  Future<Map<String, dynamic>> login(
+  Future<HttpResponse<Map<String, dynamic>>> login(
     @Body() Map<String, dynamic> body,
   );
 
   @POST('/auth/register')
-  Future<Map<String, dynamic>> register(
+  Future<HttpResponse<Map<String, dynamic>>> register(
     @Body() Map<String, dynamic> body,
   );
 
   @POST('/auth/forgot-password')
-  Future<void> forgotPassword(
+  Future<HttpResponse<Map<String, dynamic>>> forgotPassword(
     @Body() Map<String, dynamic> body,
   );
 
   @POST('/auth/reset-password')
-  Future<void> resetPassword(
+  Future<HttpResponse<Map<String, dynamic>>> resetPassword(
     @Body() Map<String, dynamic> body,
   );
 
   @GET('/auth/me')
-  Future<Map<String, dynamic>> me();
+  Future<HttpResponse<Map<String, dynamic>>> me();
 
   @POST('/auth/logout')
-  Future<void> logout();
+  Future<HttpResponse<Map<String, dynamic>>> logout();
 }
