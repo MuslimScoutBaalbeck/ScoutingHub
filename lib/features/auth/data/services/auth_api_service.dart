@@ -11,34 +11,34 @@ abstract class AuthApiService {
   factory AuthApiService(Dio dio) = _AuthApiService;
 
   @POST('/auth/login')
-  Future<HttpResponse<Map<String, dynamic>>> login(
-    @Body() Map<String, dynamic> body,
+  Future<HttpResponse<Object?>> login(
+    @Body() Map<String, Object?> body,
   );
 
   @POST('/auth/register')
-  Future<HttpResponse<Map<String, dynamic>>> register(
-    @Body() Map<String, dynamic> body,
+  Future<HttpResponse<Object?>> register(
+    @Body() Map<String, Object?> body,
   );
 
   @POST('/auth/forgot-password')
-  Future<HttpResponse<Map<String, dynamic>>> forgotPassword(
-    @Body() Map<String, dynamic> body,
+  Future<HttpResponse<Object?>> forgotPassword(
+    @Body() Map<String, Object?> body,
   );
 
   @POST('/auth/reset-password')
-  Future<HttpResponse<Map<String, dynamic>>> resetPassword(
-    @Body() Map<String, dynamic> body,
+  Future<HttpResponse<Object?>> resetPassword(
+    @Body() Map<String, Object?> body,
   );
 
   @GET('/auth/me')
-  Future<HttpResponse<Map<String, dynamic>>> me();
+  Future<HttpResponse<Object?>> me();
 
   @POST('/auth/logout')
-  Future<HttpResponse<Map<String, dynamic>>> logout();
+  Future<HttpResponse<Object?>> logout();
 
   @GET('/auth/email/verification-status')
-  Future<HttpResponse<Map<String, dynamic>>> verificationStatus();
+  Future<HttpResponse<Object?>> verificationStatus();
 
   @POST('/auth/email/verification-notification')
-  Future<HttpResponse<Map<String, dynamic>>> resendVerification();
+  Future<HttpResponse<Object?>> resendVerification();
 }
