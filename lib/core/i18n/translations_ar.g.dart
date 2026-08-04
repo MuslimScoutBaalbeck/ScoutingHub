@@ -10,7 +10,8 @@ import 'package:slang/generated.dart';
 import 'translations.g.dart';
 
 // Path: <root>
-class TranslationsAr extends Translations with BaseTranslations<AppLocale, Translations> {
+class TranslationsAr extends Translations
+    with BaseTranslations<AppLocale, Translations> {
   /// You can call this constructor and build your own translation instance of this locale.
   /// Constructing via the enum [AppLocale.build] is preferred.
   TranslationsAr({
@@ -18,7 +19,10 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
     PluralResolver? cardinalResolver,
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
-  }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
+  }) : assert(
+         overrides == null,
+         'Set "translation_overrides: true" in order to enable this feature.',
+       ),
        $meta =
            meta ??
            TranslationMetadata(
@@ -27,7 +31,10 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
              cardinalResolver: cardinalResolver,
              ordinalResolver: ordinalResolver,
            ),
-       super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver);
+       super(
+         cardinalResolver: cardinalResolver,
+         ordinalResolver: ordinalResolver,
+       );
 
   /// Metadata for the translations of <ar>.
   @override
@@ -36,8 +43,9 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
   late final TranslationsAr _root = this; // ignore: unused_field
 
   @override
-  TranslationsAr $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) =>
-      TranslationsAr(meta: meta ?? this.$meta);
+  TranslationsAr $copyWith({
+    TranslationMetadata<AppLocale, Translations>? meta,
+  }) => TranslationsAr(meta: meta ?? this.$meta);
 
   // Translations
   @override
@@ -47,18 +55,25 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
   @override
   late final _Translations$home$ar home = _Translations$home$ar._(_root);
   @override
-  late final _Translations$language$ar language = _Translations$language$ar._(_root);
+  late final _Translations$language$ar language = _Translations$language$ar._(
+    _root,
+  );
   @override
-  late final _Translations$membership$ar membership = _Translations$membership$ar._(_root);
+  late final _Translations$membership$ar membership =
+      _Translations$membership$ar._(_root);
   @override
   late final _Translations$people$ar people = _Translations$people$ar._(_root);
   @override
-  late final _Translations$startup$ar startup = _Translations$startup$ar._(_root);
+  late final _Translations$startup$ar startup = _Translations$startup$ar._(
+    _root,
+  );
 }
 
 // Path: app
 class _Translations$app$ar extends Translations$app$en {
-  _Translations$app$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$app$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -74,51 +89,73 @@ class _Translations$app$ar extends Translations$app$en {
 
 // Path: auth
 class _Translations$auth$ar extends Translations$auth$en {
-  _Translations$auth$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$auth$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
   // Translations
   @override
-  late final _Translations$auth$errors$ar errors = _Translations$auth$errors$ar._(_root);
+  late final _Translations$auth$errors$ar errors =
+      _Translations$auth$errors$ar._(_root);
   @override
-  late final _Translations$auth$forgot_password$ar forgot_password = _Translations$auth$forgot_password$ar._(_root);
+  late final _Translations$auth$forgot_password$ar forgot_password =
+      _Translations$auth$forgot_password$ar._(_root);
   @override
-  late final _Translations$auth$login$ar login = _Translations$auth$login$ar._(_root);
+  late final _Translations$auth$login$ar login = _Translations$auth$login$ar._(
+    _root,
+  );
   @override
-  late final _Translations$auth$register$ar register = _Translations$auth$register$ar._(_root);
+  late final _Translations$auth$register$ar register =
+      _Translations$auth$register$ar._(_root);
   @override
-  late final _Translations$auth$reset_password$ar reset_password = _Translations$auth$reset_password$ar._(_root);
+  late final _Translations$auth$reset_password$ar reset_password =
+      _Translations$auth$reset_password$ar._(_root);
   @override
-  late final _Translations$auth$welcome$ar welcome = _Translations$auth$welcome$ar._(_root);
+  late final _Translations$auth$welcome$ar welcome =
+      _Translations$auth$welcome$ar._(_root);
 }
 
 // Path: home
 class _Translations$home$ar extends Translations$home$en {
-  _Translations$home$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
   // Translations
   @override
-  late final _Translations$home$navigation$ar navigation = _Translations$home$navigation$ar._(_root);
+  late final _Translations$home$navigation$ar navigation =
+      _Translations$home$navigation$ar._(_root);
   @override
-  late final _Translations$home$dashboard$ar dashboard = _Translations$home$dashboard$ar._(_root);
+  late final _Translations$home$dashboard$ar dashboard =
+      _Translations$home$dashboard$ar._(_root);
   @override
-  late final _Translations$home$tasks$ar tasks = _Translations$home$tasks$ar._(_root);
+  late final _Translations$home$tasks$ar tasks = _Translations$home$tasks$ar._(
+    _root,
+  );
   @override
-  late final _Translations$home$calendar$ar calendar = _Translations$home$calendar$ar._(_root);
+  late final _Translations$home$calendar$ar calendar =
+      _Translations$home$calendar$ar._(_root);
   @override
-  late final _Translations$home$more$ar more = _Translations$home$more$ar._(_root);
+  late final _Translations$home$more$ar more = _Translations$home$more$ar._(
+    _root,
+  );
   @override
-  late final _Translations$home$create$ar create = _Translations$home$create$ar._(_root);
+  late final _Translations$home$create$ar create =
+      _Translations$home$create$ar._(_root);
   @override
-  late final _Translations$home$common$ar common = _Translations$home$common$ar._(_root);
+  late final _Translations$home$common$ar common =
+      _Translations$home$common$ar._(_root);
 }
 
 // Path: language
 class _Translations$language$ar extends Translations$language$en {
-  _Translations$language$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$language$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -131,22 +168,29 @@ class _Translations$language$ar extends Translations$language$en {
 
 // Path: membership
 class _Translations$membership$ar extends Translations$membership$en {
-  _Translations$membership$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$membership$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
   // Translations
   @override
-  late final _Translations$membership$verify_email$ar verify_email = _Translations$membership$verify_email$ar._(_root);
+  late final _Translations$membership$verify_email$ar verify_email =
+      _Translations$membership$verify_email$ar._(_root);
   @override
-  late final _Translations$membership$request$ar request = _Translations$membership$request$ar._(_root);
+  late final _Translations$membership$request$ar request =
+      _Translations$membership$request$ar._(_root);
   @override
-  late final _Translations$membership$status$ar status = _Translations$membership$status$ar._(_root);
+  late final _Translations$membership$status$ar status =
+      _Translations$membership$status$ar._(_root);
 }
 
 // Path: people
 class _Translations$people$ar extends Translations$people$en {
-  _Translations$people$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$people$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -222,7 +266,8 @@ class _Translations$people$ar extends Translations$people$en {
   @override
   String get membership_requests => 'طلبات الانتساب';
   @override
-  String get request_subtitle => 'مراجعة ومعالجة طلبات الانتساب الجديدة إلى الفوج';
+  String get request_subtitle =>
+      'مراجعة ومعالجة طلبات الانتساب الجديدة إلى الفوج';
   @override
   String get new_request => 'طلب انتساب جديد';
   @override
@@ -304,12 +349,15 @@ class _Translations$people$ar extends Translations$people$en {
   @override
   String get saved => 'تم حفظ العضو بنجاح.';
   @override
-  late final _Translations$people$stages$ar stages = _Translations$people$stages$ar._(_root);
+  late final _Translations$people$stages$ar stages =
+      _Translations$people$stages$ar._(_root);
 }
 
 // Path: startup
 class _Translations$startup$ar extends Translations$startup$en {
-  _Translations$startup$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$startup$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -328,7 +376,9 @@ class _Translations$startup$ar extends Translations$startup$en {
 
 // Path: auth.errors
 class _Translations$auth$errors$ar extends Translations$auth$errors$en {
-  _Translations$auth$errors$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$auth$errors$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -336,18 +386,22 @@ class _Translations$auth$errors$ar extends Translations$auth$errors$en {
   @override
   String get email_required => 'البريد الإلكتروني مطلوب.';
   @override
-  String get email_password_required => 'البريد الإلكتروني وكلمة المرور مطلوبان.';
+  String get email_password_required =>
+      'البريد الإلكتروني وكلمة المرور مطلوبان.';
   @override
   String get registration_fields_invalid =>
       'أدخل الاسم والبريد الإلكتروني بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.';
   @override
   String get password_mismatch => 'تأكيد كلمة المرور غير مطابق.';
   @override
-  String get reset_fields_invalid => 'أكمل جميع الحقول بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.';
+  String get reset_fields_invalid =>
+      'أكمل جميع الحقول بشكل صحيح، واستخدم كلمة مرور من 8 أحرف على الأقل.';
   @override
-  String get invalid_credentials => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+  String get invalid_credentials =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
   @override
-  String get email_already_exists => 'يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني.';
+  String get email_already_exists =>
+      'يوجد حساب مسجل مسبقاً بهذا البريد الإلكتروني.';
   @override
   String get invalid_reset_code => 'رمز إعادة تعيين كلمة المرور غير صحيح.';
   @override
@@ -357,8 +411,11 @@ class _Translations$auth$errors$ar extends Translations$auth$errors$en {
 }
 
 // Path: auth.forgot_password
-class _Translations$auth$forgot_password$ar extends Translations$auth$forgot_password$en {
-  _Translations$auth$forgot_password$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$auth$forgot_password$ar
+    extends Translations$auth$forgot_password$en {
+  _Translations$auth$forgot_password$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -381,7 +438,9 @@ class _Translations$auth$forgot_password$ar extends Translations$auth$forgot_pas
 
 // Path: auth.login
 class _Translations$auth$login$ar extends Translations$auth$login$en {
-  _Translations$auth$login$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$auth$login$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -426,14 +485,17 @@ class _Translations$auth$login$ar extends Translations$auth$login$en {
   @override
   String get demo_credentials => 'للتجربة: demo@example.com / password';
   @override
-  String get invalid_credentials => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+  String get invalid_credentials =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
   @override
   String get required_fields => 'البريد الإلكتروني وكلمة المرور مطلوبان.';
 }
 
 // Path: auth.register
 class _Translations$auth$register$ar extends Translations$auth$register$en {
-  _Translations$auth$register$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$auth$register$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -441,7 +503,8 @@ class _Translations$auth$register$ar extends Translations$auth$register$en {
   @override
   String get title => 'إنشاء حساب جديد';
   @override
-  String get subtitle => 'انضم إلى منصة الكشاف واحتفظ بمواردك الكشفية في مكان واحد.';
+  String get subtitle =>
+      'انضم إلى منصة الكشاف واحتفظ بمواردك الكشفية في مكان واحد.';
   @override
   String get name => 'الاسم الكامل';
   @override
@@ -465,8 +528,11 @@ class _Translations$auth$register$ar extends Translations$auth$register$en {
 }
 
 // Path: auth.reset_password
-class _Translations$auth$reset_password$ar extends Translations$auth$reset_password$en {
-  _Translations$auth$reset_password$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$auth$reset_password$ar
+    extends Translations$auth$reset_password$en {
+  _Translations$auth$reset_password$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -474,7 +540,8 @@ class _Translations$auth$reset_password$ar extends Translations$auth$reset_passw
   @override
   String get title => 'إعادة تعيين كلمة المرور';
   @override
-  String get subtitle => 'أدخل رمز إعادة التعيين التجريبي واختر كلمة مرور جديدة.';
+  String get subtitle =>
+      'أدخل رمز إعادة التعيين التجريبي واختر كلمة مرور جديدة.';
   @override
   String get email => 'البريد الإلكتروني';
   @override
@@ -488,14 +555,17 @@ class _Translations$auth$reset_password$ar extends Translations$auth$reset_passw
   @override
   String get success => 'تمت إعادة تعيين كلمة المرور. يمكنك تسجيل الدخول الآن.';
   @override
-  String get invalid_code => 'رمز إعادة التعيين غير صحيح. استخدم 123456 للتجربة.';
+  String get invalid_code =>
+      'رمز إعادة التعيين غير صحيح. استخدم 123456 للتجربة.';
   @override
   String get validation_error => 'أكمل جميع الحقول بشكل صحيح.';
 }
 
 // Path: auth.welcome
 class _Translations$auth$welcome$ar extends Translations$auth$welcome$en {
-  _Translations$auth$welcome$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$auth$welcome$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -532,7 +602,9 @@ class _Translations$auth$welcome$ar extends Translations$auth$welcome$en {
 
 // Path: home.navigation
 class _Translations$home$navigation$ar extends Translations$home$navigation$en {
-  _Translations$home$navigation$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$navigation$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -549,7 +621,9 @@ class _Translations$home$navigation$ar extends Translations$home$navigation$en {
 
 // Path: home.dashboard
 class _Translations$home$dashboard$ar extends Translations$home$dashboard$en {
-  _Translations$home$dashboard$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$dashboard$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -596,7 +670,9 @@ class _Translations$home$dashboard$ar extends Translations$home$dashboard$en {
 
 // Path: home.tasks
 class _Translations$home$tasks$ar extends Translations$home$tasks$en {
-  _Translations$home$tasks$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$tasks$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -627,7 +703,9 @@ class _Translations$home$tasks$ar extends Translations$home$tasks$en {
 
 // Path: home.calendar
 class _Translations$home$calendar$ar extends Translations$home$calendar$en {
-  _Translations$home$calendar$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$calendar$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -648,7 +726,9 @@ class _Translations$home$calendar$ar extends Translations$home$calendar$en {
 
 // Path: home.more
 class _Translations$home$more$ar extends Translations$home$more$en {
-  _Translations$home$more$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$more$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -683,7 +763,9 @@ class _Translations$home$more$ar extends Translations$home$more$en {
 
 // Path: home.create
 class _Translations$home$create$ar extends Translations$home$create$en {
-  _Translations$home$create$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$create$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -712,7 +794,9 @@ class _Translations$home$create$ar extends Translations$home$create$en {
 
 // Path: home.common
 class _Translations$home$common$ar extends Translations$home$common$en {
-  _Translations$home$common$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$home$common$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -724,8 +808,11 @@ class _Translations$home$common$ar extends Translations$home$common$en {
 }
 
 // Path: membership.verify_email
-class _Translations$membership$verify_email$ar extends Translations$membership$verify_email$en {
-  _Translations$membership$verify_email$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$membership$verify_email$ar
+    extends Translations$membership$verify_email$en {
+  _Translations$membership$verify_email$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -742,14 +829,18 @@ class _Translations$membership$verify_email$ar extends Translations$membership$v
   @override
   String get resent => 'تم إرسال رسالة التحقق.';
   @override
-  String get not_verified => 'لم يتم التحقق من بريدك الإلكتروني بعد. افتح رابط التحقق ثم أعد المحاولة.';
+  String get not_verified =>
+      'لم يتم التحقق من بريدك الإلكتروني بعد. افتح رابط التحقق ثم أعد المحاولة.';
   @override
   String get resend_failed => 'تعذر إعادة إرسال رسالة التحقق. حاول مجدداً.';
 }
 
 // Path: membership.request
-class _Translations$membership$request$ar extends Translations$membership$request$en {
-  _Translations$membership$request$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$membership$request$ar
+    extends Translations$membership$request$en {
+  _Translations$membership$request$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -759,7 +850,8 @@ class _Translations$membership$request$ar extends Translations$membership$reques
   @override
   String get subtitle => 'أكمل طلب الانتساب قبل الدخول إلى التطبيق.';
   @override
-  late final _Translations$membership$request$steps$ar steps = _Translations$membership$request$steps$ar._(_root);
+  late final _Translations$membership$request$steps$ar steps =
+      _Translations$membership$request$steps$ar._(_root);
   @override
   String get full_name => 'الاسم الكامل';
   @override
@@ -802,7 +894,8 @@ class _Translations$membership$request$ar extends Translations$membership$reques
   @override
   String get required => 'هذا الحقل مطلوب';
   @override
-  String get select_location_error => 'اختر المحافظة والقضاء والعقار أو البلدة.';
+  String get select_location_error =>
+      'اختر المحافظة والقضاء والعقار أو البلدة.';
   @override
   String get select_troop_error => 'اختر فوجاً.';
   @override
@@ -818,8 +911,11 @@ class _Translations$membership$request$ar extends Translations$membership$reques
 }
 
 // Path: membership.status
-class _Translations$membership$status$ar extends Translations$membership$status$en {
-  _Translations$membership$status$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$membership$status$ar
+    extends Translations$membership$status$en {
+  _Translations$membership$status$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -839,9 +935,11 @@ class _Translations$membership$status$ar extends Translations$membership$status$
   @override
   String request_number({required Object number}) => 'رقم الطلب: ${number}';
   @override
-  String destination({required Object destination}) => 'أرسل إلى: ${destination}';
+  String destination({required Object destination}) =>
+      'أرسل إلى: ${destination}';
   @override
-  String current_status({required Object status}) => 'الحالة الحالية: ${status}';
+  String current_status({required Object status}) =>
+      'الحالة الحالية: ${status}';
   @override
   String get notification_notice => 'سيصلك إشعار عند قبول طلب الانتساب.';
   @override
@@ -852,7 +950,9 @@ class _Translations$membership$status$ar extends Translations$membership$status$
 
 // Path: people.stages
 class _Translations$people$stages$ar extends Translations$people$stages$en {
-  _Translations$people$stages$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+  _Translations$people$stages$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -868,8 +968,11 @@ class _Translations$people$stages$ar extends Translations$people$stages$en {
 }
 
 // Path: auth.login.adventure_words
-class _Translations$auth$login$adventure_words$ar extends Translations$auth$login$adventure_words$en {
-  _Translations$auth$login$adventure_words$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$auth$login$adventure_words$ar
+    extends Translations$auth$login$adventure_words$en {
+  _Translations$auth$login$adventure_words$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 
@@ -887,8 +990,11 @@ class _Translations$auth$login$adventure_words$ar extends Translations$auth$logi
 }
 
 // Path: membership.request.steps
-class _Translations$membership$request$steps$ar extends Translations$membership$request$steps$en {
-  _Translations$membership$request$steps$ar._(TranslationsAr root) : this._root = root, super.internal(root);
+class _Translations$membership$request$steps$ar
+    extends Translations$membership$request$steps$en {
+  _Translations$membership$request$steps$ar._(TranslationsAr root)
+    : this._root = root,
+      super.internal(root);
 
   final TranslationsAr _root; // ignore: unused_field
 

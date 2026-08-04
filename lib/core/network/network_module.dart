@@ -7,9 +7,7 @@ import 'package:scouting_hub/core/network/auth_interceptor.dart';
 @module
 abstract class NetworkModule {
   @lazySingleton
-  FlutterSecureStorage get secureStorage => const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-  );
+  FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
 
   @lazySingleton
   Dio dio(AuthInterceptor authInterceptor) {
@@ -20,7 +18,6 @@ abstract class NetworkModule {
         receiveTimeout: ApiConfig.receiveTimeout,
         sendTimeout: ApiConfig.sendTimeout,
         contentType: Headers.jsonContentType,
-        responseType: ResponseType.json,
         validateStatus: (status) => status != null && status < 500,
       ),
     )..interceptors.add(authInterceptor);

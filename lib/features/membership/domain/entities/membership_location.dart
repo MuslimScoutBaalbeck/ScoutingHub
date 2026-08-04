@@ -52,8 +52,7 @@ final class MembershipCadaster {
   final String commissionNameAr;
 
   String get name => _isArabic ? nameAr : nameEn;
-  String get commissionName =>
-      _isArabic ? commissionNameAr : commissionNameEn;
+  String get commissionName => _isArabic ? commissionNameAr : commissionNameEn;
 }
 
 final class MembershipTroop {

@@ -30,7 +30,7 @@ enum ApplicantRequestType {
 @singleton
 final class ApplicantAccessCubit extends HydratedCubit<ApplicantAccessState> {
   ApplicantAccessCubit(this._emailVerificationService)
-      : super(const ApplicantAccessState());
+    : super(const ApplicantAccessState());
 
   final EmailVerificationService _emailVerificationService;
 

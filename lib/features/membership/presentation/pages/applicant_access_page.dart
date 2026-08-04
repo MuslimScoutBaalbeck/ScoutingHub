@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,10 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider.value(value: getIt<ApplicantAccessCubit>(), child: this);
+    return BlocProvider.value(
+      value: getIt<ApplicantAccessCubit>(),
+      child: this,
+    );
   }
 
   @override
@@ -27,7 +32,7 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
     final cubit = context.read<ApplicantAccessCubit>();
 
     if (email.isNotEmpty && cubit.state.email != email) {
-      cubit.startSession(email: email);
+      unawaited(cubit.startSession(email: email));
     }
 
     return BlocConsumer<ApplicantAccessCubit, ApplicantAccessState>(
@@ -55,20 +60,20 @@ class ApplicantAccessPage extends StatelessWidget implements AutoRouteWrapper {
         return switch (state.destination) {
           ApplicantDestination.verifyEmail => _VerifyEmailView(email: email),
           ApplicantDestination.membershipRequest => _MembershipRequestWizard(
-              name: user?.name ?? '',
-              email: email,
-            ),
+            name: user?.name ?? '',
+            email: email,
+          ),
           ApplicantDestination.requestStatus => _RequestStatusView(
-              state: state,
-              onDebugApprove: kDebugMode
-                  ? () => cubit.updateRequestStatus(
-                        ApplicantRequestStatus.approved,
-                      )
-                  : null,
-            ),
+            state: state,
+            onDebugApprove: kDebugMode
+                ? () => cubit.updateRequestStatus(
+                    ApplicantRequestStatus.approved,
+                  )
+                : null,
+          ),
           ApplicantDestination.home => const Scaffold(
-              body: Center(child: CircularProgressIndicator()),
-            ),
+            body: Center(child: CircularProgressIndicator()),
+          ),
         };
       },
     );
@@ -153,7 +158,9 @@ class _VerifyEmailViewState extends State<_VerifyEmailView> {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
-          SnackBar(content: Text(context.t.membership.verify_email.not_verified)),
+          SnackBar(
+            content: Text(context.t.membership.verify_email.not_verified),
+          ),
         );
     }
   }
@@ -189,7 +196,12 @@ class _MembershipRequestWizard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<MembershipRequestWizardCubit>()..load(),
+      create: (_) {
+        final cubit =getIt<MembershipRequestWizardCubit>();
+        unawaited(cubit.load());
+        return cubit;
+      },
+
       child: _MembershipRequestWizardBody(name: name, email: email),
     );
   }
@@ -233,8 +245,10 @@ class _MembershipRequestWizardBodyState
   Widget build(BuildContext context) {
     final strings = context.t.membership.request;
 
-    return BlocBuilder<MembershipRequestWizardCubit,
-        MembershipRequestWizardState>(
+    return BlocBuilder<
+      MembershipRequestWizardCubit,
+      MembershipRequestWizardState
+    >(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -253,44 +267,43 @@ class _MembershipRequestWizardBodyState
           body: state.isLoading
               ? const Center(child: CircularProgressIndicator())
               : state.error != null
-                  ? Center(
-                      child: AppButton.filled(
-                        label: strings.retry,
-                        onPressed: context
-                            .read<MembershipRequestWizardCubit>()
-                            .load,
-                      ),
-                    )
-                  : Column(
-                      children: [
-                        LinearProgressIndicator(
-                          value:
-                              (state.currentStep + 1) / (state.lastStep + 1),
-                        ),
-                        Expanded(
-                          child: IndexedStack(
-                            index: state.currentStep,
-                            children: [
-                              _personalStep(strings),
-                              _locationStep(state, strings),
-                              _troopStep(state, strings),
-                              _reviewStep(state, strings),
-                            ],
-                          ),
-                        ),
-                        _WizardControls(
-                          canGoBack: state.currentStep > 0,
-                          isLastStep: state.currentStep == state.lastStep,
-                          backLabel: strings.back,
-                          nextLabel: strings.next,
-                          submitLabel: strings.submit,
-                          onBack: context
-                              .read<MembershipRequestWizardCubit>()
-                              .previousStep,
-                          onNext: () => _next(state, strings),
-                        ),
-                      ],
+              ? Center(
+                  child: AppButton.filled(
+                    label: strings.retry,
+                    onPressed: context
+                        .read<MembershipRequestWizardCubit>()
+                        .load,
+                  ),
+                )
+              : Column(
+                  children: [
+                    LinearProgressIndicator(
+                      value: (state.currentStep + 1) / (state.lastStep + 1),
                     ),
+                    Expanded(
+                      child: IndexedStack(
+                        index: state.currentStep,
+                        children: [
+                          _personalStep(strings),
+                          _locationStep(state, strings),
+                          _troopStep(state, strings),
+                          _reviewStep(state, strings),
+                        ],
+                      ),
+                    ),
+                    _WizardControls(
+                      canGoBack: state.currentStep > 0,
+                      isLastStep: state.currentStep == state.lastStep,
+                      backLabel: strings.back,
+                      nextLabel: strings.next,
+                      submitLabel: strings.submit,
+                      onBack: context
+                          .read<MembershipRequestWizardCubit>()
+                          .previousStep,
+                      onNext: () => _next(state, strings),
+                    ),
+                  ],
+                ),
         );
       },
     );
@@ -556,17 +569,17 @@ class _MembershipRequestWizardBodyState
 
     if (state.currentStep == state.lastStep) {
       context.read<ApplicantAccessCubit>().submitMembershipRequest(
-            requestId: 'REQ-${DateTime.now().millisecondsSinceEpoch}',
-            requestType: state.sendsToCommission
-                ? ApplicantRequestType.commissionInterest
-                : ApplicantRequestType.troopMembership,
-            governorateId: state.governorateId,
-            districtId: state.districtId,
-            cadasterId: state.cadasterId,
-            troopId: state.troopId,
-            commissionId: state.commissionId,
-            destinationName: state.destinationName,
-          );
+        requestId: 'REQ-${DateTime.now().millisecondsSinceEpoch}',
+        requestType: state.sendsToCommission
+            ? ApplicantRequestType.commissionInterest
+            : ApplicantRequestType.troopMembership,
+        governorateId: state.governorateId,
+        districtId: state.districtId,
+        cadasterId: state.cadasterId,
+        troopId: state.troopId,
+        commissionId: state.commissionId,
+        destinationName: state.destinationName,
+      );
       return;
     }
 
@@ -707,12 +720,14 @@ class _RequestStatusView extends StatelessWidget {
                     ),
                     _StatusStep(
                       label: strings.under_review,
-                      complete: state.requestStatus !=
+                      complete:
+                          state.requestStatus !=
                           ApplicantRequestStatus.submitted,
                     ),
                     _StatusStep(
                       label: strings.approved_notification,
-                      complete: state.requestStatus ==
+                      complete:
+                          state.requestStatus ==
                           ApplicantRequestStatus.approved,
                       isLast: true,
                     ),

@@ -59,7 +59,6 @@ class MembershipRequestsPage extends StatelessWidget
                 onSelected: context.read<MembershipRequestsCubit>().filterBy,
                 itemBuilder: (context) => [
                   PopupMenuItem(
-                    value: null,
                     child: Text(strings.request_all),
                   ),
                   for (final status in MembershipRequestStatus.values)
@@ -200,9 +199,9 @@ class _StatusChip extends StatelessWidget {
 }
 
 Future<void> _showDetailsSheet(
-    BuildContext context,
-    MembershipRequest request,
-    ) async {
+  BuildContext context,
+  MembershipRequest request,
+) async {
   final strings = context.t.people;
   final cubit = context.read<MembershipRequestsCubit>();
 
@@ -254,8 +253,7 @@ Future<void> _showDetailsSheet(
                 ),
               ),
             if (request.status == MembershipRequestStatus.underReview ||
-                request.status ==
-                    MembershipRequestStatus.needsInformation) ...[
+                request.status == MembershipRequestStatus.needsInformation) ...[
               AppButton.outline(
                 label: strings.request_information,
                 onPressed: () => _changeStatus(
@@ -291,10 +289,10 @@ Future<void> _showDetailsSheet(
 }
 
 Future<void> _changeStatus(
-    BuildContext sheetContext,
-    MembershipRequest request,
-    MembershipRequestStatus status,
-    ) async {
+  BuildContext sheetContext,
+  MembershipRequest request,
+  MembershipRequestStatus status,
+) async {
   final cubit = sheetContext.read<MembershipRequestsCubit>();
   final messenger = ScaffoldMessenger.of(sheetContext);
   final updatedMessage = sheetContext.t.people.request_updated;
@@ -393,13 +391,13 @@ Future<void> _showCreateSheet(BuildContext context) async {
                       final saved = await providerContext
                           .read<MembershipRequestsCubit>()
                           .create(
-                        fullName: name.text,
-                        phone: phone.text,
-                        email: email.text,
-                        address: address.text,
-                        stage: stage.text,
-                        notes: notes.text,
-                      );
+                            fullName: name.text,
+                            phone: phone.text,
+                            email: email.text,
+                            address: address.text,
+                            stage: stage.text,
+                            notes: notes.text,
+                          );
 
                       if (!providerContext.mounted || !saved) {
                         return;
@@ -430,9 +428,9 @@ String? _required(String? value) {
 }
 
 String _statusLabel(
-    BuildContext context,
-    MembershipRequestStatus status,
-    ) {
+  BuildContext context,
+  MembershipRequestStatus status,
+) {
   final strings = context.t.people;
   return switch (status) {
     MembershipRequestStatus.submitted => strings.request_new,
